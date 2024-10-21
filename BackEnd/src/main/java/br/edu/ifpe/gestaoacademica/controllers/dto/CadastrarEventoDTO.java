@@ -14,5 +14,6 @@ public record CadastrarEventoDTO(
 		@NotBlank
 		String tipo
 		) {
-
+	
+	
 }

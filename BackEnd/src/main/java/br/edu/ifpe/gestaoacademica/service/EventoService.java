@@ -1,5 +1,7 @@
 package br.edu.ifpe.gestaoacademica.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,5 +34,7 @@ public class EventoService {
 		return eventoRepository.save(evento);
 		
 	}
-
+	   public List<Evento> listarEventos() {
+	        return eventoRepository.findAllByAtivoTrue();
+	    }
 }
