@@ -9,7 +9,32 @@ async function getEventos() {
         return eventos; // Retorna a lista de eventos
     } catch (error) {
         console.error(error); // Log de erros
+        alert("Erro ao carregar eventos. Tente novamente mais tarde."); // Mensagem ao usuário
         return []; // Retorna um array vazio em caso de erro
+    }
+}
+
+// Função para deletar evento
+async function deletarEvento(eventoId) {
+    // Confirmação antes de deletar
+    if (window.confirm("Tem certeza que deseja deletar este evento?")) {
+        try {
+            console.log(`Tentando deletar o evento com ID: ${eventoId}`);
+            const response = await fetch(`http://localhost:8080/eventos/${eventoId}`, {
+                method: 'DELETE',
+            });
+            console.log('Resposta da requisição:', response); // Log da resposta
+            if (!response.ok) {
+                throw new Error(`Erro ao deletar evento: ${response.status}`);
+            }
+            console.log(`Evento ${eventoId} deletado com sucesso.`);
+            // Atualiza a lista de eventos após a exclusão
+            const eventosAtualizados = await getEventos();
+            exibirEventos(eventosAtualizados);
+        } catch (error) {
+            console.error(`Erro: ${error.message}`);
+            alert("Erro ao deletar o evento. Tente novamente mais tarde."); // Mensagem ao usuário
+        }
     }
 }
 
@@ -34,12 +59,22 @@ function exibirEventos(eventos) {
                 <p>Local: ${evento.local}</p>
                 <p>Tipo: ${evento.tipo}</p>
             </div>
+            <button class="delete-button" data-id="${evento.id}">Deletar Evento</button>
         `;
         eventsContainer.appendChild(eventCard);
     });
+
+    // Adiciona o evento de clique aos botões de deletar
+    document.querySelectorAll('.delete-button').forEach(button => {
+        button.addEventListener('click', function(event) {
+            const eventoId = event.target.getAttribute('data-id');
+            console.log(`ID do evento clicado: ${eventoId}`);
+            deletarEvento(eventoId);
+        });
+    });
 }
 
-// Chamada da função e manipulação da resposta
+// Chama a função para obter eventos e exibi-los na página
 getEventos().then(eventos => {
     exibirEventos(eventos); // Exibe os eventos na página
 });
