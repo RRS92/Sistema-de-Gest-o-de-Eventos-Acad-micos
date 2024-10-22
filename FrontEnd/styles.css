@@ -339,6 +339,20 @@ footer .footer-column {
     font-size: 1.2em; /* Ajusta o tamanho da fonte se necessário */
     font-weight: bold;
 }
+.delete-button {
+    background-color: red; /* Cor de fundo vermelha */
+    color: white;          /* Cor do texto branca */
+    padding: 10px 20px;   /* Aumenta o tamanho do botão */
+    border: none;         /* Remove a borda padrão */
+    border-radius: 5px;  /* Adiciona bordas arredondadas */
+    cursor: pointer;      /* Muda o cursor ao passar o mouse */
+    font-size: 16px;      /* Aumenta o tamanho da fonte */
+    transition: background-color 0.3s; /* Efeito de transição */
+}
+
+.delete-button:hover {
+    background-color: darkred; /* Cor do fundo ao passar o mouse */
+}
 
 .user-selection .options a:hover {
     transform: scale(1.1);
