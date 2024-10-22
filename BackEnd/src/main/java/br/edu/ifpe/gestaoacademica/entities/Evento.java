@@ -30,4 +30,8 @@ public class Evento {
 	private boolean ativo;
 	
 	private Long id_servidor;
+	
+	public void inativar() {
+		this.ativo = false;
+	}
 }
