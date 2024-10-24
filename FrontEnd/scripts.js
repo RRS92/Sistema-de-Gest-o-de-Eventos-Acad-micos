@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(response => {
             if (response.ok) {
                 alert("Evento criado com sucesso!");
+                window.location.reload(); // Recarrega a página
                 return response.json();
             } else {
                 throw new Error("Erro ao criar o evento");
