@@ -28,15 +28,16 @@ async function deletarEvento(eventoId) {
                 throw new Error(`Erro ao deletar evento: ${response.status}`);
             }
             console.log(`Evento ${eventoId} deletado com sucesso.`);
-            // Atualiza a lista de eventos após a exclusão
-            const eventosAtualizados = await getEventos();
-            exibirEventos(eventosAtualizados);
+            // Recarrega a página após a exclusão bem-sucedida
+            alert("Evento deletado com sucesso!"); // Alerta de sucesso antes de recarregar
+            window.location.reload(); // Recarrega a página para atualizar a lista de eventos
         } catch (error) {
             console.error(`Erro: ${error.message}`);
             alert("Erro ao deletar o evento. Tente novamente mais tarde."); // Mensagem ao usuário
         }
     }
 }
+
 
 // Função para exibir eventos na página
 function exibirEventos(eventos) {
