@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifpe.gestaoacademica.controllers.dto.AtualizarBancoDTO;
 import br.edu.ifpe.gestaoacademica.controllers.dto.CadastrarBancoDTO;
-import br.edu.ifpe.gestaoacademica.controllers.dto.ListaBancoDTO;
+import br.edu.ifpe.gestaoacademica.controllers.dto.ListarBancoDTO;
 import br.edu.ifpe.gestaoacademica.entities.Banco;
 import br.edu.ifpe.gestaoacademica.service.BancoService;
 import jakarta.transaction.Transactional;
@@ -35,9 +35,7 @@ public class BancoController {
 	public ResponseEntity<Banco> cadastrarBanco(@RequestBody @Valid CadastrarBancoDTO dadosBancoDTO){
 		
 		Banco banco = bancoService.cadastrarBanco(dadosBancoDTO);
-		
 		return ResponseEntity.ok(banco);
-		
 	}
 	
 	@PutMapping
@@ -48,20 +46,20 @@ public class BancoController {
 	}
 	
 	@GetMapping
-	public List<ListaBancoDTO> listar(){
-		return bancoService.listarBanco().stream().map(ListaBancoDTO::new).toList();
+	public List<ListarBancoDTO> listarBanco(){
+		return bancoService.listarBanco().stream().map(ListarBancoDTO::new).toList();
 	}
 	
 	@DeleteMapping("/apagar/{id}")
 	@Transactional
-	public ResponseEntity<Void> excluir(@PathVariable Long id) {
+	public ResponseEntity<Void> deletarBanco(@PathVariable Long id) {
 		bancoService.deletarBanco(id);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<Void> inativar(@PathVariable Long id) {
+    public ResponseEntity<Void> inativarBanco(@PathVariable Long id) {
 		bancoService.inativarBanco(id);
 		return ResponseEntity.noContent().build();
 	}
