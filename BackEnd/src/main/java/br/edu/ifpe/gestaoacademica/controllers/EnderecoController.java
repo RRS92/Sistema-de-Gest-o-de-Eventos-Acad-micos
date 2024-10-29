@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifpe.gestaoacademica.controllers.dto.AtualizarEnderecoDTO;
 import br.edu.ifpe.gestaoacademica.controllers.dto.CadastrarEnderecoDTO;
-import br.edu.ifpe.gestaoacademica.controllers.dto.ListaEnderecoDTO;
+import br.edu.ifpe.gestaoacademica.controllers.dto.ListarEnderecoDTO;
 import br.edu.ifpe.gestaoacademica.entities.Endereco;
 import br.edu.ifpe.gestaoacademica.service.EnderecoService;
 import jakarta.transaction.Transactional;
@@ -35,9 +35,7 @@ public class EnderecoController {
 	public ResponseEntity<Endereco> cadastrarEndereco(@RequestBody @Valid CadastrarEnderecoDTO dadosEnderecoDTO){
 		
 		Endereco endereco = enderecoService.cadastrarEndereco(dadosEnderecoDTO);
-		
-		return ResponseEntity.ok(endereco);
-		
+		return ResponseEntity.ok(endereco);	
 	}
 	
 	@PutMapping
@@ -48,20 +46,20 @@ public class EnderecoController {
 	}
 	
 	@GetMapping
-    public List<ListaEnderecoDTO> listar(){
-		return enderecoService.listarEnderecos().stream().map(ListaEnderecoDTO::new).toList();
+    public List<ListarEnderecoDTO> listarEndereco(){
+		return enderecoService.listarEnderecos().stream().map(ListarEnderecoDTO::new).toList();
 	}
 	
 	@DeleteMapping("/apagar/{id}")
 	@Transactional
-	public ResponseEntity<Void> excluir(@PathVariable Long id){
+	public ResponseEntity<Void> deletarEndereco(@PathVariable Long id){
 		enderecoService.deletarEndereco(id);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<Void> inativar(@PathVariable Long id){
+    public ResponseEntity<Void> inativarEndereco(@PathVariable Long id){
 		enderecoService.inativarEndereco(id);
 		return ResponseEntity.noContent().build();
 	}

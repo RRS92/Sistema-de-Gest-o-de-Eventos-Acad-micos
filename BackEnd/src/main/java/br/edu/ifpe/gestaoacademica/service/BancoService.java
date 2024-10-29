@@ -16,47 +16,46 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class BancoService {
-	
+
 	@Autowired
 	private BancoRepository bancoRepository;
-	
+
 	public Banco cadastrarBanco(CadastrarBancoDTO dadosBancoDTO) {
-		
+
 		Banco banco = new Banco();
 		banco.setNome(dadosBancoDTO.nome());
 		banco.setNumConta(dadosBancoDTO.numConta());
 		banco.setAgencia(dadosBancoDTO.agencia());
 		banco.setOperacao(dadosBancoDTO.operacao());
 		banco.setAtivo(true);
-		
+
 		return bancoRepository.save(banco);
 	}
-	
-	public Banco atualizarBanco(AtualizarBancoDTO dadosAtualizacao) {
-	    Banco banco = bancoRepository.findById(dadosAtualizacao.id())
-	                                  .orElseThrow(() -> new EntityNotFoundException("Banco não encontrado"));
-	    if (dadosAtualizacao.nome() != null) banco.setNome(dadosAtualizacao.nome());
-	    if (dadosAtualizacao.numConta() != null) banco.setNumConta(dadosAtualizacao.numConta());
-	    if (dadosAtualizacao.agencia() != null) banco.setAgencia(dadosAtualizacao.agencia());
-	    if (dadosAtualizacao.operacao() != null) banco.setOperacao(dadosAtualizacao.operacao());
 
-	    return bancoRepository.save(banco);
+	public Banco atualizarBanco(AtualizarBancoDTO dadosAtualizacao) {
+		Banco banco = bancoRepository.findById(dadosAtualizacao.id())
+				.orElseThrow(() -> new EntityNotFoundException("Banco não encontrado"));
+		if (dadosAtualizacao.nome() != null) banco.setNome(dadosAtualizacao.nome());
+		if (dadosAtualizacao.numConta() != null) banco.setNumConta(dadosAtualizacao.numConta());
+		if (dadosAtualizacao.agencia() != null) banco.setAgencia(dadosAtualizacao.agencia());
+		if (dadosAtualizacao.operacao() != null) banco.setOperacao(dadosAtualizacao.operacao());
+
+		return bancoRepository.save(banco);
 	}
 
 	public List<Banco> listarBanco(){
 		return bancoRepository.findAllByAtivoTrue();
 	}
-	
+
 	public void inativarBanco(Long id) {
 		Banco banco = bancoRepository.getReferenceById(id);
 		banco.inativar();
 		bancoRepository.save(banco);
 	}
-	
+
 	public void deletarBanco(Long id) {
-		
+
 		bancoRepository.deleteById(id);
-		;
 	}
 
 }
