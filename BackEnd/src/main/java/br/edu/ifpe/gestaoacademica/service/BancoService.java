@@ -23,7 +23,7 @@ public class BancoService {
 	public Banco cadastrarBanco(CadastrarBancoDTO dadosBancoDTO) {
 
 		Banco banco = new Banco();
-		banco.setNome(dadosBancoDTO.nome());
+		banco.setNomeBanco(dadosBancoDTO.nomeBanco());
 		banco.setNumConta(dadosBancoDTO.numConta());
 		banco.setAgencia(dadosBancoDTO.agencia());
 		banco.setOperacao(dadosBancoDTO.operacao());
@@ -35,7 +35,7 @@ public class BancoService {
 	public Banco atualizarBanco(AtualizarBancoDTO dadosAtualizacao) {
 		Banco banco = bancoRepository.findById(dadosAtualizacao.id())
 				.orElseThrow(() -> new EntityNotFoundException("Banco não encontrado"));
-		if (dadosAtualizacao.nome() != null) banco.setNome(dadosAtualizacao.nome());
+		if (dadosAtualizacao.nomeBanco() != null) banco.setNomeBanco(dadosAtualizacao.nomeBanco());
 		if (dadosAtualizacao.numConta() != null) banco.setNumConta(dadosAtualizacao.numConta());
 		if (dadosAtualizacao.agencia() != null) banco.setAgencia(dadosAtualizacao.agencia());
 		if (dadosAtualizacao.operacao() != null) banco.setOperacao(dadosAtualizacao.operacao());

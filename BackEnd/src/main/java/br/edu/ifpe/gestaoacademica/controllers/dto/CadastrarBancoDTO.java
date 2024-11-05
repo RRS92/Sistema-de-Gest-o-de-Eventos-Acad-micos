@@ -4,13 +4,11 @@ import jakarta.validation.constraints.NotBlank;
 
 public record CadastrarBancoDTO(	
 		@NotBlank
-		String nome,
+		String nomeBanco,
 		@NotBlank
 		String numConta,
 		@NotBlank
 		String agencia,
 		@NotBlank
-		String operacao
-		) {
-	
+		String operacao) {
 }
