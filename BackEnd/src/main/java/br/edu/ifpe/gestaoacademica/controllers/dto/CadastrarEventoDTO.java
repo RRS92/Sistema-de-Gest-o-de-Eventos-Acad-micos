@@ -12,8 +12,5 @@ public record CadastrarEventoDTO(
 		@NotBlank
 		String local,
 		@NotBlank
-		String tipo
-		) {
-	
-	
+		String tipo) {
 }

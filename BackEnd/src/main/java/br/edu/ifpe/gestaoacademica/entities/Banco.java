@@ -2,6 +2,8 @@ package br.edu.ifpe.gestaoacademica.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,7 +17,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Table(name = "Banco")
-@Entity(name = "bancos")
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor
@@ -25,7 +27,7 @@ public class Banco {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String nome;
+	private String nomeBanco;
 	private String numConta;
 	private String agencia;
 	private String operacao;
@@ -36,7 +38,8 @@ public class Banco {
 		this.ativo = false;
 	}
 	
-	@OneToMany(mappedBy = "bancos")
+	@OneToMany(mappedBy = "banco")
+	@JsonIgnore
 	private List<Usuario> usuarios;
 
 }

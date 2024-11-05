@@ -28,6 +28,14 @@ public class ServidorService {
 		
 		servidor.setSiape(dadosServidorDTO.siape());
 		servidor.setCargo(dadosServidorDTO.cargo());
+		servidor.setNome(dadosServidorDTO.nome());
+		servidor.setCpf(dadosServidorDTO.cpf());
+		servidor.setRg(dadosServidorDTO.rg());
+		servidor.setDataNasc( dadosServidorDTO.dataNasc());
+		servidor.setEmail( dadosServidorDTO.email());
+		servidor.setTelefone(dadosServidorDTO.telefone());
+		servidor.setBanco(dadosServidorDTO.banco());
+		servidor.setEndereco(dadosServidorDTO.endereco());
 		servidor.setAtivo(true);
 
 		return servidorRepository.save(servidor);
@@ -49,6 +57,38 @@ public class ServidorService {
 
 		if (dadosServidorDTO.cargo() != null) {
 			servidor.setCargo(dadosServidorDTO.cargo());
+		}
+		
+		if (dadosServidorDTO.nome() != null) {
+			servidor.setNome(dadosServidorDTO.nome());
+		}
+		
+		if (dadosServidorDTO.cpf() != null) {
+			servidor.setCpf(dadosServidorDTO.cpf());
+		}
+		
+		if (dadosServidorDTO.rg() != null) {
+			servidor.setRg(dadosServidorDTO.rg());
+		}
+		
+		if (dadosServidorDTO.dataNasc() != null) {
+			servidor.setDataNasc(dadosServidorDTO.dataNasc());
+		}
+		
+		if (dadosServidorDTO.email() != null) {
+			servidor.setEmail(dadosServidorDTO.email());
+		}
+		
+		if (dadosServidorDTO.telefone() != null) {
+			servidor.setTelefone(dadosServidorDTO.telefone());
+		}
+		
+		if (dadosServidorDTO.banco() != null) {
+			servidor.setBanco(dadosServidorDTO.banco());
+		}
+		
+		if (dadosServidorDTO.endereco() != null) {
+			servidor.setEndereco(dadosServidorDTO.endereco());
 		}
 		
 		return servidorRepository.save(servidor);

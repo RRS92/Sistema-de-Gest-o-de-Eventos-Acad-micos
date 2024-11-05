@@ -1,7 +1,5 @@
 package br.edu.ifpe.gestaoacademica.entities;
 
-import java.time.LocalDate;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,7 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Table(name = "Usuario")
-@Entity(name = "usuarios")
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor
@@ -32,16 +30,16 @@ public abstract class Usuario {
 	private String nome;
 	private String cpf;
 	private String rg;
-	private LocalDate dataNasc;
+	private String dataNasc;
 	private String telefone;
 	private String email;
 	
 	@ManyToOne
 	@JoinColumn(name = "idEndereco")
-	private Endereco enderecos;
+	private Endereco endereco;
 	
 	@ManyToOne
 	@JoinColumn(name = "idBanco")
-	private Banco bancos;
+	private Banco banco;
 	
 }

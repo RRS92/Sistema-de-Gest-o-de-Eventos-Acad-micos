@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Table(name = "Servidor")
-@Entity(name = "servidores")
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor

@@ -10,21 +10,10 @@ public record ListarEnderecoDTO(
 		String cidade,
 		String estado,
 		String cep,
-		String complemento
-		
-		) {
+		String complemento) {
 	
 	public ListarEnderecoDTO(Endereco endereco) {
-		this(
-				endereco.getId(),
-				endereco.getRua(),
-				endereco.getNumero(),
-				endereco.getBairro(),
-				endereco.getCidade(),
-				endereco.getEstado(),
-				endereco.getCep(),
-				endereco.getComplemento());
-		
+		this(endereco.getId(), endereco.getRua(), endereco.getNumero(), endereco.getBairro(), 
+			endereco.getCidade(), endereco.getEstado(), endereco.getCep(), endereco.getComplemento());	
 	}
-
 }

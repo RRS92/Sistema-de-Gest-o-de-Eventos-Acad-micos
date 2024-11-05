@@ -10,5 +10,4 @@ public record AtualizarEventoDTO(
 		String data,
 		String local,
 		String tipo) {
-
 }
