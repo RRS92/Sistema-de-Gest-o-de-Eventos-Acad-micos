@@ -2,6 +2,8 @@ package br.edu.ifpe.gestaoacademica.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,7 +17,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Table(name = "Endereco")
-@Entity(name = "enderecos")
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor
@@ -38,7 +40,8 @@ public class Endereco {
 		this.ativo = false;
 	}
 	
-	@OneToMany(mappedBy = "enderecos")
+	@OneToMany(mappedBy = "endereco")
+	@JsonIgnore
 	private List<Usuario> usuarios;
 
 }

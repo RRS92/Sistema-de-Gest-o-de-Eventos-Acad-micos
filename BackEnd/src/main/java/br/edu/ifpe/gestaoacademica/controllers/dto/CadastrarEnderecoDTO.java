@@ -16,7 +16,5 @@ public record CadastrarEnderecoDTO(
 		@NotBlank
 		String cep,
 		@NotBlank
-		String complemento
-		) {
-
+		String complemento) {
 }

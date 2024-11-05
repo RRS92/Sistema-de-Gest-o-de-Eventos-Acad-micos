@@ -25,6 +25,14 @@ public class AlunoService {
 
 		Aluno aluno = new Aluno();
 		aluno.setMatricula(dadosAlunoDTO.matricula());
+		aluno.setNome(dadosAlunoDTO.nome());
+		aluno.setCpf(dadosAlunoDTO.cpf());
+		aluno.setRg(dadosAlunoDTO.rg());
+		aluno.setDataNasc(dadosAlunoDTO.dataNasc());
+		aluno.setEmail(dadosAlunoDTO.email());
+		aluno.setTelefone(dadosAlunoDTO.telefone());
+		aluno.setBanco(dadosAlunoDTO.banco());
+		aluno.setEndereco(dadosAlunoDTO.endereco());
 		aluno.setAtivo(true);
 
 		return alunoRepository.save(aluno);
@@ -42,6 +50,38 @@ public class AlunoService {
 
 		if (dadosAlunoDTO.matricula() != null) {
 			aluno.setMatricula(dadosAlunoDTO.matricula());
+		}
+		
+		if (dadosAlunoDTO.nome() != null) {
+			aluno.setNome(dadosAlunoDTO.nome());
+		}
+		
+		if (dadosAlunoDTO.cpf() != null) {
+			aluno.setCpf(dadosAlunoDTO.cpf());
+		}
+		
+		if (dadosAlunoDTO.rg() != null) {
+			aluno.setRg(dadosAlunoDTO.rg());
+		}
+		
+		if (dadosAlunoDTO.dataNasc() != null) {
+			aluno.setDataNasc(dadosAlunoDTO.dataNasc());
+		}
+		
+		if (dadosAlunoDTO.email() != null) {
+			aluno.setEmail(dadosAlunoDTO.email());
+		}
+		
+		if (dadosAlunoDTO.telefone() != null) {
+			aluno.setTelefone(dadosAlunoDTO.telefone());
+		}
+		
+		if (dadosAlunoDTO.banco() != null) {
+			aluno.setBanco(dadosAlunoDTO.banco());
+		}
+		
+		if (dadosAlunoDTO.endereco() != null) {
+			aluno.setEndereco(dadosAlunoDTO.endereco());
 		}
 		
 		return alunoRepository.save(aluno);
