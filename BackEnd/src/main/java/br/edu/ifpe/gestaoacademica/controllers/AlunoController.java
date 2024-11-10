@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.ifpe.gestaoacademica.controllers.dto.AtualizarAlunoDTO;
-import br.edu.ifpe.gestaoacademica.controllers.dto.CadastrarAlunoDTO;
-import br.edu.ifpe.gestaoacademica.controllers.dto.ListarAlunoDTO;
+import br.edu.ifpe.gestaoacademica.controllers.dto.AlunoDTO;
 import br.edu.ifpe.gestaoacademica.entities.Aluno;
 import br.edu.ifpe.gestaoacademica.service.AlunoService;
 import jakarta.transaction.Transactional;
@@ -32,20 +30,20 @@ public class AlunoController {
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Aluno> cadastrarAluno(@RequestBody @Valid CadastrarAlunoDTO dadosAlunoDTO) {
+	public ResponseEntity<Aluno> cadastrarAluno(@RequestBody @Valid AlunoDTO dadosAlunoDTO) {
 		
 		Aluno aluno = alunoService.cadastrarAluno(dadosAlunoDTO);
 			return ResponseEntity.ok(aluno);
 	}
 	
 	@GetMapping
-    public List<ListarAlunoDTO> listarAluno() {
-        return alunoService.listarAlunos().stream().map(ListarAlunoDTO::new).toList();
+    public List<AlunoDTO> listarAluno() {
+        return alunoService.listarAlunos().stream().map(AlunoDTO::new).toList();
     }
 	
 	@PutMapping
 	@Transactional
-	public ResponseEntity<Aluno> atualizarAluno(@RequestBody @Valid AtualizarAlunoDTO dadosAlunoDTO) {
+	public ResponseEntity<Aluno> atualizarAluno(@RequestBody @Valid AlunoDTO dadosAlunoDTO) {
 		var aluno = alunoService.atualizarAluno(dadosAlunoDTO);
 		return ResponseEntity.ok(aluno);
 	}

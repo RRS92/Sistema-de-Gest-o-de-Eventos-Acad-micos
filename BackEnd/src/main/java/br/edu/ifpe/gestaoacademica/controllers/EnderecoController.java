@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.ifpe.gestaoacademica.controllers.dto.AtualizarEnderecoDTO;
-import br.edu.ifpe.gestaoacademica.controllers.dto.CadastrarEnderecoDTO;
-import br.edu.ifpe.gestaoacademica.controllers.dto.ListarEnderecoDTO;
+import br.edu.ifpe.gestaoacademica.controllers.dto.EnderecoDTO;
 import br.edu.ifpe.gestaoacademica.entities.Endereco;
 import br.edu.ifpe.gestaoacademica.service.EnderecoService;
 import jakarta.transaction.Transactional;
@@ -32,7 +30,7 @@ public class EnderecoController {
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Endereco> cadastrarEndereco(@RequestBody @Valid CadastrarEnderecoDTO dadosEnderecoDTO){
+	public ResponseEntity<Endereco> cadastrarEndereco(@RequestBody @Valid EnderecoDTO dadosEnderecoDTO){
 		
 		Endereco endereco = enderecoService.cadastrarEndereco(dadosEnderecoDTO);
 		return ResponseEntity.ok(endereco);	
@@ -40,14 +38,14 @@ public class EnderecoController {
 	
 	@PutMapping
 	@Transactional
-	public ResponseEntity<AtualizarEnderecoDTO> atualizarEndereco(@RequestBody @Valid AtualizarEnderecoDTO dadosAtualizacao) {
+	public ResponseEntity<EnderecoDTO> atualizarEndereco(@RequestBody @Valid EnderecoDTO dadosAtualizacao) {
 	    Endereco enderecoAtualizado = enderecoService.atualizarEndereco(dadosAtualizacao);
-	    return ResponseEntity.ok(new AtualizarEnderecoDTO(enderecoAtualizado));
+	    return ResponseEntity.ok(new EnderecoDTO(enderecoAtualizado));
 	}
 	
 	@GetMapping
-    public List<ListarEnderecoDTO> listarEndereco(){
-		return enderecoService.listarEnderecos().stream().map(ListarEnderecoDTO::new).toList();
+    public List<EnderecoDTO> listarEndereco(){
+		return enderecoService.listarEnderecos().stream().map(EnderecoDTO::new).toList();
 	}
 	
 	@DeleteMapping("/apagar/{id}")

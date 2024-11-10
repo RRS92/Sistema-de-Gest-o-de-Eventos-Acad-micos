@@ -75,8 +75,8 @@ document.getElementById("submit-servidor").addEventListener("click", async () =>
             email: document.getElementById("email").value,
             siape: document.getElementById("siape").value,
             cargo: document.getElementById("cargo").value,
-            bancos: { id: localStorage.getItem("bancoId") },  // ID do banco
-            enderecos: { id: localStorage.getItem("enderecoId") }  // ID do endereço
+            banco: { id: localStorage.getItem("bancoId") },  // ID do banco
+            endereco: { id: localStorage.getItem("enderecoId") }  // ID do endereço
         };
 
         // Envia dados do servidor

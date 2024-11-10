@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.ifpe.gestaoacademica.controllers.dto.AtualizarBancoDTO;
-import br.edu.ifpe.gestaoacademica.controllers.dto.CadastrarBancoDTO;
-import br.edu.ifpe.gestaoacademica.controllers.dto.ListarBancoDTO;
+import br.edu.ifpe.gestaoacademica.controllers.dto.BancoDTO;
 import br.edu.ifpe.gestaoacademica.entities.Banco;
 import br.edu.ifpe.gestaoacademica.service.BancoService;
 import jakarta.transaction.Transactional;
@@ -32,7 +30,7 @@ public class BancoController {
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Banco> cadastrarBanco(@RequestBody @Valid CadastrarBancoDTO dadosBancoDTO){
+	public ResponseEntity<Banco> cadastrarBanco(@RequestBody @Valid BancoDTO dadosBancoDTO){
 		
 		Banco banco = bancoService.cadastrarBanco(dadosBancoDTO);
 		return ResponseEntity.ok(banco);
@@ -40,14 +38,14 @@ public class BancoController {
 	
 	@PutMapping
 	@Transactional
-	public ResponseEntity<AtualizarBancoDTO> atualizarBanco(@RequestBody @Valid AtualizarBancoDTO dadosAtualizacao) {
+	public ResponseEntity<BancoDTO> atualizarBanco(@RequestBody @Valid BancoDTO dadosAtualizacao) {
 	    Banco bancoAtualizado = bancoService.atualizarBanco(dadosAtualizacao);
-	    return ResponseEntity.ok(new AtualizarBancoDTO(bancoAtualizado));
+	    return ResponseEntity.ok(new BancoDTO(bancoAtualizado));
 	}
 	
 	@GetMapping
-	public List<ListarBancoDTO> listarBanco(){
-		return bancoService.listarBanco().stream().map(ListarBancoDTO::new).toList();
+	public List<BancoDTO> listarBanco(){
+		return bancoService.listarBanco().stream().map(BancoDTO::new).toList();
 	}
 	
 	@DeleteMapping("/apagar/{id}")

@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import br.edu.ifpe.gestaoacademica.controllers.dto.AtualizarServidorDTO;
-import br.edu.ifpe.gestaoacademica.controllers.dto.CadastrarServidorDTO;
+import br.edu.ifpe.gestaoacademica.controllers.dto.ServidorDTO;
 import br.edu.ifpe.gestaoacademica.entities.Servidor;
 import br.edu.ifpe.gestaoacademica.repository.ServidorRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,7 +21,7 @@ public class ServidorService {
 	private ServidorRepository servidorRepository;
 
 
-	public Servidor cadastrarServidor(CadastrarServidorDTO dadosServidorDTO) {
+	public Servidor cadastrarServidor(ServidorDTO dadosServidorDTO) {
 		
 		Servidor servidor = new Servidor();
 		
@@ -46,7 +45,7 @@ public class ServidorService {
 		return servidorRepository.findAllByAtivoTrue();
 	}
 
-	public Servidor atualizarServidor(@Valid AtualizarServidorDTO dadosServidorDTO) {
+	public Servidor atualizarServidor(@Valid ServidorDTO dadosServidorDTO) {
 		
 	    Servidor servidor = servidorRepository.findById(dadosServidorDTO.id())
 	            .orElseThrow(() -> new EntityNotFoundException("Servidor não encontrado"));
@@ -63,20 +62,12 @@ public class ServidorService {
 			servidor.setNome(dadosServidorDTO.nome());
 		}
 		
-		if (dadosServidorDTO.cpf() != null) {
-			servidor.setCpf(dadosServidorDTO.cpf());
-		}
-		
 		if (dadosServidorDTO.rg() != null) {
 			servidor.setRg(dadosServidorDTO.rg());
 		}
 		
 		if (dadosServidorDTO.dataNasc() != null) {
 			servidor.setDataNasc(dadosServidorDTO.dataNasc());
-		}
-		
-		if (dadosServidorDTO.email() != null) {
-			servidor.setEmail(dadosServidorDTO.email());
 		}
 		
 		if (dadosServidorDTO.telefone() != null) {

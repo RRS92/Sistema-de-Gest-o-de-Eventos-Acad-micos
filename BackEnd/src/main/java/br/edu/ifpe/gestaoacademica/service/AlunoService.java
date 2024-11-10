@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import br.edu.ifpe.gestaoacademica.controllers.dto.AtualizarAlunoDTO;
-import br.edu.ifpe.gestaoacademica.controllers.dto.CadastrarAlunoDTO;
+import br.edu.ifpe.gestaoacademica.controllers.dto.AlunoDTO;
 import br.edu.ifpe.gestaoacademica.entities.Aluno;
 import br.edu.ifpe.gestaoacademica.repository.AlunoRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,7 +20,7 @@ public class AlunoService {
 	@Autowired
 	private AlunoRepository alunoRepository;
 
-	public Aluno cadastrarAluno(CadastrarAlunoDTO dadosAlunoDTO) {
+	public Aluno cadastrarAluno(AlunoDTO dadosAlunoDTO) {
 
 		Aluno aluno = new Aluno();
 		aluno.setMatricula(dadosAlunoDTO.matricula());
@@ -43,7 +42,7 @@ public class AlunoService {
 		return alunoRepository.findAllByAtivoTrue();
 	}
 	
-	public Aluno atualizarAluno(@Valid AtualizarAlunoDTO dadosAlunoDTO) {
+	public Aluno atualizarAluno(@Valid AlunoDTO dadosAlunoDTO) {
 		
 	    Aluno aluno = alunoRepository.findById(dadosAlunoDTO.id())
 	            .orElseThrow(() -> new EntityNotFoundException("Aluno não encontrado"));
@@ -54,14 +53,6 @@ public class AlunoService {
 		
 		if (dadosAlunoDTO.nome() != null) {
 			aluno.setNome(dadosAlunoDTO.nome());
-		}
-		
-		if (dadosAlunoDTO.cpf() != null) {
-			aluno.setCpf(dadosAlunoDTO.cpf());
-		}
-		
-		if (dadosAlunoDTO.rg() != null) {
-			aluno.setRg(dadosAlunoDTO.rg());
 		}
 		
 		if (dadosAlunoDTO.dataNasc() != null) {

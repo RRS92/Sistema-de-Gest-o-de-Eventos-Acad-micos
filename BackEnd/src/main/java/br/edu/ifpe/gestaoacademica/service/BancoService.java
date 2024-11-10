@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import br.edu.ifpe.gestaoacademica.controllers.dto.AtualizarBancoDTO;
-import br.edu.ifpe.gestaoacademica.controllers.dto.CadastrarBancoDTO;
+import br.edu.ifpe.gestaoacademica.controllers.dto.BancoDTO;
 import br.edu.ifpe.gestaoacademica.entities.Banco;
 import br.edu.ifpe.gestaoacademica.repository.BancoRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -20,7 +19,7 @@ public class BancoService {
 	@Autowired
 	private BancoRepository bancoRepository;
 
-	public Banco cadastrarBanco(CadastrarBancoDTO dadosBancoDTO) {
+	public Banco cadastrarBanco(BancoDTO dadosBancoDTO) {
 
 		Banco banco = new Banco();
 		banco.setNomeBanco(dadosBancoDTO.nomeBanco());
@@ -32,13 +31,14 @@ public class BancoService {
 		return bancoRepository.save(banco);
 	}
 
-	public Banco atualizarBanco(AtualizarBancoDTO dadosAtualizacao) {
-		Banco banco = bancoRepository.findById(dadosAtualizacao.id())
+	public Banco atualizarBanco(BancoDTO dadosBancoDTO) {
+		Banco banco = bancoRepository.findById(dadosBancoDTO.id())
 				.orElseThrow(() -> new EntityNotFoundException("Banco não encontrado"));
-		if (dadosAtualizacao.nomeBanco() != null) banco.setNomeBanco(dadosAtualizacao.nomeBanco());
-		if (dadosAtualizacao.numConta() != null) banco.setNumConta(dadosAtualizacao.numConta());
-		if (dadosAtualizacao.agencia() != null) banco.setAgencia(dadosAtualizacao.agencia());
-		if (dadosAtualizacao.operacao() != null) banco.setOperacao(dadosAtualizacao.operacao());
+		
+		if (dadosBancoDTO.nomeBanco() != null) banco.setNomeBanco(dadosBancoDTO.nomeBanco());
+		if (dadosBancoDTO.numConta() != null) banco.setNumConta(dadosBancoDTO.numConta());
+		if (dadosBancoDTO.agencia() != null) banco.setAgencia(dadosBancoDTO.agencia());
+		if (dadosBancoDTO.operacao() != null) banco.setOperacao(dadosBancoDTO.operacao());
 
 		return bancoRepository.save(banco);
 	}
