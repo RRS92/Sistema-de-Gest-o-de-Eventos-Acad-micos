@@ -41,5 +41,4 @@ public class Banco {
 	@OneToMany(mappedBy = "banco")
 	@JsonIgnore
 	private List<Usuario> usuarios;
-
 }

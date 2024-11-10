@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import br.edu.ifpe.gestaoacademica.controllers.dto.AtualizarEventoDTO;
-import br.edu.ifpe.gestaoacademica.controllers.dto.CadastrarEventoDTO;
+import br.edu.ifpe.gestaoacademica.controllers.dto.EventoDTO;
 import br.edu.ifpe.gestaoacademica.entities.Evento;
 import br.edu.ifpe.gestaoacademica.repository.EventoRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,7 +20,7 @@ public class EventoService {
 	@Autowired
 	private EventoRepository eventoRepository;
 
-	public Evento cadastrarEvento(CadastrarEventoDTO dadosEventoDTO) {
+	public Evento cadastrarEvento(EventoDTO dadosEventoDTO) {
 
 		Long idServidorFixo = 1L;
 
@@ -42,7 +41,7 @@ public class EventoService {
 		return eventoRepository.findAllByAtivoTrue();
 	}
 	
-	public Evento atualizarEvento(@Valid AtualizarEventoDTO dadosEventoDTO) {
+	public Evento atualizarEvento(@Valid EventoDTO dadosEventoDTO) {
 		
 	    Evento evento = eventoRepository.findById(dadosEventoDTO.id())
 	            .orElseThrow(() -> new EntityNotFoundException("Evento não encontrado"));

@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import br.edu.ifpe.gestaoacademica.controllers.dto.AtualizarEnderecoDTO;
-import br.edu.ifpe.gestaoacademica.controllers.dto.CadastrarEnderecoDTO;
+import br.edu.ifpe.gestaoacademica.controllers.dto.EnderecoDTO;
 import br.edu.ifpe.gestaoacademica.entities.Endereco;
 import br.edu.ifpe.gestaoacademica.repository.EnderecoRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -20,7 +19,7 @@ public class EnderecoService {
 	@Autowired
 	private EnderecoRepository enderecoRepository;
 
-	public Endereco cadastrarEndereco(CadastrarEnderecoDTO dadosEnderecoDTO) {
+	public Endereco cadastrarEndereco(EnderecoDTO dadosEnderecoDTO) {
 
 		Endereco endereco = new Endereco();
 		endereco.setRua(dadosEnderecoDTO.rua());
@@ -36,16 +35,17 @@ public class EnderecoService {
 
 	}
 
-	public Endereco atualizarEndereco(AtualizarEnderecoDTO dadosAtualizacao) {
-		Endereco endereco = enderecoRepository.findById(dadosAtualizacao.id())
+	public Endereco atualizarEndereco(EnderecoDTO dadosEnderecoDTO) {
+		Endereco endereco = enderecoRepository.findById(dadosEnderecoDTO.id())
 				.orElseThrow(() -> new EntityNotFoundException("Endereco não encontrado"));
-		if (dadosAtualizacao.rua() != null) endereco.setRua(dadosAtualizacao.rua());
-		if (dadosAtualizacao.numero() != null) endereco.setNumero(dadosAtualizacao.numero());
-		if (dadosAtualizacao.bairro() != null) endereco.setBairro(dadosAtualizacao.bairro());
-		if (dadosAtualizacao.cidade() != null) endereco.setCidade(dadosAtualizacao.cidade());
-		if (dadosAtualizacao.estado() != null) endereco.setEstado(dadosAtualizacao.estado());
-		if (dadosAtualizacao.cep() != null) endereco.setCep(dadosAtualizacao.cep());
-		if (dadosAtualizacao.complemento() != null) endereco.setComplemento(dadosAtualizacao.complemento());
+		
+		if (dadosEnderecoDTO.rua() != null) endereco.setRua(dadosEnderecoDTO.rua());
+		if (dadosEnderecoDTO.numero() != null) endereco.setNumero(dadosEnderecoDTO.numero());
+		if (dadosEnderecoDTO.bairro() != null) endereco.setBairro(dadosEnderecoDTO.bairro());
+		if (dadosEnderecoDTO.cidade() != null) endereco.setCidade(dadosEnderecoDTO.cidade());
+		if (dadosEnderecoDTO.estado() != null) endereco.setEstado(dadosEnderecoDTO.estado());
+		if (dadosEnderecoDTO.cep() != null) endereco.setCep(dadosEnderecoDTO.cep());
+		if (dadosEnderecoDTO.complemento() != null) endereco.setComplemento(dadosEnderecoDTO.complemento());
 
 		return enderecoRepository.save(endereco);
 	}
