@@ -29,17 +29,11 @@ async function listarAlunos() {
                 </p>
                 <p>
                     <strong>CPF:</strong> 
-                    <span id="cpf-display-${aluno.id}">${aluno.cpf}</span>
-                    <button onclick="toggleEdit('cpf', ${aluno.id})">🖋️</button>
-                    <input type="text" id="cpf-${aluno.id}" placeholder="Novo CPF" style="display: none;" />
-                    <button onclick="atualizarAtributo('cpf', ${aluno.id})" style="display: none;" id="atualizar-cpf-${aluno.id}">Atualizar</button>
+                    <span id="cpf-display-${aluno.id}">${aluno.cpf}</span>   
                 </p>
                 <p>
                     <strong>RG:</strong> 
                     <span id="rg-display-${aluno.id}">${aluno.rg}</span>
-                    <button onclick="toggleEdit('rg', ${aluno.id})">🖋️</button>
-                    <input type="text" id="rg-${aluno.id}" placeholder="Novo RG" style="display: none;" />
-                    <button onclick="atualizarAtributo('rg', ${aluno.id})" style="display: none;" id="atualizar-rg-${aluno.id}">Atualizar</button>
                 </p>
                 <p>
                     <strong>Data de Nascimento:</strong> 
@@ -108,11 +102,11 @@ async function atualizarAtributo(field, id) {
         id: alunoAtual.id,
         nome: field === 'nome' ? novoValor : alunoAtual.nome,
         matricula: field === 'matricula' ? novoValor : alunoAtual.matricula,
-        cpf: field === 'cpf' ? novoValor : alunoAtual.cpf,
-        rg: field === 'rg' ? novoValor : alunoAtual.rg,
+        cpf: alunoAtual.cpf,
+        rg: alunoAtual.rg,
         dataNasc: field === 'dataNasc' ? novoValor : alunoAtual.dataNasc,
         telefone: field === 'telefone' ? novoValor : alunoAtual.telefone,
-        email: alunoAtual.email
+        email: field === 'email' ? novoValor : alunoAtual.email
     };
 
     try {
@@ -139,7 +133,7 @@ async function deletarAluno(id) {
     if (!confirmacao) return;
 
     try {
-        const response = await fetch(`http://localhost:8080/alunos/${id}`, {
+        const response = await fetch(`http://localhost:8080/alunos/deletar/${id}`, {
             method: "DELETE",
         });
 

@@ -1,5 +1,6 @@
 package br.edu.ifpe.gestaoacademica.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -7,7 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -34,12 +35,11 @@ public abstract class Usuario {
 	private String telefone;
 	private String email;
 	
-	@ManyToOne
+	@OneToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "idEndereco")
 	private Endereco endereco;
 	
-	@ManyToOne
+	@OneToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "idBanco")
 	private Banco banco;
-	
 }

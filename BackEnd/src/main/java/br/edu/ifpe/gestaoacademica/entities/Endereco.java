@@ -43,5 +43,4 @@ public class Endereco {
 	@OneToMany(mappedBy = "endereco")
 	@JsonIgnore
 	private List<Usuario> usuarios;
-
 }

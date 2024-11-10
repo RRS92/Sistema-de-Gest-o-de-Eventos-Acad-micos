@@ -37,16 +37,10 @@ async function listarServidores() {
                 <p>
                     <strong>CPF:</strong> 
                     <span id="cpf-display-${servidor.id}">${servidor.cpf}</span>
-                    <button onclick="toggleEdit('cpf', ${servidor.id})">🖋️</button>
-                    <input type="text" id="cpf-${servidor.id}" placeholder="Novo CPF" style="display: none;" />
-                    <button onclick="atualizarAtributo('cpf', ${servidor.id})" style="display: none;" id="atualizar-cpf-${servidor.id}">Atualizar</button>
                 </p>
                 <p>
                     <strong>RG:</strong> 
                     <span id="rg-display-${servidor.id}">${servidor.rg}</span>
-                    <button onclick="toggleEdit('rg', ${servidor.id})">🖋️</button>
-                    <input type="text" id="rg-${servidor.id}" placeholder="Novo RG" style="display: none;" />
-                    <button onclick="atualizarAtributo('rg', ${servidor.id})" style="display: none;" id="atualizar-rg-${servidor.id}">Atualizar</button>
                 </p>
                 <p>
                     <strong>Data de Nascimento:</strong> 
@@ -116,11 +110,11 @@ async function atualizarAtributo(field, id) {
         nome: field === 'nome' ? novoValor : servidorAtual.nome,
         siape: field === 'siape' ? novoValor : servidorAtual.siape,
         cargo: field === 'cargo' ? novoValor : servidorAtual.cargo,
-        cpf: field === 'cpf' ? novoValor : servidorAtual.cpf,
-        rg: field === 'rg' ? novoValor : servidorAtual.rg,
+        cpf: servidorAtual.cpf,
+        rg: servidorAtual.rg,
         dataNasc: field === 'dataNasc' ? novoValor : servidorAtual.dataNasc,
         telefone: field === 'telefone' ? novoValor : servidorAtual.telefone,
-        email: servidorAtual.email
+        email: field === 'email' ? novoValor : servidorAtual.email
     };
 
     try {
@@ -147,7 +141,7 @@ async function deletarServidor(id) {
     if (!confirmacao) return;
 
     try {
-        const response = await fetch(`http://localhost:8080/servidores/${id}`, {
+        const response = await fetch(`http://localhost:8080/servidores/deletar/${id}`, {
             method: "DELETE",
         });
 

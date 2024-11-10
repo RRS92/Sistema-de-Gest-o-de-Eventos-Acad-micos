@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.ifpe.gestaoacademica.controllers.dto.AtualizarServidorDTO;
-import br.edu.ifpe.gestaoacademica.controllers.dto.CadastrarServidorDTO;
-import br.edu.ifpe.gestaoacademica.controllers.dto.ListarServidorDTO;
+import br.edu.ifpe.gestaoacademica.controllers.dto.ServidorDTO;
 import br.edu.ifpe.gestaoacademica.entities.Servidor;
 import br.edu.ifpe.gestaoacademica.service.ServidorService;
 import jakarta.transaction.Transactional;
@@ -32,20 +30,20 @@ public class ServidorController {
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Servidor> cadastrarServidor(@RequestBody @Valid CadastrarServidorDTO dadosServidorDTO) {
+	public ResponseEntity<Servidor> cadastrarServidor(@RequestBody @Valid ServidorDTO dadosServidorDTO) {
 
 		Servidor servidor = servidorService.cadastrarServidor(dadosServidorDTO);
 		return ResponseEntity.ok(servidor);
 	}
 
 	@GetMapping
-	public List<ListarServidorDTO> listarServidor() {
-		return servidorService.listarServidores().stream().map(ListarServidorDTO::new).toList();
+	public List<ServidorDTO> listarServidor() {
+		return servidorService.listarServidores().stream().map(ServidorDTO::new).toList();
 	}
 	
 	@PutMapping
 	@Transactional
-	public ResponseEntity<Servidor> atualizarServidor(@RequestBody @Valid AtualizarServidorDTO dadosServidorDTO) {
+	public ResponseEntity<Servidor> atualizarServidor(@RequestBody @Valid ServidorDTO dadosServidorDTO) {
 		var servidor = servidorService.atualizarServidor(dadosServidorDTO);
 		return ResponseEntity.ok(servidor);
 	}

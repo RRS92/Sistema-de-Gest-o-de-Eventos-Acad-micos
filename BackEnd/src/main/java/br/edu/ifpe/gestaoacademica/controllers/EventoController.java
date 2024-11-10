@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.ifpe.gestaoacademica.controllers.dto.AtualizarEventoDTO;
-import br.edu.ifpe.gestaoacademica.controllers.dto.CadastrarEventoDTO;
-import br.edu.ifpe.gestaoacademica.controllers.dto.ListarEventoDTO;
+import br.edu.ifpe.gestaoacademica.controllers.dto.EventoDTO;
 import br.edu.ifpe.gestaoacademica.entities.Evento;
 import br.edu.ifpe.gestaoacademica.service.EventoService;
 import jakarta.transaction.Transactional;
@@ -32,25 +30,25 @@ public class EventoController {
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Evento> cadastrarEvento(@RequestBody @Valid CadastrarEventoDTO dadosEventoDTO) {
+	public ResponseEntity<Evento> cadastrarEvento(@RequestBody @Valid EventoDTO dadosEventoDTO) {
 
 		Evento evento = eventoService.cadastrarEvento(dadosEventoDTO);
 		return ResponseEntity.ok(evento);
 	}
 
 	@GetMapping
-	public List<ListarEventoDTO> listarEvento() {
-		return eventoService.listarEventos().stream().map(ListarEventoDTO::new).toList();
+	public List<EventoDTO> listarEvento() {
+		return eventoService.listarEventos().stream().map(EventoDTO::new).toList();
 	}
 	
 	@PutMapping
 	@Transactional
-	public ResponseEntity<Evento> atualizarEvento(@RequestBody @Valid AtualizarEventoDTO dadosEventoDTO) {
+	public ResponseEntity<Evento> atualizarEvento(@RequestBody @Valid EventoDTO dadosEventoDTO) {
 		var evento = eventoService.atualizarEvento(dadosEventoDTO);
 		return ResponseEntity.ok(evento);
 	}
 
-	@DeleteMapping("/apagar/{id}")
+	@DeleteMapping("/deletar/{id}")
 	@Transactional
 	public ResponseEntity<Void> deletarEvento(@PathVariable Long id) {
 		eventoService.deletarEvento(id);
