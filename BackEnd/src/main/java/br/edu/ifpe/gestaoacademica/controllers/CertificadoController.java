@@ -54,12 +54,11 @@ public class CertificadoController {
 		certificadoService.deletarCertificado(id);
 		return ResponseEntity.noContent().build();
 	}
-
+	
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<Void> inativarCertificado(@PathVariable Long id) {
 		certificadoService.inativarCertificado(id);
 		return ResponseEntity.noContent().build();
 	}
-
 }

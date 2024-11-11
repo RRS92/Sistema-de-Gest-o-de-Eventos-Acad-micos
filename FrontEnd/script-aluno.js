@@ -63,7 +63,7 @@ async function cadastrarAluno() {
         alert("Aluno cadastrado com sucesso!");
 
         // Redireciona para outra página
-        window.location.href = "perfil-aluno.html";
+        window.location.href = "lista-aluno.html";
 
     } catch (error) {
         console.error(error);
@@ -151,14 +151,12 @@ async function atualizarAluno(id) {
         id: id,
         nome: document.getElementById(`nome-${id}`).value.trim(),
         matricula: document.getElementById(`matricula-${id}`).value.trim(),
-        cpf: document.getElementById(`cpf-${id}`).value.trim(),
-        rg: document.getElementById(`rg-${id}`).value.trim(),
         dataNasc: document.getElementById(`dataNasc-${id}`).value.trim(),
         telefone: document.getElementById(`telefone-${id}`).value.trim(),
         email: document.getElementById(`email-${id}`).value.trim()
     };
 
-    if (!alunoData.nome || !alunoData.matricula || !alunoData.cpf || !alunoData.rg || !alunoData.dataNasc || !alunoData.telefone || !alunoData.email) {
+    if (!alunoData.nome || !alunoData.matricula || !alunoData.dataNasc || !alunoData.telefone || !alunoData.email) {
         alert("Por favor, preencha todos os campos.");
         return;
     }
@@ -183,15 +181,13 @@ async function atualizarAluno(id) {
 }
 
 
-
-
 // Função para deletar aluno
 async function deletarAluno(id) {
     const confirmacao = confirm("Tem certeza de que deseja deletar este aluno?");
     if (!confirmacao) return;
 
     try {
-        const response = await fetch(`http://localhost:8080/alunos/${id}`, {
+        const response = await fetch(`http://localhost:8080/alunos/deletar/${id}`, {
             method: "DELETE",
         });
 
