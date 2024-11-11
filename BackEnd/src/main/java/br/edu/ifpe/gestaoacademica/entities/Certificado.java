@@ -29,5 +29,4 @@ public class Certificado {
 	public void inativar() {
 		this.ativo = false;
 	}
-
 }

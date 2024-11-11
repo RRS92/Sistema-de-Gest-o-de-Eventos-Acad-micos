@@ -8,8 +8,7 @@ public record CertificadoDTO(
 		@NotBlank
 		String cargaHoraria,
 		@NotBlank
-		String descricao
-		) {
+		String descricao) {
 	
 	//Construtor para cadastrar certificado
 	public CertificadoDTO(String cargaHoraria,String descricao) {
@@ -18,7 +17,7 @@ public record CertificadoDTO(
 	
 	//Construtor para listar certificado
 	public CertificadoDTO(Certificado certificado) {
-		this(certificado.getId(),certificado.getCargaHoraria(),certificado.getDescricao());
+		this(certificado.getId(), certificado.getCargaHoraria(), certificado.getDescricao());
 	}
 	
 	//Construtor para atualizar certificado
@@ -27,5 +26,4 @@ public record CertificadoDTO(
 		this.cargaHoraria = cargaHoraria;
 		this.descricao = descricao;
 	}
-
 }
