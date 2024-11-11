@@ -16,38 +16,31 @@ import jakarta.validation.Valid;
 
 @Service
 public class CertificadoService {
-	
+
 	@Autowired
 	private CertificadoRepository certificadoRepository;
-	
+
 	public Certificado cadastrarCertificado(CertificadoDTO dadosCertificadoDTO) {
-		
+
 		Certificado certificado = new Certificado();
 		certificado.setCargaHoraria(dadosCertificadoDTO.cargaHoraria());
 		certificado.setDescricao(dadosCertificadoDTO.descricao());
-		certificado.setAtivo(true);
-		
 		return certificadoRepository.save(certificado);
 
 	}
-	
+
 	public List<Certificado> listarCertificados(){
 		return certificadoRepository.findAllByAtivoTrue();
 	}
-	
+
 	public Certificado atualizarCertificado(@Valid CertificadoDTO dadosCertificadoDTO) {
-		
+
 		Certificado certificado = certificadoRepository.findById(dadosCertificadoDTO.id())
 				.orElseThrow(() -> new EntityNotFoundException("Certificado não encontrado"));
-		
-		if (dadosCertificadoDTO.cargaHoraria() != null) {
-			certificado.setCargaHoraria(dadosCertificadoDTO.cargaHoraria());
-		}
-		
-		if (dadosCertificadoDTO.descricao() != null) {
-			certificado.setDescricao(dadosCertificadoDTO.descricao());
-		}
-		
+
+		if (dadosCertificadoDTO.cargaHoraria() != null) certificado.setCargaHoraria(dadosCertificadoDTO.cargaHoraria());
+		if (dadosCertificadoDTO.descricao() != null) certificado.setDescricao(dadosCertificadoDTO.descricao());
+
 		return certificadoRepository.save(certificado);
 	}
 	
@@ -58,7 +51,6 @@ public class CertificadoService {
 	}
 
 	public void deletarCertificado(Long id) {
-        certificadoRepository.deleteById(id);
+		certificadoRepository.deleteById(id);
 	}
-
 }
