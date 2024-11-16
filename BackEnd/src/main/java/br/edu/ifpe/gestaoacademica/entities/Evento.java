@@ -27,8 +27,9 @@ public class Evento {
 	private String data;
 	private String local;
 	private String tipo;
-	private Long idServidor;
 	private boolean ativo;
+	
+	private Long id_servidor;
 	
 	public void inativar() {
 		this.ativo = false;

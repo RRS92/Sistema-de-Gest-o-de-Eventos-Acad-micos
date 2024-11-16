@@ -64,7 +64,7 @@ async function cadastrarServidor() {
         alert("servidor cadastrado com sucesso!");
 
         // Redireciona para outra página
-        window.location.href = "lista-servidor.html";  
+        window.location.href = "perfil-servidor.html";  // Substitua "pagina_destino.html" pela URL desejada
         
 
     } catch (error) {
@@ -156,13 +156,15 @@ async function atualizarServidor(id) {
         id: id,
         nome: document.getElementById(`nome-${id}`).value.trim(),
         siape: document.getElementById(`siape-${id}`).value.trim(),
-	    cargo: document.getElementById(`cargo-${id}`).value.trim(),
+	cargo: document.getElementById(`cargo-${id}`).value.trim(),
+        cpf: document.getElementById(`cpf-${id}`).value.trim(),
+        rg: document.getElementById(`rg-${id}`).value.trim(),
         dataNasc: document.getElementById(`dataNasc-${id}`).value.trim(),
         telefone: document.getElementById(`telefone-${id}`).value.trim(),
         email: document.getElementById(`email-${id}`).value.trim()
     };
 
-    if (!servidorData.nome || !servidorData.siape || !servidorData.cargo || !servidorData.dataNasc || !servidorData.telefone || !servidorData.email) {
+    if (!servidorData.nome || !servidorData.siape || !servidorData.cargo || !servidorData.cpf || !servidorData.rg || !servidorData.dataNasc || !servidorData.telefone || !servidorData.email) {
         alert("Por favor, preencha todos os campos.");
         return;
     }
@@ -192,7 +194,7 @@ async function deletarServidor(id) {
     if (!confirmacao) return;
 
     try {
-        const response = await fetch(`http://localhost:8080/servidores/deletar/${id}`, {
+        const response = await fetch(`http://localhost:8080/servidores/${id}`, {
             method: "DELETE",
         });
 

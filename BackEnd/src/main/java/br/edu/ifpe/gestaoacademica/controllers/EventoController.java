@@ -31,6 +31,7 @@ public class EventoController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Evento> cadastrarEvento(@RequestBody @Valid EventoDTO dadosEventoDTO) {
+
 		Evento evento = eventoService.cadastrarEvento(dadosEventoDTO);
 		return ResponseEntity.ok(evento);
 	}
@@ -53,7 +54,7 @@ public class EventoController {
 		eventoService.deletarEvento(id);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<Void> inativarEvento(@PathVariable Long id) {

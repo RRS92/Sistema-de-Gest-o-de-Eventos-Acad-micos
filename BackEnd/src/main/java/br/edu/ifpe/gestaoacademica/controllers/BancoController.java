@@ -38,9 +38,9 @@ public class BancoController {
 	
 	@PutMapping
 	@Transactional
-	public ResponseEntity<BancoDTO> atualizarBanco(@RequestBody @Valid BancoDTO dadosBancoDTO) {
-	    var banco = bancoService.atualizarBanco(dadosBancoDTO);
-	    return ResponseEntity.ok(new BancoDTO(banco));
+	public ResponseEntity<BancoDTO> atualizarBanco(@RequestBody @Valid BancoDTO dadosAtualizacao) {
+	    Banco bancoAtualizado = bancoService.atualizarBanco(dadosAtualizacao);
+	    return ResponseEntity.ok(new BancoDTO(bancoAtualizado));
 	}
 	
 	@GetMapping
@@ -48,7 +48,7 @@ public class BancoController {
 		return bancoService.listarBanco().stream().map(BancoDTO::new).toList();
 	}
 	
-	@DeleteMapping("/deletar/{id}")
+	@DeleteMapping("/apagar/{id}")
 	@Transactional
 	public ResponseEntity<Void> deletarBanco(@PathVariable Long id) {
 		bancoService.deletarBanco(id);

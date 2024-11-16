@@ -70,7 +70,7 @@ async function deletarEvento(eventoId) {
     if (window.confirm("Tem certeza que deseja deletar este evento?")) {
         try {
             console.log(`Tentando deletar o evento com ID: ${eventoId}`);
-            const response = await fetch(`http://localhost:8080/eventos/deletar/${eventoId}`, {
+            const response = await fetch(`http://localhost:8080/eventos/${eventoId}`, {
                 method: 'DELETE',
             });
             console.log('Resposta da requisição:', response); // Log da resposta

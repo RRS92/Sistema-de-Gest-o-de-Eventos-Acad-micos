@@ -23,6 +23,7 @@ public class TransporteService {
 	public Transporte cadastrarTransporte(TransporteDTO dadosTransporteDTO) {
 
 		Long idServidorFixo = 1L;
+		Long idEventoFixo = 1L;
 
 		Transporte transporte = new Transporte();
 		transporte.setCategoria(dadosTransporteDTO.categoria());
@@ -31,8 +32,10 @@ public class TransporteService {
 		transporte.setNomeMotorista(dadosTransporteDTO.nomeMotorista());
 		transporte.setHoraSaida(dadosTransporteDTO.horaSaida());
 		transporte.setHoraChegada(dadosTransporteDTO.horaChegada());
+		transporte.setAtivo(true);
 
 		transporte.setIdServidor(idServidorFixo);
+		transporte.setIdEvento(idEventoFixo);
 		
 		return transporteRepository.save(transporte);
 
