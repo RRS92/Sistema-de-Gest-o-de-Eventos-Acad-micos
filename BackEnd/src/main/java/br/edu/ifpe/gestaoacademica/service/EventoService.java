@@ -30,9 +30,9 @@ public class EventoService {
 		evento.setData(dadosEventoDTO.data());
 		evento.setLocal(dadosEventoDTO.local());
 		evento.setTipo(dadosEventoDTO.tipo());
-		
-		evento.setIdServidor(idServidorFixo);
-		
+		evento.setAtivo(true);
+
+		evento.setId_servidor(idServidorFixo);
 		return eventoRepository.save(evento);
 
 	}
@@ -46,15 +46,29 @@ public class EventoService {
 	    Evento evento = eventoRepository.findById(dadosEventoDTO.id())
 	            .orElseThrow(() -> new EntityNotFoundException("Evento não encontrado"));
 
-		if (dadosEventoDTO.nome() != null) evento.setNome(dadosEventoDTO.nome());
-		if (dadosEventoDTO.descricao() != null) evento.setDescricao(dadosEventoDTO.descricao());
-		if (dadosEventoDTO.data() != null) evento.setData(dadosEventoDTO.data());
-		if (dadosEventoDTO.local() != null) evento.setLocal(dadosEventoDTO.local());
-		if (dadosEventoDTO.tipo() != null) evento.setTipo(dadosEventoDTO.tipo());
+		if (dadosEventoDTO.nome() != null) {
+			evento.setNome(dadosEventoDTO.nome());
+		}
+		
+		if (dadosEventoDTO.descricao() != null) {
+			evento.setDescricao(dadosEventoDTO.descricao());
+		}
+		
+		if (dadosEventoDTO.data() != null) {
+			evento.setData(dadosEventoDTO.data());
+		}
+		
+		if (dadosEventoDTO.local() != null) {
+			evento.setLocal(dadosEventoDTO.local());
+		}
+		
+		if (dadosEventoDTO.tipo() != null) {
+			evento.setTipo(dadosEventoDTO.tipo());
+		}
 		
 		return eventoRepository.save(evento);
 	}
-	
+
 	public void inativarEvento(Long id) {
 		Evento evento = eventoRepository.getReferenceById(id);
 		evento.inativar();

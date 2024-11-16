@@ -28,8 +28,10 @@ public class Transporte {
 	private String nomeMotorista;
 	private String horaSaida;
 	private String horaChegada;
-	private Long idServidor;
 	private boolean ativo;
+	
+	private Long idServidor;
+	private Long idEvento;
 	
 	public void inativar() {
 		this.ativo = false;

@@ -25,6 +25,8 @@ public class CertificadoService {
 		Certificado certificado = new Certificado();
 		certificado.setCargaHoraria(dadosCertificadoDTO.cargaHoraria());
 		certificado.setDescricao(dadosCertificadoDTO.descricao());
+		certificado.setAtivo(true);
+		
 		return certificadoRepository.save(certificado);
 
 	}
