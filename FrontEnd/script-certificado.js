@@ -103,12 +103,12 @@ function exibirCertificados(certificados) {
         eventsContainer.appendChild(eventCard);
     });
 
-    // Adiciona o certificado de clique aos botões de deletar
+    // Adiciona o evento de clique aos botões de deletar
     document.querySelectorAll('.delete-button').forEach(button => {
         button.addEventListener('click', function(event) {
             const certificadoId = event.target.getAttribute('data-id');
             console.log(`ID do certificado clicado: ${certificadoId}`);
-            deletarEvento(certificadoId);
+            deletarCertificado(certificadoId);
         });
     });
 }
