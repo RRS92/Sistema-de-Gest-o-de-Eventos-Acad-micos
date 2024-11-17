@@ -72,10 +72,16 @@ function exibirCertificados(certificados) {
         eventCard.classList.add('event-card');
         eventCard.innerHTML = `
             <div class="event-details">
-		<p>Carga Horaria: ${certificado.cargaHoraria}</p>
-                <p>Descrição: ${certificado.descricao}</p>
+            <p><strong>Carga Horaria:</strong> <span id="cargaHoraria-display-${certificado.id}">${certificado.cargaHoraria}</span>
+            <input type="text" id="cargaHoraria-${certificado.id}" value="${certificado.cargaHoraria}" style="display:none;" /></p>
+
+            <p><strong>Descricao:</strong> <span id="descricao-display-${certificado.id}">${certificado.descricao}</span>
+            <input type="text" id="descricao-${certificado.id}" value="${certificado.descricao}" style="display:none;" /></p>
             </div>
-            <button class="delete-button" data-id="${certificado.id}">Deletar certificado</button>
+            <br>
+            <button onclick="deletarCertificado(${certificado.id})">🗑️ Deletar</button>
+            <button onclick="toggleEditAll(${certificado.id})">🖋️Editar </button>
+            <button id="atualizar-${certificado.id}" style="display:none;" onclick="atualizarCertificado(${certificado.id})">Atualizar</button>
         `;
         eventsContainer.appendChild(eventCard);
     });
@@ -94,6 +100,63 @@ function exibirCertificados(certificados) {
 getCertificados().then(certificados => {
     exibirCertificados(certificados); // Exibe os certificados na página
 });
+
+// Função para alternar entre editar e exibir valores de todos os campos ao mesmo tempo
+function toggleEditAll(id) {
+    const fields = ['cargaHoraria', 'descricao'];
+
+    fields.forEach(field => {
+        const inputField = document.getElementById(`${field}-${id}`);
+        const displayField = document.getElementById(`${field}-display-${id}`);
+        const atualizarButton = document.getElementById(`atualizar-${id}`);
+
+        if (inputField.style.display === "none") {
+            inputField.style.display = "inline";
+            inputField.value = displayField.textContent; // Preenche o input com o valor atual
+            displayField.style.display = "none"; // Oculta o valor exibido
+        } else {
+            inputField.style.display = "none";
+            displayField.style.display = "inline"; // Mostra o valor exibido
+        }
+
+        atualizarButton.style.display = "inline"; // Mostra o botão de atualizar
+    });
+}
+
+// Função para atualizar todos os atributos do transporte
+async function atualizarCertificado(id) {
+    const certificadoData = {
+        id: id,
+        cargaHoraria: document.getElementById(`cargaHoraria-${id}`).value.trim(),
+        descricao: document.getElementById(`descricao-${id}`).value.trim()
+    };
+
+    // Validação dos campos obrigatórios
+    if (!certificadoData.cargaHoraria || !certificadoData.descricao) {
+        alert("Por favor, preencha todos os campos.");
+        return;
+    }
+
+    try {
+        // Realiza a atualização via PUT
+        const response = await fetch(`http://localhost:8080/certificados`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(certificadoData)
+        });
+
+        if (!response.ok) throw new Error("Erro ao atualizar certificado.");
+
+        alert("Certificado atualizado com sucesso!");
+        const certificadoAtualizado = await getCertificados();
+        exibirCertificados(certificadoAtualizado); // Atualiza a lista de certificados após a atualização
+    } catch (error) {
+        console.error(error);
+        alert("Erro ao atualizar certificado.");
+    }
+}
 
 
 // Função para deletar certificado
