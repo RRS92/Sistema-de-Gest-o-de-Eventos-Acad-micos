@@ -48,7 +48,7 @@ public class BancoController {
 		return bancoService.listarBanco().stream().map(BancoDTO::new).toList();
 	}
 	
-	@DeleteMapping("/apagar/{id}")
+	@DeleteMapping("/deletar/{id}")
 	@Transactional
 	public ResponseEntity<Void> deletarBanco(@PathVariable Long id) {
 		bancoService.deletarBanco(id);

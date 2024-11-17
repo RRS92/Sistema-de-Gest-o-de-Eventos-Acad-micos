@@ -64,7 +64,7 @@ async function cadastrarServidor() {
         alert("servidor cadastrado com sucesso!");
 
         // Redireciona para outra página
-        window.location.href = "perfil-servidor.html";  // Substitua "pagina_destino.html" pela URL desejada
+        window.location.href = "perfil-servidor.html";  
         
 
     } catch (error) {
@@ -95,7 +95,7 @@ async function listarServidores() {
                 <p><strong>Siape:</strong> <span id="siape-display-${servidor.id}">${servidor.siape}</span>
                 <input type="text" id="siape-${servidor.id}" value="${servidor.siape}" style="display:none;" /></p>
 
-		<p><strong>Cargo:</strong> <span id="cargo-display-${servidor.id}">${servidor.cargo}</span>
+		        <p><strong>Cargo:</strong> <span id="cargo-display-${servidor.id}">${servidor.cargo}</span>
                 <input type="text" id="cargo-${servidor.id}" value="${servidor.cargo}" style="display:none;" /></p>
 
                 <p><strong>CPF:</strong> <span id="cpf-display-${servidor.id}">${servidor.cpf}</span>
@@ -114,7 +114,7 @@ async function listarServidores() {
                 <input type="text" id="email-${servidor.id}" value="${servidor.email}" style="display:none;" /></p>
 
                 <br>
-                <button onclick="deletarAluno(${servidor.id})">🗑️ Deletar</button>
+                <button onclick="deletarServidor(${servidor.id})">🗑️ Deletar</button>
                 <button onclick="toggleEditAll(${servidor.id})">🖋️Editar </button>
                 <button id="atualizar-${servidor.id}" style="display:none;" onclick="atualizarServidor(${servidor.id})">Atualizar</button>
                 <hr>
@@ -156,7 +156,7 @@ async function atualizarServidor(id) {
         id: id,
         nome: document.getElementById(`nome-${id}`).value.trim(),
         siape: document.getElementById(`siape-${id}`).value.trim(),
-	cargo: document.getElementById(`cargo-${id}`).value.trim(),
+	    cargo: document.getElementById(`cargo-${id}`).value.trim(),
         cpf: document.getElementById(`cpf-${id}`).value.trim(),
         rg: document.getElementById(`rg-${id}`).value.trim(),
         dataNasc: document.getElementById(`dataNasc-${id}`).value.trim(),
@@ -194,7 +194,7 @@ async function deletarServidor(id) {
     if (!confirmacao) return;
 
     try {
-        const response = await fetch(`http://localhost:8080/servidores/${id}`, {
+        const response = await fetch(`http://localhost:8080/servidores/deletar/${id}`, {
             method: "DELETE",
         });
 
@@ -218,7 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
         submitButton.addEventListener("click", cadastrarServidor);
     }
 
-    // Se o container de alunos existir, estamos na página de listagem
+    // Se o container de servidores existir, estamos na página de listagem
     if (servidoresContainer) {
         listarServidores();
     }

@@ -183,15 +183,13 @@ async function atualizarAluno(id) {
 }
 
 
-
-
 // Função para deletar aluno
 async function deletarAluno(id) {
     const confirmacao = confirm("Tem certeza de que deseja deletar este aluno?");
     if (!confirmacao) return;
 
     try {
-        const response = await fetch(`http://localhost:8080/alunos/${id}`, {
+        const response = await fetch(`http://localhost:8080/alunos/deletar/${id}`, {
             method: "DELETE",
         });
 
