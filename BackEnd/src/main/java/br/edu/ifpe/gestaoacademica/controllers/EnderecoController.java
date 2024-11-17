@@ -48,7 +48,7 @@ public class EnderecoController {
 		return enderecoService.listarEnderecos().stream().map(EnderecoDTO::new).toList();
 	}
 	
-	@DeleteMapping("/apagar/{id}")
+	@DeleteMapping("/deletar/{id}")
 	@Transactional
 	public ResponseEntity<Void> deletarEndereco(@PathVariable Long id){
 		enderecoService.deletarEndereco(id);
