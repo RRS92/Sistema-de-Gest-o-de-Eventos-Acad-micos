@@ -56,29 +56,6 @@ async function getCertificados() {
     }
 }
 
-// Função para deletar certificado
-async function deletarCertificado(certificadoId) {
-    // Confirmação antes de deletar
-    if (window.confirm("Tem certeza que deseja deletar este certificado?")) {
-        try {
-            console.log(`Tentando deletar o certificado com ID: ${certificadoId}`);
-            const response = await fetch(`http://localhost:8080/certificados/${certificadoId}`, {
-                method: 'DELETE',
-            });
-            console.log('Resposta da requisição:', response); // Log da resposta
-            if (!response.ok) {
-                throw new Error(`Erro ao deletar certificado: ${response.status}`);
-            }
-            console.log(`Certificado ${certificadoId} deletado com sucesso.`);
-            // Recarrega a página após a exclusão bem-sucedida
-            alert("Certificado deletado com sucesso!"); // Alerta de sucesso antes de recarregar
-            window.location.reload(); // Recarrega a página para atualizar a lista de eventos
-        } catch (error) {
-            console.error(`Erro: ${error.message}`);
-            alert("Erro ao deletar o certificado. Tente novamente mais tarde."); // Mensagem ao usuário
-        }
-    }
-}
 
 // Função para exibir certificados na página
 function exibirCertificados(certificados) {
@@ -117,3 +94,28 @@ function exibirCertificados(certificados) {
 getCertificados().then(certificados => {
     exibirCertificados(certificados); // Exibe os certificados na página
 });
+
+
+// Função para deletar certificado
+async function deletarCertificado(certificadoId) {
+    // Confirmação antes de deletar
+    if (window.confirm("Tem certeza que deseja deletar este certificado?")) {
+        try {
+            console.log(`Tentando deletar o certificado com ID: ${certificadoId}`);
+            const response = await fetch(`http://localhost:8080/certificados/deletar/${certificadoId}`, {
+                method: 'DELETE',
+            });
+            console.log('Resposta da requisição:', response); // Log da resposta
+            if (!response.ok) {
+                throw new Error(`Erro ao deletar certificado: ${response.status}`);
+            }
+            console.log(`Certificado ${certificadoId} deletado com sucesso.`);
+            // Recarrega a página após a exclusão bem-sucedida
+            alert("Certificado deletado com sucesso!"); // Alerta de sucesso antes de recarregar
+            window.location.reload(); // Recarrega a página para atualizar a lista de eventos
+        } catch (error) {
+            console.error(`Erro: ${error.message}`);
+            alert("Erro ao deletar o certificado. Tente novamente mais tarde."); // Mensagem ao usuário
+        }
+    }
+}

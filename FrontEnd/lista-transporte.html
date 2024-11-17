@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transportes</title>
+    <link rel="icon" href="images/logo.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="script-transporte.js" defer></script>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <img src="images/ifpe_logo.png" alt="Logo IFPE" class="logo">
+            <nav>
+                <a href="index.html">Início</a>
+                <a href="usuarios.html">Perfis</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="events-section">
+            <h2>Lista de Transportes</h2>
+            <br>
+            <div class="events-container">
+                <!-- Os transportes serão listados aqui dinamicamente -->
+            </div>
+
+            <!-- Formulário para editar detalhes do transporte -->
+            <div id="edit-transport-form" style="display:none;">
+                <h3>Editar Transporte</h3>
+                <form id="form-edit-banco">
+                    <input type="hidden" id="transport-id">
+                    <label for="categoria">Categoria:</label>
+                    <input type="text" id="categoria" required>
+                    <label for="placa">Placa:</label>
+                    <input type="text" id="placa" required>
+                    <label for="quilometragem">Quilometragem:</label>
+                    <input type="text" id="quilometragem" required>
+                    <label for="nomeMotorista">Nome do Motorista:</label>
+                    <input type="text" id="nomeMotorista" required>
+                    <label for="horaSaida">Hora de Saída:</label>
+                    <input type="text" id="horaSaida" required>
+                    <label for="horaChegada">Hora de Chegada:</label>
+                    <input type="text" id="horaChegada" required>
+                    <button type="submit">Atualizar</button>
+                    <button type="button" id="cancelar-edicao">Cancelar</button>
+                </form>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-columns"></div>
+            <p>&copy; Instituto Federal de Pernambuco. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
