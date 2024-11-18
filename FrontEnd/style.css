@@ -550,3 +550,100 @@ footer .footer-column {
     background-color: var(--accent-color);
 }
 
+/* Contêiner dos botões */
+.buttons-container {
+    display: flex;
+    flex-direction: column; /* Organiza os botões em coluna */
+    gap: 5px; /* Espaçamento entre os botões */
+    margin-top: 15px; /* Espaçamento acima dos botões */
+    margin-bottom: -10px; /* Espaçamento acima dos botões */
+
+}
+
+/* Os dois primeiros botões ao lado um do outro */
+.buttons-container .top-buttons {
+    display: flex; /* Flex para deixar os botões lado a lado */
+    gap: 10px; /* Espaçamento entre os botões */
+}
+
+/* Estilo comum para todos os botões */
+.buttons-container button {
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* Botão Criar Certificado */
+.btnCertificado {
+    background-color: #229526; /* Cor de fundo verde */
+    color: rgb(255, 255, 255);
+    border: none;
+    font-size: 14px; /* Tamanho específico para este botão */
+
+}
+
+.btnTransporte {
+    background-color: #229526; /* Cor de fundo azul */
+    color: white;
+    border: none;
+    font-size: 14px; /* Tamanho específico para este botão */
+
+}
+
+/* Botão Deletar Evento */
+.delete-button {
+    background-color: #e6151c; /* Cor de fundo vermelha */
+    color: white;
+    border: none;
+    font-size: 16px; /* Tamanho específico para este botão */
+
+}
+
+.buttons-container button:hover {
+    opacity: 0.8;
+}
+
+.event-card h3 {
+    text-align: center; /* Centraliza o texto */
+    margin-bottom: 10px; /* Adiciona um pequeno espaçamento abaixo do título */
+}
+
+
+
+/* Estilo para o container geral de alunos */
+#alunos-container {
+    display: flex;
+    flex-direction: column; /* Organiza os alunos em uma coluna */
+    gap: 20px; /* Adiciona espaço entre cada bloco de aluno */
+    padding: 20px;
+}
+
+/* Estilo para cada bloco de aluno */
+.aluno-item {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.aluno-item p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* Estilo para o título da seção */
+h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Estilo para o container principal de eventos (pode ser útil para futuras modificações) */
+.events-container {
+    display: flex;
+    justify-content: center;
+}
+
+
+

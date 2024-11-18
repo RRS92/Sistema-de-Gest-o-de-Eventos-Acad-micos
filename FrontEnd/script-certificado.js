@@ -27,8 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(response => {
             if (response.ok) {
                 alert("Certificado criado com sucesso!");
-                window.location.reload(); // Recarrega a página
-                return response.json();
+                window.location.href = "lista-certificado.html";
+
             } else {
                 throw new Error("Erro ao criar o certificado");
             }

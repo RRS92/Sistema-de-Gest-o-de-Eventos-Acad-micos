@@ -113,10 +113,11 @@ async function listarServidores() {
                 <p><strong>Email:</strong> <span id="email-display-${servidor.id}">${servidor.email}</span>
                 <input type="text" id="email-${servidor.id}" value="${servidor.email}" style="display:none;" /></p>
 
-                <br>
                 <button onclick="deletarServidor(${servidor.id})">🗑️ Deletar</button>
                 <button onclick="toggleEditAll(${servidor.id})">🖋️Editar </button>
                 <button id="atualizar-${servidor.id}" style="display:none;" onclick="atualizarServidor(${servidor.id})">Atualizar</button>
+                <br>                <br>
+
                 <hr>
             `;
 
