@@ -35,8 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
             .then((response) => {
                 if (response.ok) {
                     alert("Transporte criado com sucesso!");
-                    window.location.reload(); // Recarrega a página
-                    return response.json();
+                    window.location.href = "lista-transporte.html";
+
                 } else {
                     throw new Error("Erro ao criar o transporte");
                 }

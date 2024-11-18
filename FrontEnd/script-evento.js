@@ -33,8 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(response => {
             if (response.ok) {
                 alert("Evento criado com sucesso!");
-                window.location.reload(); // Recarrega a página
-                return response.json();
+                window.location.href = "lista-evento.html";
             } else {
                 throw new Error("Erro ao criar o evento");
             }
@@ -85,10 +84,31 @@ function exibirEventos(eventos) {
                 <p>Local: ${evento.local}</p>
                 <p>Tipo: ${evento.tipo}</p>
             </div>
-            <button class="delete-button" data-id="${evento.id}">Deletar Evento</button>
+            
+          <div class="buttons-container">
+    <div class="top-buttons">
+        <button class="btnCertificado">Criar Certificado</button>
+        <button class="btnTransporte">Cadastrar Transporte</button>
+    </div>
+    <button class="delete-button" data-id="${evento.id}">Deletar Evento</button>
+</div>
         `;
         eventsContainer.appendChild(eventCard);
     });
+    document.querySelectorAll('.btnCertificado').forEach(button => {
+        button.addEventListener('click', function() {
+            // Redireciona para a página de cadastro de certificado
+            window.location.href = 'cadastro-certificado.html';
+        });
+    });
+
+    document.querySelectorAll('.btnTransporte').forEach(button => {
+        button.addEventListener('click', function() {
+            // Redireciona para a página de cadastro de certificado
+            window.location.href = 'cadastro-transporte.html';
+        });
+    });
+
 
     // Adiciona o evento de clique aos botões de deletar
     document.querySelectorAll('.delete-button').forEach(button => {
