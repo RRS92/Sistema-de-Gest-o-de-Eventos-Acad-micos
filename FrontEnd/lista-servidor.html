@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Servidores</title>
-    <link rel="icon" href="images\logo.png" type="image/png">
+    <link rel="icon" href="images/logo.png" type="image/png">
     <link rel="stylesheet" href="style.css">
+    <script src="script-servidor.js" defer></script>
 </head>
 <body>
 
@@ -14,9 +15,8 @@
             <img src="images/ifpe_logo.png" alt="Logo IFPE" class="logo">
             <nav>
                 <a href="index.html">Início</a>
+                <a href="perfil-servidor.html">Perfil</a>
                 <a href="cadastro-servidor.html">Voltar</a>
-                <a href="cadastro-evento.html">Cadastrar Eventos</a>
-
             </nav>
         </div>
     </header>
@@ -24,20 +24,41 @@
     <main>
         <section class="events-section">
             <h2>Lista de Servidores</h2>
+            <br>
             <div class="events-container">
-                <div class="event-card">
-                    <div class="event-details">
-                        <div id="servidores-container" class="servidores-container"></div>
-                    </div>
-                </div>
+                <!-- Os servidores serão listados aqui dinamicamente -->
             </div>
-            
+
+            <!-- Formulário para editar detalhes do servidor -->
+            <div id="edit-transport-form" style="display:none;">
+                <h3>Editar Servidor</h3>
+                <form id="form-edit-banco">
+                    <input type="hidden" id="servidor-id">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" required>
+                    <label for="siape">Siape:</label>
+                    <input type="text" id="siape" required>
+                    <label for="cargo">Cargo:</label>
+                    <input type="text" id="cargo" required>
+                    <label for="cpf">CPF:</label>
+                    <input type="text" id="cpf" required>
+                    <label for="rg">RG:</label>
+                    <input type="text" id="rg" required>
+                    <label for="dataNasc">Data de Nascimento:</label>
+                    <input type="text" id="dataNasc" required>
+                    <label for="telefone">Telefone:</label>
+                    <input type="text" id="telefone" required>
+                    <label for="email">Email:</label>
+                    <input type="text" id="email" required>
+                    <button type="submit">Atualizar</button>
+                    <button type="button" id="cancelar-edicao">Cancelar</button>
+                </form>
+            </div>
         </section>
     </main>
-    <script src="script-servidor.js"></script>
-
     <footer>
         <div class="container">
+            <div class="footer-columns"></div>
             <p>&copy; Instituto Federal de Pernambuco. Todos os direitos reservados.</p>
         </div>
     </footer>

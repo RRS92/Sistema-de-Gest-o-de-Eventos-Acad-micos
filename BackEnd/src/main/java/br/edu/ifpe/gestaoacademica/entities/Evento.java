@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -29,7 +31,9 @@ public class Evento {
 	private String tipo;
 	private boolean ativo;
 	
-	private Long id_servidor;
+	@OneToOne
+	@JoinColumn(name = "idServidor")
+	private Servidor servidor;
 	
 	public void inativar() {
 		this.ativo = false;

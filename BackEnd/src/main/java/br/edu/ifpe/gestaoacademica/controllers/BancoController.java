@@ -31,16 +31,15 @@ public class BancoController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Banco> cadastrarBanco(@RequestBody @Valid BancoDTO dadosBancoDTO){
-		
 		Banco banco = bancoService.cadastrarBanco(dadosBancoDTO);
 		return ResponseEntity.ok(banco);
 	}
 	
 	@PutMapping
 	@Transactional
-	public ResponseEntity<BancoDTO> atualizarBanco(@RequestBody @Valid BancoDTO dadosAtualizacao) {
-	    Banco bancoAtualizado = bancoService.atualizarBanco(dadosAtualizacao);
-	    return ResponseEntity.ok(new BancoDTO(bancoAtualizado));
+	public ResponseEntity<BancoDTO> atualizarBanco(@RequestBody @Valid BancoDTO dadosBancoDTO) {
+	    Banco banco = bancoService.atualizarBanco(dadosBancoDTO);
+	    return ResponseEntity.ok(new BancoDTO(banco));
 	}
 	
 	@GetMapping

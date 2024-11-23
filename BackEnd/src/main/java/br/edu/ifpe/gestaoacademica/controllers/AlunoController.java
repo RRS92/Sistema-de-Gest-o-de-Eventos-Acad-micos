@@ -31,7 +31,6 @@ public class AlunoController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Aluno> cadastrarAluno(@RequestBody @Valid AlunoDTO dadosAlunoDTO) {
-		
 		Aluno aluno = alunoService.cadastrarAluno(dadosAlunoDTO);
 			return ResponseEntity.ok(aluno);
 	}
@@ -44,7 +43,7 @@ public class AlunoController {
 	@PutMapping
 	@Transactional
 	public ResponseEntity<Aluno> atualizarAluno(@RequestBody @Valid AlunoDTO dadosAlunoDTO) {
-		var aluno = alunoService.atualizarAluno(dadosAlunoDTO);
+		Aluno aluno = alunoService.atualizarAluno(dadosAlunoDTO);
 		return ResponseEntity.ok(aluno);
 	}
 	

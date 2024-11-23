@@ -43,7 +43,7 @@ public class TransporteController {
 	@PutMapping
 	@Transactional
 	public ResponseEntity<Transporte> atualizarTransporte(@RequestBody @Valid TransporteDTO dadosTransporteDTO) {
-		var transporte = transporteService.atualizarTransporte(dadosTransporteDTO);
+		Transporte transporte = transporteService.atualizarTransporte(dadosTransporteDTO);
 		return ResponseEntity.ok(transporte);
 	}
 
