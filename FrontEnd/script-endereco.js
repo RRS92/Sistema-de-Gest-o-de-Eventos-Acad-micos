@@ -24,6 +24,11 @@ async function listarEnderecos() {
         const eventsContainer = document.querySelector('.events-container');
         eventsContainer.innerHTML = '';
 
+        if (enderecos.length === 0) {
+            eventsContainer.innerHTML = "<p>Nenhum endereço encontrado.</p>";
+            return;
+        }
+    
         enderecos.forEach(endereco => {
             const eventCard = document.createElement('div');
             eventCard.className = 'event-card';

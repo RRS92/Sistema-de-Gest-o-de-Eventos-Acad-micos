@@ -31,16 +31,15 @@ public class EnderecoController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Endereco> cadastrarEndereco(@RequestBody @Valid EnderecoDTO dadosEnderecoDTO){
-		
 		Endereco endereco = enderecoService.cadastrarEndereco(dadosEnderecoDTO);
 		return ResponseEntity.ok(endereco);	
 	}
 	
 	@PutMapping
 	@Transactional
-	public ResponseEntity<EnderecoDTO> atualizarEndereco(@RequestBody @Valid EnderecoDTO dadosAtualizacao) {
-	    Endereco enderecoAtualizado = enderecoService.atualizarEndereco(dadosAtualizacao);
-	    return ResponseEntity.ok(new EnderecoDTO(enderecoAtualizado));
+	public ResponseEntity<EnderecoDTO> atualizarEndereco(@RequestBody @Valid EnderecoDTO dadosEnderecoDTO) {
+	    Endereco endereco = enderecoService.atualizarEndereco(dadosEnderecoDTO);
+	    return ResponseEntity.ok(new EnderecoDTO(endereco));
 	}
 	
 	@GetMapping
@@ -61,5 +60,4 @@ public class EnderecoController {
 		enderecoService.inativarEndereco(id);
 		return ResponseEntity.noContent().build();
 	}
-
 }

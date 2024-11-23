@@ -63,7 +63,7 @@ async function cadastrarAluno() {
         alert("Aluno cadastrado com sucesso!");
 
         // Redireciona para outra página
-        window.location.href = "perfil-aluno.html";
+        window.location.href = "lista-aluno.html";
 
     } catch (error) {
         console.error(error);
@@ -71,22 +71,37 @@ async function cadastrarAluno() {
     }
 }
 
-// Função para listar alunos
-async function listarAlunos() {
+// Função para obter alunos
+async function getAlunos() {
     try {
         const response = await fetch("http://localhost:8080/alunos");
-        if (!response.ok) throw new Error("Erro ao buscar alunos.");
-
+        if (!response.ok) {
+            throw new Error(`Erro ao buscar alunos: ${response.status}`);
+        }
         const alunos = await response.json();
-        const alunosContainer = document.getElementById("alunos-container");
+        return alunos;
+    } catch (error) {
+        console.error(error);
+        alert("Erro ao carregar alunos. Tente novamente mais tarde.");
+        return [];
+    }
+}
 
-        alunosContainer.innerHTML = ""; // Limpa o container antes de adicionar novos dados
+// Função para exibir alunos na página
+function exibirAlunos(alunos) {
+    const eventsContainer = document.querySelector(".events-container");
+    eventsContainer.innerHTML = ""; // Limpa a lista existente
 
-        alunos.forEach((aluno) => {
-            const alunoDiv = document.createElement("div");
-            alunoDiv.classList.add("aluno");
+    if (alunos.length === 0) {
+        eventsContainer.innerHTML = "<p>Nenhum aluno encontrado.</p>";
+        return;
+    }
 
-            alunoDiv.innerHTML = `
+    alunos.forEach((aluno) => {
+        const eventCard = document.createElement("div");
+        eventCard.classList.add("event-card");
+        eventCard.innerHTML = `
+            <div class="event-details">
                 <p><strong>Nome:</strong> <span id="nome-display-${aluno.id}">${aluno.nome}</span>
                 <input type="text" id="nome-${aluno.id}" value="${aluno.nome}" style="display:none;" /></p>
 
@@ -107,25 +122,34 @@ async function listarAlunos() {
 
                 <p><strong>Email:</strong> <span id="email-display-${aluno.id}">${aluno.email}</span>
                 <input type="text" id="email-${aluno.id}" value="${aluno.email}" style="display:none;" /></p>
+            </div>
+            <br>
+            <button onclick="deletarAluno(${aluno.id})">🗑️ Deletar</button>
+            <button onclick="toggleEditAll(${aluno.id})">🖋️Editar </button>
+            <button id="atualizar-${aluno.id}" style="display:none;" onclick="atualizarAluno(${aluno.id})">Atualizar</button>
+        `;
+        eventsContainer.appendChild(eventCard);
+    });
 
-                <br>
-                <button onclick="deletarAluno(${aluno.id})">🗑️ Deletar</button>
-                <button onclick="toggleEditAll(${aluno.id})">🖋️Editar </button>
-                <button id="atualizar-${aluno.id}" style="display:none;" onclick="atualizarAluno(${aluno.id})">Atualizar</button>
-                <hr>
-            `;
-
-            alunosContainer.appendChild(alunoDiv);
+    // Adiciona o evento de clique aos botões de deletar
+    document.querySelectorAll(".delete-button").forEach((button) => {
+        button.addEventListener("click", function (event) {
+            const AlunoId = event.target.getAttribute("data-AlunoId");
+            console.log(`ID do aluno clicado: ${AlunoId}`);
+            deletarAluno(AlunoId);
         });
-    } catch (error) {
-        console.error(error);
-        alert("Erro ao carregar alunos.");
-    }
+    });
 }
+
+// Chama a função para obter alunos e exibi-los na página
+getAlunos().then((alunos) => {
+    exibirAlunos(alunos);
+});
+
 
 // Função para alternar entre editar e exibir valores de todos os campos ao mesmo tempo
 function toggleEditAll(id) {
-    const fields = ['nome', 'matricula', 'cpf', 'rg', 'dataNasc', 'telefone', 'email'];
+    const fields = ['nome', 'matricula', 'dataNasc', 'telefone', 'email'];
 
     fields.forEach(field => {
         const inputField = document.getElementById(`${field}-${id}`);
@@ -145,6 +169,7 @@ function toggleEditAll(id) {
     });
 }
 
+
 // Função para atualizar todos os atributos do aluno
 async function atualizarAluno(id) {
     const alunoData = {
@@ -158,12 +183,14 @@ async function atualizarAluno(id) {
         email: document.getElementById(`email-${id}`).value.trim()
     };
 
+    // Validação dos campos obrigatórios
     if (!alunoData.nome || !alunoData.matricula || !alunoData.cpf || !alunoData.rg || !alunoData.dataNasc || !alunoData.telefone || !alunoData.email) {
         alert("Por favor, preencha todos os campos.");
         return;
     }
 
     try {
+        // Realiza a atualização via PUT
         const response = await fetch(`http://localhost:8080/alunos`, {
             method: "PUT",
             headers: {
@@ -175,7 +202,8 @@ async function atualizarAluno(id) {
         if (!response.ok) throw new Error("Erro ao atualizar aluno.");
 
         alert("Aluno atualizado com sucesso!");
-        listarAlunos(); // Atualiza a lista de alunos após a atualização
+        const alunosAtualizados = await getAlunos();
+        exibirAlunos(alunosAtualizados); // Atualiza a lista de alunos após a atualização
     } catch (error) {
         console.error(error);
         alert("Erro ao atualizar aluno.");
@@ -183,23 +211,26 @@ async function atualizarAluno(id) {
 }
 
 
-// Função para deletar aluno
-async function deletarAluno(id) {
-    const confirmacao = confirm("Tem certeza de que deseja deletar este aluno?");
-    if (!confirmacao) return;
+async function deletarAluno(AlunoId) {
+    // Confirmação antes de deletar
+    if (window.confirm("Tem certeza que deseja deletar este aluno?")) {
+        try {
+            console.log(`Tentando deletar o aluno com ID: ${AlunoId}`);
+            const response = await fetch(`http://localhost:8080/alunos/deletar/${AlunoId}`, {
+                    method: "DELETE",
+                });
 
-    try {
-        const response = await fetch(`http://localhost:8080/alunos/deletar/${id}`, {
-            method: "DELETE",
-        });
-
-        if (!response.ok) throw new Error("Erro ao deletar aluno.");
-
-        alert("Aluno deletado com sucesso!");
-        listarAlunos();
-    } catch (error) {
-        console.error(error);
-        alert("Erro ao deletar aluno.");
+            console.log("Resposta da requisição:", response);
+            if (!response.ok) {
+                throw new Error(`Erro ao deletar aluno: ${response.status}`);
+            }
+            console.log(`Aluno ${AlunoId} deletado com sucesso.`);
+            alert("Aluno deletado com sucesso!");
+            window.location.reload();
+        } catch (error) {
+            console.error(`Erro: ${error.message}`);
+            alert("Erro ao deletar o aluno. Tente novamente mais tarde.");
+        }
     }
 }
 
@@ -215,9 +246,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Se o container de alunos existir, estamos na página de listagem
     if (alunosContainer) {
-        listarAlunos();
+        exibirAlunos(alunos);
     }
 });
-
-
-

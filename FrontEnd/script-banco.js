@@ -24,6 +24,11 @@ async function listarBancos() {
         const eventsContainer = document.querySelector('.events-container');
         eventsContainer.innerHTML = '';
 
+        if (bancos.length === 0) {
+            eventsContainer.innerHTML = "<p>Nenhum banco encontrado.</p>";
+            return;
+        }
+    
         bancos.forEach(banco => {
             const eventCard = document.createElement('div');
             eventCard.className = 'event-card';

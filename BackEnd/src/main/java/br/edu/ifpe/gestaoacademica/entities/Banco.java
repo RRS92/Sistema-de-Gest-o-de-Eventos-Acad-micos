@@ -33,12 +33,11 @@ public class Banco {
 	private String operacao;
 	private boolean ativo;
 	
+	@OneToMany(mappedBy = "banco")
+	@JsonIgnore
+	private List<Usuario> usuarios;
 	
 	public void inativar() {
 		this.ativo = false;
 	}
-	
-	@OneToMany(mappedBy = "banco")
-	@JsonIgnore
-	private List<Usuario> usuarios;
 }

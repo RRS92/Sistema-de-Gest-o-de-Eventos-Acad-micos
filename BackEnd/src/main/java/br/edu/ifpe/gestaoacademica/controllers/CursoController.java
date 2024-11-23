@@ -14,50 +14,50 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.ifpe.gestaoacademica.controllers.dto.EventoDTO;
-import br.edu.ifpe.gestaoacademica.entities.Evento;
-import br.edu.ifpe.gestaoacademica.service.EventoService;
+import br.edu.ifpe.gestaoacademica.controllers.dto.CursoDTO;
+import br.edu.ifpe.gestaoacademica.entities.Curso;
+import br.edu.ifpe.gestaoacademica.service.CursoService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/eventos")
+@RequestMapping("/cursos")
 @CrossOrigin(origins = "*")
-public class EventoController {
+public class CursoController {
 
 	@Autowired
-	private EventoService eventoService;
+	private CursoService cursoService;
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Evento> cadastrarEvento(@RequestBody @Valid EventoDTO dadosEventoDTO) {
-		Evento evento = eventoService.cadastrarEvento(dadosEventoDTO);
-		return ResponseEntity.ok(evento);
+	public ResponseEntity<Curso> cadastrarCurso(@RequestBody @Valid CursoDTO dadosCursoDTO) {
+		Curso curso = cursoService.cadastrarCurso(dadosCursoDTO);
+		return ResponseEntity.ok(curso);
+	}
+
+	@PutMapping
+	@Transactional
+	public ResponseEntity<CursoDTO> atualizarCurso(@RequestBody @Valid CursoDTO dadosCursoDTO) {
+		Curso curso = cursoService.atualizarCurso(dadosCursoDTO);
+		return ResponseEntity.ok(new CursoDTO(curso));
 	}
 
 	@GetMapping
-	public List<EventoDTO> listarEvento() {
-		return eventoService.listarEventos().stream().map(EventoDTO::new).toList();
-	}
-	
-	@PutMapping
-	@Transactional
-	public ResponseEntity<Evento> atualizarEvento(@RequestBody @Valid EventoDTO dadosEventoDTO) {
-		Evento evento = eventoService.atualizarEvento(dadosEventoDTO);
-		return ResponseEntity.ok(evento);
+	public List<CursoDTO> listarCurso(){
+		return cursoService.listarCurso().stream().map(CursoDTO::new).toList();
 	}
 
 	@DeleteMapping("/deletar/{id}")
 	@Transactional
-	public ResponseEntity<Void> deletarEvento(@PathVariable Long id) {
-		eventoService.deletarEvento(id);
+	public ResponseEntity<Void> deletarCurso(@PathVariable Long id) {
+		cursoService.deletarCurso(id);
 		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping("/{id}")
 	@Transactional
-	public ResponseEntity<Void> inativarEvento(@PathVariable Long id) {
-		eventoService.inativarEvento(id);
+	public ResponseEntity<Void> inativarCurso(@PathVariable Long id) {
+		cursoService.inativarCurso(id);
 		return ResponseEntity.noContent().build();
 	}
 }
