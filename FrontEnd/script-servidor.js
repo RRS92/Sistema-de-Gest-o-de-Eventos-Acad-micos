@@ -64,7 +64,7 @@ async function cadastrarServidor() {
         alert("servidor cadastrado com sucesso!");
 
         // Redireciona para outra página
-        window.location.href = "perfil-servidor.html";  
+        window.location.href = "lista-servidor.html";  
         
 
     } catch (error) {
@@ -73,29 +73,45 @@ async function cadastrarServidor() {
     }
 }
 
-// Função para listar servidor
-async function listarServidores() {
+
+// Função para obter servidores
+async function getServidores() {
     try {
         const response = await fetch("http://localhost:8080/servidores");
-        if (!response.ok) throw new Error("Erro ao buscar servidores.");
-
+        if (!response.ok) {
+            throw new Error(`Erro ao buscar servidores: ${response.status}`);
+        }
         const servidores = await response.json();
-        const servidoresContainer = document.getElementById("servidores-container");
+        return servidores;
+    } catch (error) {
+        console.error(error);
+        alert("Erro ao carregar servidores. Tente novamente mais tarde.");
+        return [];
+    }
+}
 
-        servidoresContainer.innerHTML = ""; // Limpa o container antes de adicionar novos dados
+// Função para exibir servidores na página
+function exibirServidores(servidores) {
+    const eventsContainer = document.querySelector(".events-container");
+    eventsContainer.innerHTML = ""; // Limpa a lista existente
 
-        servidores.forEach((servidor) => {
-            const servidorDiv = document.createElement("div");
-            servidorDiv.classList.add("servidor");
+    if (servidores.length === 0) {
+        eventsContainer.innerHTML = "<p>Nenhum servidor encontrado.</p>";
+        return;
+    }
 
-            servidorDiv.innerHTML = `
+    servidores.forEach((servidor) => {
+        const eventCard = document.createElement("div");
+        eventCard.classList.add("event-card");
+        eventCard.innerHTML = `
+            <div class="event-details">
                 <p><strong>Nome:</strong> <span id="nome-display-${servidor.id}">${servidor.nome}</span>
                 <input type="text" id="nome-${servidor.id}" value="${servidor.nome}" style="display:none;" /></p>
 
                 <p><strong>Siape:</strong> <span id="siape-display-${servidor.id}">${servidor.siape}</span>
                 <input type="text" id="siape-${servidor.id}" value="${servidor.siape}" style="display:none;" /></p>
 
-		        <p><strong>Cargo:</strong> <span id="cargo-display-${servidor.id}">${servidor.cargo}</span>
+                <p><strong>Cargo:</strong> <span id="cargo-display-${servidor.id}">${servidor.cargo}</span>
                 <input type="text" id="cargo-${servidor.id}" value="${servidor.cargo}" style="display:none;" /></p>
 
                 <p><strong>CPF:</strong> <span id="cpf-display-${servidor.id}">${servidor.cpf}</span>
@@ -112,26 +128,34 @@ async function listarServidores() {
 
                 <p><strong>Email:</strong> <span id="email-display-${servidor.id}">${servidor.email}</span>
                 <input type="text" id="email-${servidor.id}" value="${servidor.email}" style="display:none;" /></p>
+            </div>
+            <br>
+            <button onclick="deletarServidor(${servidor.id})">🗑️ Deletar</button>
+            <button onclick="toggleEditAll(${servidor.id})">🖋️Editar </button>
+            <button id="atualizar-${servidor.id}" style="display:none;" onclick="atualizarServidor(${servidor.id})">Atualizar</button>
+        `;
+        eventsContainer.appendChild(eventCard);
+    });
 
-                <button onclick="deletarServidor(${servidor.id})">🗑️ Deletar</button>
-                <button onclick="toggleEditAll(${servidor.id})">🖋️Editar </button>
-                <button id="atualizar-${servidor.id}" style="display:none;" onclick="atualizarServidor(${servidor.id})">Atualizar</button>
-                <br>                <br>
-
-                <hr>
-            `;
-
-            servidoresContainer.appendChild(servidorDiv);
+    // Adiciona o evento de clique aos botões de deletar
+    document.querySelectorAll(".delete-button").forEach((button) => {
+        button.addEventListener("click", function (event) {
+            const ServidorId = event.target.getAttribute("data-ServidorId");
+            console.log(`ID do servidor clicado: ${ServidorId}`);
+            deletarServidor(ServidorId);
         });
-    } catch (error) {
-        console.error(error);
-        alert("Erro ao carregar servidores.");
-    }
+    });
 }
+
+// Chama a função para obter servidores e exibi-los na página
+getServidores().then((servidores) => {
+    exibirServidores(servidores);
+});
+
 
 // Função para alternar entre editar e exibir valores de todos os campos ao mesmo tempo
 function toggleEditAll(id) {
-    const fields = ['nome', 'siape','cargo', 'cpf', 'rg', 'dataNasc', 'telefone', 'email'];
+    const fields = ['nome', 'siape', 'cargo', 'dataNasc', 'telefone', 'email'];
 
     fields.forEach(field => {
         const inputField = document.getElementById(`${field}-${id}`);
@@ -151,13 +175,14 @@ function toggleEditAll(id) {
     });
 }
 
+
 // Função para atualizar todos os atributos do servidor
 async function atualizarServidor(id) {
     const servidorData = {
         id: id,
         nome: document.getElementById(`nome-${id}`).value.trim(),
         siape: document.getElementById(`siape-${id}`).value.trim(),
-	    cargo: document.getElementById(`cargo-${id}`).value.trim(),
+        cargo: document.getElementById(`cargo-${id}`).value.trim(),
         cpf: document.getElementById(`cpf-${id}`).value.trim(),
         rg: document.getElementById(`rg-${id}`).value.trim(),
         dataNasc: document.getElementById(`dataNasc-${id}`).value.trim(),
@@ -165,12 +190,14 @@ async function atualizarServidor(id) {
         email: document.getElementById(`email-${id}`).value.trim()
     };
 
+    // Validação dos campos obrigatórios
     if (!servidorData.nome || !servidorData.siape || !servidorData.cargo || !servidorData.cpf || !servidorData.rg || !servidorData.dataNasc || !servidorData.telefone || !servidorData.email) {
         alert("Por favor, preencha todos os campos.");
         return;
     }
 
     try {
+        // Realiza a atualização via PUT
         const response = await fetch(`http://localhost:8080/servidores`, {
             method: "PUT",
             headers: {
@@ -182,30 +209,35 @@ async function atualizarServidor(id) {
         if (!response.ok) throw new Error("Erro ao atualizar servidor.");
 
         alert("Servidor atualizado com sucesso!");
-        listarServidores(); // Atualiza a lista de servidores após a atualização
+        const servidoresAtualizados = await getServidores();
+        exibirServidores(servidoresAtualizados); // Atualiza a lista de servidores após a atualização
     } catch (error) {
         console.error(error);
         alert("Erro ao atualizar servidor.");
     }
 }
 
-// Função para deletar servidor
-async function deletarServidor(id) {
-    const confirmacao = confirm("Tem certeza de que deseja deletar este servidor?");
-    if (!confirmacao) return;
 
-    try {
-        const response = await fetch(`http://localhost:8080/servidores/deletar/${id}`, {
-            method: "DELETE",
-        });
+async function deletarServidor(ServidorId) {
+    // Confirmação antes de deletar
+    if (window.confirm("Tem certeza que deseja deletar este servidor?")) {
+        try {
+            console.log(`Tentando deletar o servidor com ID: ${ServidorId}`);
+            const response = await fetch(`http://localhost:8080/servidores/deletar/${ServidorId}`, {
+                    method: "DELETE",
+                });
 
-        if (!response.ok) throw new Error("Erro ao deletar servidor.");
-
-        alert("Servidor deletado com sucesso!");
-        listarServidores();
-    } catch (error) {
-        console.error(error);
-        alert("Erro ao deletar servidor.");
+            console.log("Resposta da requisição:", response);
+            if (!response.ok) {
+                throw new Error(`Erro ao deletar servidor: ${response.status}`);
+            }
+            console.log(`Servidor ${ServidorId} deletado com sucesso.`);
+            alert("Servidor deletado com sucesso!");
+            window.location.reload();
+        } catch (error) {
+            console.error(`Erro: ${error.message}`);
+            alert("Erro ao deletar o servidor. Tente novamente mais tarde.");
+        }
     }
 }
 
@@ -221,6 +253,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Se o container de servidores existir, estamos na página de listagem
     if (servidoresContainer) {
-        listarServidores();
+        exibirServidores(servidores)
     }
 });

@@ -31,7 +31,6 @@ public class ServidorController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Servidor> cadastrarServidor(@RequestBody @Valid ServidorDTO dadosServidorDTO) {
-
 		Servidor servidor = servidorService.cadastrarServidor(dadosServidorDTO);
 		return ResponseEntity.ok(servidor);
 	}
@@ -44,7 +43,7 @@ public class ServidorController {
 	@PutMapping
 	@Transactional
 	public ResponseEntity<Servidor> atualizarServidor(@RequestBody @Valid ServidorDTO dadosServidorDTO) {
-		var servidor = servidorService.atualizarServidor(dadosServidorDTO);
+		Servidor servidor = servidorService.atualizarServidor(dadosServidorDTO);
 		return ResponseEntity.ok(servidor);
 	}
 

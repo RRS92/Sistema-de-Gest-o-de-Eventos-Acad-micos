@@ -183,16 +183,13 @@ async function atualizarTransporte(id) {
     }
 }
 
-
 // Função para deletar transporte
 async function deletarTransporte(transporteId) {
     // Confirmação antes de deletar
     if (window.confirm("Tem certeza que deseja deletar este transporte?")) {
         try {
             console.log(`Tentando deletar o transporte com ID: ${transporteId}`);
-            const response = await fetch(
-                `http://localhost:8080/transportes/deletar/${transporteId}`,
-                {
+            const response = await fetch(`http://localhost:8080/transportes/deletar/${transporteId}`, {
                     method: "DELETE",
                 }
             );

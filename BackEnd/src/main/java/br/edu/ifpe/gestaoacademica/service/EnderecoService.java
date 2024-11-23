@@ -39,12 +39,12 @@ public class EnderecoService {
 		Endereco endereco = enderecoRepository.findById(dadosEnderecoDTO.id())
 				.orElseThrow(() -> new EntityNotFoundException("Endereco não encontrado"));
 		
-		if (dadosEnderecoDTO.rua() != null) endereco.setRua(dadosEnderecoDTO.rua());
-		if (dadosEnderecoDTO.numero() != null) endereco.setNumero(dadosEnderecoDTO.numero());
-		if (dadosEnderecoDTO.bairro() != null) endereco.setBairro(dadosEnderecoDTO.bairro());
-		if (dadosEnderecoDTO.cidade() != null) endereco.setCidade(dadosEnderecoDTO.cidade());
-		if (dadosEnderecoDTO.estado() != null) endereco.setEstado(dadosEnderecoDTO.estado());
-		if (dadosEnderecoDTO.cep() != null) endereco.setCep(dadosEnderecoDTO.cep());
+		if (dadosEnderecoDTO.rua() != null) 		endereco.setRua(dadosEnderecoDTO.rua());
+		if (dadosEnderecoDTO.numero() != null)  	endereco.setNumero(dadosEnderecoDTO.numero());
+		if (dadosEnderecoDTO.bairro() != null) 		endereco.setBairro(dadosEnderecoDTO.bairro());
+		if (dadosEnderecoDTO.cidade() != null) 		endereco.setCidade(dadosEnderecoDTO.cidade());
+		if (dadosEnderecoDTO.estado() != null) 		endereco.setEstado(dadosEnderecoDTO.estado());
+		if (dadosEnderecoDTO.cep() != null) 		endereco.setCep(dadosEnderecoDTO.cep());
 		if (dadosEnderecoDTO.complemento() != null) endereco.setComplemento(dadosEnderecoDTO.complemento());
 
 		return enderecoRepository.save(endereco);
@@ -61,8 +61,6 @@ public class EnderecoService {
 	}
 
 	public void deletarEndereco(Long id) {
-
 		enderecoRepository.deleteById(id);
-		;	
 	}
 }

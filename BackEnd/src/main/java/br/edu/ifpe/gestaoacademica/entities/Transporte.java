@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -30,8 +32,13 @@ public class Transporte {
 	private String horaChegada;
 	private boolean ativo;
 	
-	private Long idServidor;
-	private Long idEvento;
+	@OneToOne
+	@JoinColumn(name = "idEvento")
+	private Evento evento;
+	
+	@OneToOne
+	@JoinColumn(name = "idServidor")
+	private Servidor servidor;
 	
 	public void inativar() {
 		this.ativo = false;

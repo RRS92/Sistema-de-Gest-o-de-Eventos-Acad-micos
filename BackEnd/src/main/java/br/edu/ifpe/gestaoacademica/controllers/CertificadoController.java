@@ -31,7 +31,6 @@ public class CertificadoController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Certificado> cadastrarCertificado(@RequestBody @Valid CertificadoDTO dadosCertificadoDTO) {
-
 		Certificado certificado = certificadoService.cadastrarCertificado(dadosCertificadoDTO);
 		return ResponseEntity.ok(certificado);
 	}
@@ -44,7 +43,7 @@ public class CertificadoController {
 	@PutMapping
 	@Transactional
 	public ResponseEntity<Certificado> atualizarCertificado(@RequestBody @Valid CertificadoDTO dadosCertificadoDTO) {
-		var certificado = certificadoService.atualizarCertificado(dadosCertificadoDTO);
+		Certificado certificado = certificadoService.atualizarCertificado(dadosCertificadoDTO);
 		return ResponseEntity.ok(certificado);
 	}
 
