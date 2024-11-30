@@ -645,5 +645,15 @@ h2 {
     justify-content: center;
 }
 
+.avaliacao-evento label {
+    font-size: 22px; /* Tamanho da fonte para o label aumentado */
+    color: #333333; /* Cor mais escura para o texto do label */
+}
+
+.avaliacao-evento p {
+    font-size: 20px; /* Tamanho da fonte para o parágrafo */
+    color: #333333; /* Cor mais escura para o texto do parágrafo */
+}
+
 
 

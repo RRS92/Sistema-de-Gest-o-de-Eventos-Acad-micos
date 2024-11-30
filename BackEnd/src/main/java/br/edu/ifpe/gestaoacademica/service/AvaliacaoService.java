@@ -8,57 +8,67 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import br.edu.ifpe.gestaoacademica.controllers.dto.AvaliacaoDTO;
 import br.edu.ifpe.gestaoacademica.entities.Avaliacao;
+import br.edu.ifpe.gestaoacademica.entities.Evento;
 import br.edu.ifpe.gestaoacademica.repository.AvaliacaoRepository;
+import br.edu.ifpe.gestaoacademica.repository.EventoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "*")
-
 @Service
 public class AvaliacaoService {
 
-	@Autowired
-	private AvaliacaoRepository avaliacaoRepository;
+    @Autowired
+    private AvaliacaoRepository avaliacaoRepository;
 
-	public Avaliacao cadastrarAvaliacao(AvaliacaoDTO dadosAvaliacaoDTO) {
+    @Autowired
+    private EventoRepository eventoRepository;
 
-		Long idEventoFixo = 1L;
-		Long idParticipanteFixo = 1L;
+    public Avaliacao cadastrarAvaliacao(AvaliacaoDTO dadosAvaliacaoDTO) {
+        Long idParticipanteFixo = 1L;
 
-		Avaliacao avaliacao = new Avaliacao();
-		avaliacao.setNota(dadosAvaliacaoDTO.nota());
-		avaliacao.setComentario(dadosAvaliacaoDTO.comentario());
-		avaliacao.setAtivo(true);
+        Avaliacao avaliacao = new Avaliacao();
+        avaliacao.setNota(dadosAvaliacaoDTO.nota());
+        avaliacao.setComentario(dadosAvaliacaoDTO.comentario());
+        avaliacao.setAtivo(true);
 
-		avaliacao.setIdEvento(idEventoFixo);
-		avaliacao.setIdParticipante(idParticipanteFixo);
+        Evento evento = eventoRepository.findById(dadosAvaliacaoDTO.idEvento())
+                .orElseThrow(() -> new EntityNotFoundException("Evento não encontrado"));
+        avaliacao.setEvento(evento);
+        avaliacao.setIdParticipante(idParticipanteFixo);
 
-		return avaliacaoRepository.save(avaliacao);
-	}
+        return avaliacaoRepository.save(avaliacao);
+    }
 
-	public List<Avaliacao> listarAvaliacao() {
-		return avaliacaoRepository.findAllByAtivoTrue();
-	}
+    public List<Avaliacao> listarAvaliacao() {
+        return avaliacaoRepository.findAllByAtivoTrue();
+    }
 
-	public Avaliacao atualizarAvaliacao(@Valid AvaliacaoDTO dadosAvaliacaoDTO) {
+    // Método para listar as avaliações de um evento específico
+    public List<Avaliacao> listarAvaliacoesPorEvento(Long eventoId) {
+        Evento evento = eventoRepository.findById(eventoId)
+                .orElseThrow(() -> new EntityNotFoundException("Evento não encontrado"));
+        return avaliacaoRepository.findByEvento(evento);
+    }
 
-		Avaliacao avaliacao = avaliacaoRepository.findById(dadosAvaliacaoDTO.id())
-				.orElseThrow(() -> new EntityNotFoundException("Avaliacão não encontrado"));
+    public Avaliacao atualizarAvaliacao(@Valid AvaliacaoDTO dadosAvaliacaoDTO) {
+        Avaliacao avaliacao = avaliacaoRepository.findById(dadosAvaliacaoDTO.id())
+                .orElseThrow(() -> new EntityNotFoundException("Avaliacão não encontrado"));
 
-		if (dadosAvaliacaoDTO.nota() != null) 	    avaliacao.setNota(dadosAvaliacaoDTO.nota());
-		if (dadosAvaliacaoDTO.comentario() != null) avaliacao.setComentario(dadosAvaliacaoDTO.comentario());
+        if (dadosAvaliacaoDTO.nota() != null) 	    avaliacao.setNota(dadosAvaliacaoDTO.nota());
+        if (dadosAvaliacaoDTO.comentario() != null) avaliacao.setComentario(dadosAvaliacaoDTO.comentario());
 
-		return avaliacaoRepository.save(avaliacao);
-	}
-	
-	public void inativarAvaliacao(Long id) {
-		Avaliacao avaliacao = avaliacaoRepository.getReferenceById(id);
-		avaliacao.inativar();
-		avaliacaoRepository.save(avaliacao);
-	}
-	
-	public void deletarAvaliacao(Long id) {
-		avaliacaoRepository.deleteById(id);
-	}
+        return avaliacaoRepository.save(avaliacao);
+    }
 
+    public void inativarAvaliacao(Long id) {
+        Avaliacao avaliacao = avaliacaoRepository.getReferenceById(id);
+        avaliacao.inativar();
+        avaliacaoRepository.save(avaliacao);
+    }
+
+    public void deletarAvaliacao(Long id) {
+        avaliacaoRepository.deleteById(id);
+    }
 }
+

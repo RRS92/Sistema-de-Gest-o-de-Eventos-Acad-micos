@@ -4,27 +4,17 @@ import br.edu.ifpe.gestaoacademica.entities.Avaliacao;
 import jakarta.validation.constraints.NotBlank;
 
 public record AvaliacaoDTO(
-		Long id,
-		@NotBlank
-		String nota,
-		@NotBlank
-		String comentario) {
+	    Long id,
+	    @NotBlank String nota,
+	    @NotBlank String comentario,
+	    Long idEvento // Adicionado para capturar o ID do evento
+	) {
+	    // Construtores ajustados para incluir o idEvento
+	    public AvaliacaoDTO(String nota, String comentario, Long idEvento) {
+	        this(null, nota, comentario, idEvento);
+	    }
 
-	//Construtor para cadastrar avaliacoes
-	public AvaliacaoDTO(String nota, String comentario) {
-		this(null, nota, comentario);
+	    public AvaliacaoDTO(Avaliacao avaliacao) {
+	        this(avaliacao.getId(), avaliacao.getNota(), avaliacao.getComentario(), avaliacao.getEvento() != null ? avaliacao.getEvento().getId() : null);
+	    }
 	}
-
-	//Construtor para listar avaliacoes
-	public AvaliacaoDTO(Avaliacao avaliacao) {
-		this(avaliacao.getId(), avaliacao.getNota(), avaliacao.getComentario());
-	}
-
-	//Construtor para atualizar avaliacoes
-	public AvaliacaoDTO(Long id, String nota, String comentario) {
-		this.id = id; 
-		this.nota = nota;
-		this.comentario = comentario;
-	}
-
-}

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifpe.gestaoacademica.controllers.dto.AvaliacaoDTO;
@@ -24,41 +25,47 @@ import jakarta.validation.Valid;
 @RequestMapping("/avaliacoes")
 @CrossOrigin(origins = "*")
 public class AvaliacaoController {
-	
-	@Autowired
-	private AvaliacaoService avaliacaoService;
-	
-	@PostMapping
-	@Transactional
-	public ResponseEntity<Avaliacao> cadastrarAvaliacao(@RequestBody @Valid AvaliacaoDTO dadosAvaliacaoDTO) {
-		Avaliacao avaliacao = avaliacaoService.cadastrarAvaliacao(dadosAvaliacaoDTO);
-		return ResponseEntity.ok(avaliacao);
-	}
-	
-	@GetMapping
-	public List<AvaliacaoDTO> listarAvaliacao() {
-		return avaliacaoService.listarAvaliacao().stream().map(AvaliacaoDTO::new).toList();
-	}
-	
-	@PutMapping
-	@Transactional
-	public ResponseEntity<Avaliacao> atualizarAvaliacao(@RequestBody @Valid AvaliacaoDTO dadosAvaliacaoDTO) {
-		var avaliacao = avaliacaoService.atualizarAvaliacao(dadosAvaliacaoDTO);
-		return ResponseEntity.ok(avaliacao);
-	}
-	
-	@DeleteMapping("/deletar/{id}")
-	@Transactional
-	public ResponseEntity<Void> deletarAvaliacao(@PathVariable Long id) {
-		avaliacaoService.deletarAvaliacao(id);
-		return ResponseEntity.noContent().build();
-	}
-	
-	@DeleteMapping("/{id}")
-	@Transactional
-	public ResponseEntity<Void> inativarAvaliacao(@PathVariable Long id) {
-		avaliacaoService.inativarAvaliacao(id);
-		return ResponseEntity.noContent().build();
-	}
+    
+    @Autowired
+    private AvaliacaoService avaliacaoService;
+    
+    @PostMapping
+    @Transactional
+    public ResponseEntity<Avaliacao> cadastrarAvaliacao(@RequestBody @Valid AvaliacaoDTO dadosAvaliacaoDTO) {
+        Avaliacao avaliacao = avaliacaoService.cadastrarAvaliacao(dadosAvaliacaoDTO);
+        return ResponseEntity.ok(avaliacao);
+    }
+    
+    @GetMapping
+    public List<AvaliacaoDTO> listarAvaliacao() {
+        return avaliacaoService.listarAvaliacao().stream().map(AvaliacaoDTO::new).toList();
+    }
+    
+    @GetMapping("/evento")
+    public List<AvaliacaoDTO> listarAvaliacoesPorEvento(@RequestParam Long eventoId) {
+        List<Avaliacao> avaliacoes = avaliacaoService.listarAvaliacoesPorEvento(eventoId);
+        return avaliacoes.stream().map(AvaliacaoDTO::new).toList();
+    }
 
+    @PutMapping
+    @Transactional
+    public ResponseEntity<Avaliacao> atualizarAvaliacao(@RequestBody @Valid AvaliacaoDTO dadosAvaliacaoDTO) {
+        var avaliacao = avaliacaoService.atualizarAvaliacao(dadosAvaliacaoDTO);
+        return ResponseEntity.ok(avaliacao);
+    }
+    
+    @DeleteMapping("/deletar/{id}")
+    @Transactional
+    public ResponseEntity<Void> deletarAvaliacao(@PathVariable Long id) {
+        avaliacaoService.deletarAvaliacao(id);
+        return ResponseEntity.noContent().build();
+    }
+    
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<Void> inativarAvaliacao(@PathVariable Long id) {
+        avaliacaoService.inativarAvaliacao(id);
+        return ResponseEntity.noContent().build();
+    }
 }
+

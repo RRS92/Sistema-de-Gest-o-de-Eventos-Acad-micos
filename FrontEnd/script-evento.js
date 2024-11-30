@@ -84,41 +84,65 @@ function exibirEventos(eventos) {
                 <p>Local: ${evento.local}</p>
                 <p>Tipo: ${evento.tipo}</p>
             </div>
-            
-          <div class="buttons-container">
-    <div class="top-buttons">
-        <button class="btnCertificado">Criar Certificado</button>
-        <button class="btnTransporte">Cadastrar Transporte</button>
-    </div>
-    <button class="delete-button" data-id="${evento.id}">Deletar Evento</button>
-</div>
+            <div class="buttons-container">
+                <div class="top-buttons">
+                    <button class="btnCertificado">Criar Certificado</button>
+                    <button class="btnTransporte">Cadastrar Transporte</button>
+                </div>
+                <button class="btnAvaliar" data-id="${evento.id}">Avaliar Evento</button>
+                <button class="btnVerAvaliacoes" data-id="${evento.id}">Ver Avaliações</button>
+                <button class="delete-button" data-id="${evento.id}">Deletar Evento</button>
+            </div>
         `;
         eventsContainer.appendChild(eventCard);
     });
+
+    // Botão de Certificado
     document.querySelectorAll('.btnCertificado').forEach(button => {
         button.addEventListener('click', function() {
-            // Redireciona para a página de cadastro de certificado
             window.location.href = 'cadastro-certificado.html';
         });
     });
 
+    // Botão de Transporte
     document.querySelectorAll('.btnTransporte').forEach(button => {
         button.addEventListener('click', function() {
-            // Redireciona para a página de cadastro de certificado
             window.location.href = 'cadastro-transporte.html';
         });
     });
 
-
-    // Adiciona o evento de clique aos botões de deletar
-    document.querySelectorAll('.delete-button').forEach(button => {
-        button.addEventListener('click', function(event) {
-            const eventoId = event.target.getAttribute('data-id');
-            console.log(`ID do evento clicado: ${eventoId}`);
-            deletarEvento(eventoId);
+    // Botão de Avaliação
+    document.querySelectorAll('.btnAvaliar').forEach(button => {
+        button.addEventListener('click', function() {
+            const idEvento = this.getAttribute('data-id'); // Captura o ID do evento
+            const nomeEvento = this.closest('.event-card').querySelector('h3').textContent; // Captura o nome do evento
+            localStorage.setItem('idEventoSelecionado', idEvento); // Salva o ID do evento
+            localStorage.setItem('nomeEventoSelecionado', nomeEvento); // Salva o nome do evento
+            window.location.href = 'Avaliar-evento.html'; // Redireciona para a página de avaliação
         });
     });
+
+    // Botão de Ver Avaliações
+    document.querySelectorAll('.btnVerAvaliacoes').forEach(button => {
+        button.addEventListener('click', function() {
+            const idEvento = this.getAttribute('data-id');
+            const nomeEvento = this.closest('.event-card').querySelector('h3').textContent; // Captura o nome do evento
+            localStorage.setItem('idEventoSelecionado', idEvento);  // Salva o ID do evento no localStorage
+            localStorage.setItem('nomeEventoSelecionado', nomeEvento); // Salva o nome do evento
+            window.location.href = 'lista-avaliacoes.html';  // Redireciona para a página de listagem de avaliações
+        });
+    });
+
+        // Adiciona o evento de clique aos botões de deletar
+        document.querySelectorAll('.delete-button').forEach(button => {
+            button.addEventListener('click', function(event) {
+                const eventoId = event.target.getAttribute('data-id');
+                console.log(`ID do evento clicado: ${eventoId}`);
+                deletarEvento(eventoId);
+            });
+        });
 }
+
 
 // Chama a função para obter eventos e exibi-los na página
 getEventos().then(eventos => {
