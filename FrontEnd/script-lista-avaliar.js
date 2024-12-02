@@ -32,9 +32,11 @@
                     const avaliacaoCard = document.createElement('div');
                     avaliacaoCard.classList.add('avaliacao-card');
                     avaliacaoCard.innerHTML = `
+                    <div class="event-details">
                         <p><strong>Nota:</strong> ${avaliacao.nota}</p>
                         <p><strong>Comentário:</strong> ${avaliacao.comentario}</p>
                         <p><strong>Participante:</strong> ${avaliacao.idParticipante}</p>
+                    </div>
                     `;
                     avaliacoesContainer.appendChild(avaliacaoCard);
                 });

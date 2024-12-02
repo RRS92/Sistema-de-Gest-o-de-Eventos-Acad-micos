@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -22,12 +24,19 @@ public class Participante {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String nomeSocial;
 	private boolean ativo;
 	
-	private Long idUsuario;
-	private Long idEvento;
-	private Long idCertificado;
+	@ManyToOne
+	@JoinColumn(name = "id_usuario")
+	private Usuario usuario;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_evento")
+	private Evento evento;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_certificado")
+	private Certificado certificado;
 	
 	public void inativar() {
 		this.ativo = false;

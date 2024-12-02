@@ -645,15 +645,54 @@ h2 {
     justify-content: center;
 }
 
-.avaliacao-evento label {
-    font-size: 22px; /* Tamanho da fonte para o label aumentado */
-    color: #333333; /* Cor mais escura para o texto do label */
+/* Estilos para a seção de avaliações */
+.avaliacao-section {
+    padding: 20px;
+    text-align: center; /* Centraliza o título e o nome do evento */
 }
 
-.avaliacao-evento p {
-    font-size: 20px; /* Tamanho da fonte para o parágrafo */
-    color: #333333; /* Cor mais escura para o texto do parágrafo */
+.avaliacao-section h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
 }
+
+/* Estilo para o nome do evento */
+.avaliacao-evento {
+    font-size: 25px;
+    color: #555;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Container das avaliações */
+.avaliacoes-container {
+    display: flex;
+    flex-direction: column; /* Alinha os elementos na vertical */
+    align-items: center;   /* Centraliza os elementos horizontalmente */
+    gap: 10px;             /* Espaçamento vertical entre os cards */
+    margin: 0 auto;        /* Centraliza o container */
+    max-width: 600px;      /* Limita a largura máxima */
+}
+
+/* Estilo para os cards de avaliação */
+.avaliacao-card {
+    background-color: #f9f9f9; /* Fundo suave */
+    border: 1px solid #ddd;    /* Borda leve */
+    border-radius: 8px;        /* Bordas arredondadas */
+    padding: 15px;             /* Espaçamento interno */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    width: 100%;               /* Ocupa toda a largura disponível do container */
+    text-align: left;          /* Alinha o texto à esquerda */
+}
+
+/* Detalhes dentro dos cards */
+.event-details p {
+    margin: 5px 0; /* Espaçamento entre os textos */
+    color: #555;
+}
+
 
 
 
