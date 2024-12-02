@@ -4,7 +4,6 @@ import br.edu.ifpe.gestaoacademica.entities.Certificado;
 import br.edu.ifpe.gestaoacademica.entities.Evento;
 import br.edu.ifpe.gestaoacademica.entities.Participante;
 import br.edu.ifpe.gestaoacademica.entities.Usuario;
-import jakarta.validation.constraints.NotBlank;
 
 public record ParticipanteDTO(
 		Long id,

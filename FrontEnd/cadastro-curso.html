@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Curso</title>
+    <link rel="icon" href="images\logo.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <script src="script-curso.js"></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <img src="images\ifpe_logo.png" alt="Instituto Federal" class="logo">
+            <nav>
+                <a href="index.html">Início</a>
+                <a href="lista-curso.html">Cursos</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="form-container">
+        <h2>Cadastro de Cursos</h2>
+
+        <!-- Formulário dos dados do Curso -->
+        <form id="form-course" action="">
+            <section class="course-info">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome">
+                <label for="modalidade">Modalidade</label>
+                <input type="text" id="modalidade" name="modalidade">
+            </section>
+        </form>
+
+        <!-- Formulário dos dados da Matrícula -->
+        <form id="form-matricula" action="">
+            <section class="matricula-info">
+                <label for="numMatricula">Matrícula</label>
+                <input type="text" id="numMatricula" name="numMatricula">
+                <label for="periodoIngresso">Período de Ingresso</label>
+                <input type="text" id="periodoIngresso" name="periodoIngresso">
+                <label for="turno">Turno</label>
+                <input type="text" id="turno" name="turno">
+            </section>
+        <button type="button" class="btn">Salvar</button>
+        </form>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-columns"></div>
+            <p>&copy; Instituto Federal de Pernambuco. Todos os direitos reservados. </p>
+        </div>
+    </footer>
+</body>
+</html>

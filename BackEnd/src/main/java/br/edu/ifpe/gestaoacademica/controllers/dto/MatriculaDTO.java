@@ -1,9 +1,6 @@
 package br.edu.ifpe.gestaoacademica.controllers.dto;
 
-import br.edu.ifpe.gestaoacademica.entities.Aluno;
-import br.edu.ifpe.gestaoacademica.entities.Curso;
 import br.edu.ifpe.gestaoacademica.entities.Matricula;
-import br.edu.ifpe.gestaoacademica.entities.enums.Turno;
 import jakarta.validation.constraints.NotBlank;
 
 public record MatriculaDTO(
@@ -12,28 +9,24 @@ public record MatriculaDTO(
 		String numMatricula,
 		@NotBlank
 		String periodoIngresso,
-		Turno turno,
-		Aluno aluno,
-		Curso curso) {
+		@NotBlank
+		String turno) {
 
 	//Construtor para cadastrar matricula
-	public MatriculaDTO(String numMatricula, String periodoIngresso, Turno turno, Aluno aluno, Curso curso) {
-		this(null, numMatricula, periodoIngresso, turno, aluno, curso);
+	public MatriculaDTO(String numMatricula, String periodoIngresso, String turno) {
+		this(null, numMatricula, periodoIngresso, turno);
 	}
 
 	//Construtor para listar matricula
 	public MatriculaDTO(Matricula matricula) {
-		this(matricula.getId(), matricula.getNumMatricula(), matricula.getPeriodoIngresso(), matricula.getTurno(), 
-			 matricula.getAluno(), matricula.getCurso());
+		this(matricula.getId(), matricula.getNumMatricula(), matricula.getPeriodoIngresso(), matricula.getTurno());
 	}
 
 	//Construtor para atualizar matricula
-	public MatriculaDTO(Long id, String numMatricula, String periodoIngresso, Turno turno, Aluno aluno, Curso curso) {
+	public MatriculaDTO(Long id, String numMatricula, String periodoIngresso, String turno) {
 		this.id = id;
 		this.numMatricula = numMatricula;
 		this.periodoIngresso = periodoIngresso;
 		this.turno = turno;
-		this.aluno = aluno;
-		this.curso = curso;
 	}	
 }
