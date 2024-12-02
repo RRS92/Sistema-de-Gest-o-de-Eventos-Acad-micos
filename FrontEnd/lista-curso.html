@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursos</title>
+    <link rel="icon" href="images/logo.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <script src="script-curso.js" defer></script>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <img src="images/ifpe_logo.png" alt="Logo IFPE" class="logo">
+            <nav>
+                <a href="index.html">Início</a>
+                <a href="cadastro-curso.html">Voltar</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="events-section">
+            <h2>Lista de Cursos</h2>
+            <br>
+            <div class="events-container">
+                <!-- Os cursos serão listados aqui dinamicamente -->
+            </div>
+
+            <!-- Formulário para editar detalhes do curso -->
+            <div id="edit-course-form" style="display:none;">
+                <h3>Editar Curso</h3>
+                <form id="form-edit-course">
+                    <input type="hidden" id="course-id">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" required>
+                    <label for="modalidade">Modalidade:</label>
+                    <input type="text" id="modalidade" required>
+                    <button type="submit">Atualizar</button>
+                    <button type="button" id="cancelar-edicao">Cancelar</button>
+                </form>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="container">
+            <div class="footer-columns"></div>
+            <p>&copy; Instituto Federal de Pernambuco. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

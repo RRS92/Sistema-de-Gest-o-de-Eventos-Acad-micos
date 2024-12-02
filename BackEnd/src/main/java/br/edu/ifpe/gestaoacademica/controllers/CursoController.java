@@ -43,7 +43,7 @@ public class CursoController {
 	}
 
 	@GetMapping
-	public List<CursoDTO> listarCurso(){
+	public List<CursoDTO> listarCurso() {
 		return cursoService.listarCurso().stream().map(CursoDTO::new).toList();
 	}
 

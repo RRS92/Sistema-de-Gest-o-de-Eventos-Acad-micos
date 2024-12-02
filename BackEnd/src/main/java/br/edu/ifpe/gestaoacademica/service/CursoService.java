@@ -50,7 +50,6 @@ public class CursoService {
 	}
 
 	public void deletarCurso(Long id) {
-
 		cursoRepository.deleteById(id);
 	}
 }
