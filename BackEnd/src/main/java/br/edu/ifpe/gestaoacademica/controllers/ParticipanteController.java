@@ -40,12 +40,12 @@ public class ParticipanteController {
 		return participanteService.listarParticipante().stream().map(ParticipanteDTO::new).toList();
 	}
 	
-	@PutMapping
+	/*@PutMapping
 	@Transactional
 	public ResponseEntity<Participante> atualizarParticipante(@RequestBody @Valid ParticipanteDTO dadosParticipanteDTO) {
 		var participante = participanteService.atualizarParticipante(dadosParticipanteDTO);
 		return ResponseEntity.ok(participante);
-	}
+	}*/
 	
 	@DeleteMapping("/deletar/{id}")
 	@Transactional

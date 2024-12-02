@@ -22,17 +22,13 @@ public class ParticipanteService {
 	
 	public Participante cadastrarParticipante(ParticipanteDTO dadosParticipanteDTO) {
 
-		Long idUsuarioFixo = 1L;
-		Long idEventoFixo = 1L;
-		Long idCertificadoFixo = 1L;
-
+		
 		Participante participante = new Participante();
-		participante.setNomeSocial(dadosParticipanteDTO.nomeSocial());
 		participante.setAtivo(true);
 
-		participante.setIdUsuario(idUsuarioFixo);
-		participante.setIdEvento(idEventoFixo);
-		participante.setIdCertificado(idCertificadoFixo);
+		participante.setUsuario(dadosParticipanteDTO.usuario());
+		participante.setEvento(dadosParticipanteDTO.evento());
+		participante.setCertificado(dadosParticipanteDTO.certificado());
 
 		return participanteRepository.save(participante);
 	}
@@ -41,7 +37,7 @@ public class ParticipanteService {
 		return participanteRepository.findAllByAtivoTrue();
 	}
 	
-	public Participante atualizarParticipante(@Valid ParticipanteDTO dadosParticipanteDTO) {
+	/*public Participante atualizarParticipante(@Valid ParticipanteDTO dadosParticipanteDTO) {
 
 		Participante participante = participanteRepository.findById(dadosParticipanteDTO.id())
 				.orElseThrow(() -> new EntityNotFoundException("Participante não encontrado"));
@@ -50,7 +46,7 @@ public class ParticipanteService {
 
 
 		return participanteRepository.save(participante);
-	}
+	}*/
 	
 	public void inativarParticipante(Long id) {
 		Participante participante = participanteRepository.getReferenceById(id);
