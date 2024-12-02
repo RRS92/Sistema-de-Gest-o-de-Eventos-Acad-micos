@@ -20,11 +20,17 @@ public class MatriculaService {
 	private MatriculaRepository matriculaRepository;
 
 	public Matricula cadastrarMatricula(MatriculaDTO dadosMatriculaDTO) {
+		
+		Long idAlunoFixo = 1L;
+		Long idCursoFixo = 1L;
 
 		Matricula matricula = new Matricula();
 		matricula.setNumMatricula(dadosMatriculaDTO.numMatricula());
 		matricula.setPeriodoIngresso(dadosMatriculaDTO.periodoIngresso());
 		matricula.setTurno(dadosMatriculaDTO.turno());
+		matricula.setIdAluno(idAlunoFixo);
+		matricula.setIdCurso(idCursoFixo);
+
 		matricula.setAtivo(true);
 
 		return matriculaRepository.save(matricula);

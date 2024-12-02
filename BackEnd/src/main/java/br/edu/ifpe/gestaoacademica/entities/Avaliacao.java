@@ -31,6 +31,7 @@ public class Avaliacao {
 	@ManyToOne
 	@JoinColumn(name = "id_evento", nullable = false)
 	private Evento evento;
+	
 	private Long idParticipante;
 	
 	public void inativar() {

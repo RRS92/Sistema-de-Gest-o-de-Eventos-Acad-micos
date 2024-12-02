@@ -1,6 +1,5 @@
 package br.edu.ifpe.gestaoacademica.entities;
 
-import br.edu.ifpe.gestaoacademica.entities.enums.Modalidade;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,7 +23,7 @@ public class Curso {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
-	private Modalidade modalidade;
+	private String modalidade;
 	private boolean ativo;
 	
 	public void inativar() {
