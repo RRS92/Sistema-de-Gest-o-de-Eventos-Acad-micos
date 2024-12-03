@@ -22,7 +22,10 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/eventos")
+<<<<<<< HEAD
 @CrossOrigin(origins = "*")
+=======
+>>>>>>> 0551beb (Inserção segurança 1.0)
 public class EventoController {
 
 	@Autowired
