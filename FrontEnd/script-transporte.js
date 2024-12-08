@@ -1,52 +1,3 @@
-// Função para criar transportes
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("form-transporte");
-    const saveButton = document.querySelector(".btn");
-
-    saveButton.addEventListener("click", (e) => {
-        e.preventDefault(); // Evita o comportamento padrão de recarregar a página
-
-        // Captura os valores do formulário
-        const categoria = document.getElementById("categoria").value;
-        const placa = document.getElementById("placa").value;
-        const quilometragem = document.getElementById("quilometragem").value;
-        const nomeMotorista = document.getElementById("nomeMotorista").value;
-        const horaSaida = document.getElementById("horaSaida").value;
-        const horaChegada = document.getElementById("horaChegada").value;
-
-        // Criação do objeto com os dados do transporte
-        const transporteData = {
-            categoria: categoria,
-            placa: placa,
-            quilometragem: quilometragem,
-            nomeMotorista: nomeMotorista,
-            horaSaida: horaSaida,
-            horaChegada: horaChegada,
-        };
-
-        // Envia os dados para a API
-        fetch("http://localhost:8080/transportes", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(transporteData),
-        })
-            .then((response) => {
-                if (response.ok) {
-                    alert("Transporte criado com sucesso!");
-                    window.location.href = "lista-transporte.html";
-
-                } else {
-                    throw new Error("Erro ao criar o transporte");
-                }
-            })
-            .catch((error) => {
-                console.error("Erro:", error);
-                alert("Erro ao criar o transporte.");
-            });
-    });
-});
 
 // Função para obter transportes
 async function getTransportes() {
@@ -98,17 +49,24 @@ function exibirTransportes(transportes) {
                 <input type="text" id="horaChegada-${transporte.id}" value="${transporte.horaChegada}" style="display:none;" /></p>
             </div>
             <br>
-            <button onclick="deletarTransporte(${transporte.id})">🗑️ Deletar</button>
-            <button onclick="toggleEditAll(${transporte.id})">🖋️Editar </button>
-            <button id="atualizar-${transporte.id}" style="display:none;" onclick="atualizarTransporte(${transporte.id})">Atualizar</button>
+            <button class="edit-button" data-transporteId="${transporte.id}">Editar ✏️</button>  
+            <button class="update-button" id="atualizar-${transporte.id}" style="display:none;" onclick="atualizarTransporte(${transporte.id})">Atualizar ✏️</button>
         `;
         eventsContainer.appendChild(eventCard);
     });
 
+    // Adiciona o evento de clique aos botões de editar
+    document.querySelectorAll(".edit-button").forEach((button) => {
+        button.addEventListener("click", function(event) {
+            const transporteId = event.target.getAttribute("data-transporteId");
+            toggleEditAll(transporteId); // Chama a função para alternar o modo de edição
+        });
+    });
+
     // Adiciona o evento de clique aos botões de deletar
     document.querySelectorAll(".delete-button").forEach((button) => {
-        button.addEventListener("click", function (event) {
-            const transporteId = event.target.getAttribute("data-id");
+        button.addEventListener("click", function(event) {
+            const transporteId = event.target.getAttribute("data-transporteId");
             console.log(`ID do transporte clicado: ${transporteId}`);
             deletarTransporte(transporteId);
         });
@@ -125,22 +83,38 @@ getTransportes().then((transportes) => {
 function toggleEditAll(id) {
     const fields = ['categoria', 'placa', 'quilometragem', 'nomeMotorista', 'horaSaida', 'horaChegada'];
 
+    // Seleciona os botões relacionados ao transporte
+    const editButton = document.querySelector(`.edit-button[data-transporteId="${id}"]`);
+    const atualizarButton = document.getElementById(`atualizar-${id}`);
+
+    // Alterna entre o modo de edição e visualização
+    let isEditing = atualizarButton.style.display === "inline";
+
     fields.forEach(field => {
         const inputField = document.getElementById(`${field}-${id}`);
         const displayField = document.getElementById(`${field}-display-${id}`);
-        const atualizarButton = document.getElementById(`atualizar-${id}`);
 
-        if (inputField.style.display === "none") {
+        if (!isEditing) {
+            // Modo de edição: mostra inputs e oculta texto
             inputField.style.display = "inline";
             inputField.value = displayField.textContent; // Preenche o input com o valor atual
-            displayField.style.display = "none"; // Oculta o valor exibido
+            displayField.style.display = "none";
         } else {
+            // Modo de visualização: oculta inputs e mostra texto
             inputField.style.display = "none";
-            displayField.style.display = "inline"; // Mostra o valor exibido
+            displayField.style.display = "inline";
         }
-
-        atualizarButton.style.display = "inline"; // Mostra o botão de atualizar
     });
+
+    if (!isEditing) {
+        // Oculta os botões de "Editar" e "Deletar", e exibe o botão de "Atualizar"
+        editButton.style.display = "none";
+        atualizarButton.style.display = "inline";
+    } else {
+        // Exibe os botões de "Editar" e "Deletar", e oculta o botão de "Atualizar"
+        editButton.style.display = "inline";
+        atualizarButton.style.display = "none";
+    }
 }
 
 

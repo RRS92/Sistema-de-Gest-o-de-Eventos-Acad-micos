@@ -6,7 +6,7 @@
     <title>Cadastro Transporte</title>
     <link rel="icon" href="images\logo.png" type="image/png">
     <link rel="stylesheet" href="style.css">
-    <script src="script-transporte.js"></script>
+    <script src="script-add-transporte.js"></script>
 </head>
 <body>
     <header class="main-header">
@@ -25,17 +25,23 @@
 
         <section class="transport-info">
             <label for="categoria">Categoria</label>
-            <input type="text" id="categoria" name="categoria">
+            <input type="text" id="categoria" name="categoria" maxlength="15" required>
+
             <label for="placa">Placa</label>
-            <input type="text" id="placa" name="placa">
+            <input type="text" id="placa" name="placa" maxlength="7" required>
+
             <label for="quilometragem">Quilometragem</label>
-            <input type="text" id="quilometragem" name="quilometragem">
+            <input type="number" id="quilometragem" name="quilometragem" maxlength="5" required>
+
             <label for="nomeMotorista">Nome do Motorista</label>
-            <input type="text" id="nomeMotorista" name="nomeMotorista">
+            <input type="text" id="nomeMotorista" name="nomeMotorista" maxlength="50" required>
+
             <label for="horaSaida">Hora de Saída</label>
-            <input type="text" id="horaSaida" name="horaSaida">
+            <input type="time" id="horaSaida" name="horaSaida" required>
+
             <label for="horaChegada">Hora de Chegada</label>
-            <input type="text" id="horaChegada" name="horaChegada">
+            <input type="time" id="horaChegada" name="horaChegada" required>
+
         </section>
         <button type="button" class="btn">Salvar</button>
         </form>

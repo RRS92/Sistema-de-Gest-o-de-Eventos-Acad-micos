@@ -64,7 +64,7 @@ async function cadastrarServidor() {
         alert("servidor cadastrado com sucesso!");
 
         // Redireciona para outra página
-        window.location.href = "lista-servidor.html";  
+        window.location.href = "perfil-servidor.html";  
         
 
     } catch (error) {
@@ -130,19 +130,27 @@ function exibirServidores(servidores) {
                 <input type="text" id="email-${servidor.id}" value="${servidor.email}" style="display:none;" /></p>
             </div>
             <br>
-            <button onclick="deletarServidor(${servidor.id})">🗑️ Deletar</button>
-            <button onclick="toggleEditAll(${servidor.id})">🖋️Editar </button>
-            <button id="atualizar-${servidor.id}" style="display:none;" onclick="atualizarServidor(${servidor.id})">Atualizar</button>
+            <button class="edit-button" data-servidorId="${servidor.id}">Editar ✏️</button>  
+            <button class="delete-button" data-servidorId="${servidor.id}">Deletar 🗑️</button>
+            <button class="update-button" id="atualizar-${servidor.id}" style="display:none;" onclick="atualizarServidor(${servidor.id})">Atualizar ✏️</button>
         `;
         eventsContainer.appendChild(eventCard);
     });
 
+    // Adiciona o evento de clique aos botões de editar
+    document.querySelectorAll(".edit-button").forEach((button) => {
+        button.addEventListener("click", function(event) {
+            const servidorId = event.target.getAttribute("data-servidorId");
+            toggleEditAll(servidorId); // Chama a função para alternar o modo de edição
+            });
+        });
+
     // Adiciona o evento de clique aos botões de deletar
     document.querySelectorAll(".delete-button").forEach((button) => {
-        button.addEventListener("click", function (event) {
-            const ServidorId = event.target.getAttribute("data-ServidorId");
-            console.log(`ID do servidor clicado: ${ServidorId}`);
-            deletarServidor(ServidorId);
+        button.addEventListener("click", function(event) {
+            const servidorId = event.target.getAttribute("data-servidorId");
+            console.log(`ID do servidor clicado: ${servidorId}`);
+            deletarServidor(servidorId);
         });
     });
 }
@@ -157,22 +165,41 @@ getServidores().then((servidores) => {
 function toggleEditAll(id) {
     const fields = ['nome', 'siape', 'cargo', 'dataNasc', 'telefone', 'email'];
 
+    // Seleciona os botões relacionados ao servidor
+    const editButton = document.querySelector(`.edit-button[data-servidorId="${id}"]`);
+    const deleteButton = document.querySelector(`.delete-button[data-servidorId="${id}"]`);
+    const atualizarButton = document.getElementById(`atualizar-${id}`);
+
+    // Alterna entre o modo de edição e visualização
+    let isEditing = atualizarButton.style.display === "inline";
+
     fields.forEach(field => {
         const inputField = document.getElementById(`${field}-${id}`);
         const displayField = document.getElementById(`${field}-display-${id}`);
-        const atualizarButton = document.getElementById(`atualizar-${id}`);
 
-        if (inputField.style.display === "none") {
+        if (!isEditing) {
+            // Modo de edição: mostra inputs e oculta texto
             inputField.style.display = "inline";
             inputField.value = displayField.textContent; // Preenche o input com o valor atual
-            displayField.style.display = "none"; // Oculta o valor exibido
+            displayField.style.display = "none";
         } else {
+            // Modo de visualização: oculta inputs e mostra texto
             inputField.style.display = "none";
-            displayField.style.display = "inline"; // Mostra o valor exibido
+            displayField.style.display = "inline";
         }
-
-        atualizarButton.style.display = "inline"; // Mostra o botão de atualizar
     });
+
+    if (!isEditing) {
+        // Oculta os botões de "Editar" e "Deletar", e exibe o botão de "Atualizar"
+        editButton.style.display = "none";
+        deleteButton.style.display = "none";
+        atualizarButton.style.display = "inline";
+    } else {
+        // Exibe os botões de "Editar" e "Deletar", e oculta o botão de "Atualizar"
+        editButton.style.display = "inline";
+        deleteButton.style.display = "inline";
+        atualizarButton.style.display = "none";
+    }
 }
 
 
@@ -218,12 +245,12 @@ async function atualizarServidor(id) {
 }
 
 
-async function deletarServidor(ServidorId) {
+async function deletarServidor(servidorId) {
     // Confirmação antes de deletar
     if (window.confirm("Tem certeza que deseja deletar este servidor?")) {
         try {
-            console.log(`Tentando deletar o servidor com ID: ${ServidorId}`);
-            const response = await fetch(`http://localhost:8080/servidores/deletar/${ServidorId}`, {
+            console.log(`Tentando deletar o servidor com ID: ${servidorId}`);
+            const response = await fetch(`http://localhost:8080/servidores/deletar/${servidorId}`, {
                     method: "DELETE",
                 });
 
@@ -231,7 +258,7 @@ async function deletarServidor(ServidorId) {
             if (!response.ok) {
                 throw new Error(`Erro ao deletar servidor: ${response.status}`);
             }
-            console.log(`Servidor ${ServidorId} deletado com sucesso.`);
+            console.log(`Servidor ${servidorId} deletado com sucesso.`);
             alert("Servidor deletado com sucesso!");
             window.location.reload();
         } catch (error) {

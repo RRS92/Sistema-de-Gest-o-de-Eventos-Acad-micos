@@ -19,25 +19,25 @@ public record TransporteDTO(
 		String horaSaida,
 		@NotBlank
 		String horaChegada,
-		Evento evento,
+		Long idEvento,
 		Servidor servidor) {
 	
 	//Construtor para cadastrar transporte
 	public TransporteDTO(String categoria, String placa, String quilometragem, String nomeMotorista, 
-						 String horaSaida, String horaChegada, Evento evento, Servidor servidor) {
-		this(null, categoria, placa, quilometragem, nomeMotorista, horaSaida, horaChegada, evento, servidor);
+						 String horaSaida, String horaChegada, Long idEvento, Servidor servidor) {
+		this(null, categoria, placa, quilometragem, nomeMotorista, horaSaida, horaChegada, idEvento, servidor);
 	}
 
 	//Construtor para listar transporte
 	public TransporteDTO(Transporte transporte) {
 		this(transporte.getId(), transporte.getCategoria(), transporte.getPlaca(), transporte.getQuilometragem(), 
 			 transporte.getNomeMotorista(), transporte.getHoraSaida(), transporte.getHoraChegada(), 
-			 transporte.getEvento(), transporte.getServidor());
+			 transporte.getEvento() != null ? transporte.getEvento().getId() : null, transporte.getServidor());
 	}
 	
 	//Construtor para atualizar transporte
 	public TransporteDTO(Long id, String categoria, String placa, String quilometragem, String nomeMotorista, 
-						 String horaSaida, String horaChegada, Evento evento, Servidor servidor) {
+						 String horaSaida, String horaChegada, Long idEvento, Servidor servidor) {
 		this.id = id; 
 		this.categoria = categoria;
 		this.placa = placa;
@@ -45,7 +45,7 @@ public record TransporteDTO(
 		this.nomeMotorista = nomeMotorista;
 		this.horaSaida = horaSaida;
 		this.horaChegada = horaChegada;
-		this.evento = evento;
+		this.idEvento = idEvento;
 		this.servidor = servidor;
 	}
 }

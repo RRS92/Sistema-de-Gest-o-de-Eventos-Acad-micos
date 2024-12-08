@@ -33,7 +33,7 @@ public class Transporte {
 	private boolean ativo;
 	
 	@OneToOne
-	@JoinColumn(name = "idEvento")
+	@JoinColumn(name = "id_evento")
 	private Evento evento;
 	
 	@OneToOne

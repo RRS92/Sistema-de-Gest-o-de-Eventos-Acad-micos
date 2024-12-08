@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(response => {
             if (response.ok) {
                 alert("Evento criado com sucesso!");
-                window.location.href = "lista-evento.html";
+                window.location.href = "perfil-servidor.html";
             } else {
                 throw new Error("Erro ao criar o evento");
             }
@@ -86,8 +86,8 @@ function exibirEventos(eventos) {
             </div>
             <div class="buttons-container">
                 <div class="top-buttons">
-                    <button class="btnCertificado">Criar Certificado</button>
-                    <button class="btnTransporte">Cadastrar Transporte</button>
+                    <button class="btnCertificado" data-id="${evento.id}">Criar Certificado</button>
+                    <button class="btnTransporte" data-id="${evento.id}">Cadastrar Transporte</button>
                 </div>
                 <button class="btnAvaliar" data-id="${evento.id}">Avaliar Evento</button>
                 <button class="btnVerAvaliacoes" data-id="${evento.id}">Ver Avaliações</button>
@@ -99,7 +99,11 @@ function exibirEventos(eventos) {
 
     // Botão de Certificado
     document.querySelectorAll('.btnCertificado').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function() { 
+            const idEvento = this.getAttribute('data-id'); // Captura o ID do evento
+            const nomeEvento = this.closest('.event-card').querySelector('h3').textContent; // Captura o nome do evento
+            localStorage.setItem('idEventoSelecionado', idEvento); // Salva o ID do evento
+            localStorage.setItem('nomeEventoSelecionado', nomeEvento); // Salva o nome do evento
             window.location.href = 'cadastro-certificado.html';
         });
     });
@@ -107,6 +111,10 @@ function exibirEventos(eventos) {
     // Botão de Transporte
     document.querySelectorAll('.btnTransporte').forEach(button => {
         button.addEventListener('click', function() {
+            const idEvento = this.getAttribute('data-id'); // Captura o ID do evento
+            const nomeEvento = this.closest('.event-card').querySelector('h3').textContent; // Captura o nome do evento
+            localStorage.setItem('idEventoSelecionado', idEvento); // Salva o ID do evento
+            localStorage.setItem('nomeEventoSelecionado', nomeEvento); // Salva o nome do evento
             window.location.href = 'cadastro-transporte.html';
         });
     });

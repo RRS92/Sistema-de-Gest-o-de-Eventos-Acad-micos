@@ -6,7 +6,7 @@
     <title>Cadastrar Curso</title>
     <link rel="icon" href="images\logo.png" type="image/png">
     <link rel="stylesheet" href="style.css">
-    <script src="script-curso.js"></script>
+    <script src="script-add-curso.js"></script>
 </head>
 <body>
     <header class="main-header">
@@ -26,9 +26,10 @@
         <form id="form-course" action="">
             <section class="course-info">
                 <label for="nome">Nome</label>
-                <input type="text" id="nome" name="nome">
+                <input type="text" id="nome" name="nome" maxlength="35" required>
+
                 <label for="modalidade">Modalidade</label>
-                <input type="text" id="modalidade" name="modalidade">
+                <input type="text" id="modalidade" name="modalidade" maxlength="15" required>
             </section>
         </form>
 
@@ -36,13 +37,15 @@
         <form id="form-matricula" action="">
             <section class="matricula-info">
                 <label for="numMatricula">Matrícula</label>
-                <input type="text" id="numMatricula" name="numMatricula">
+                <input type="text" id="numMatricula" name="numMatricula" maxlength="15" required>
+
                 <label for="periodoIngresso">Período de Ingresso</label>
-                <input type="text" id="periodoIngresso" name="periodoIngresso">
+                <input type="text" id="periodoIngresso" name="periodoIngresso" maxlength="15" required>
+
                 <label for="turno">Turno</label>
-                <input type="text" id="turno" name="turno">
+                <input type="text" id="turno" name="turno" maxlength="5" required>
             </section>
-        <button type="button" class="btn">Salvar</button>
+        <button type="button" class="btn" id="submit-curso">Salvar</button>
         </form>
     </main>
 

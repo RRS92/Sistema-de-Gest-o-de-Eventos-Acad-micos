@@ -1,69 +1,3 @@
-// Função para cadastrar curso
-document.addEventListener("DOMContentLoaded", () => {
-    const saveButton = document.querySelector(".btn");
-
-    saveButton.addEventListener("click", async (e) => {
-        e.preventDefault(); // Evita o comportamento padrão de recarregar a página
-
-        // Captura os valores do formulário de curso
-        const nome = document.getElementById("nome").value.trim();
-        const modalidade = document.getElementById("modalidade").value.trim();
-
-        // Captura os valores do formulário de matrícula
-        const numMatricula = document.getElementById("numMatricula").value.trim();
-        const periodoIngresso = document.getElementById("periodoIngresso").value.trim();
-        const turno = document.getElementById("turno").value.trim();
-
-        // Validação dos campos obrigatórios
-        if (!nome || !modalidade || !numMatricula || !periodoIngresso || !turno) {
-            alert("Por favor, preencha todos os campos.");
-            return;
-        }
-
-        try {
-            // Envia os dados do curso
-            const cursoResponse = await fetch("http://localhost:8080/cursos", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ nome, modalidade }),
-            });
-
-            if (!cursoResponse.ok) {
-                throw new Error("Erro ao criar o curso.");
-            }
-
-            const cursoData = await cursoResponse.json(); // Recebe o ID do curso criado
-
-            // Envia os dados da matrícula vinculados ao curso
-            const matriculaResponse = await fetch("http://localhost:8080/matriculas", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    numMatricula: numMatricula,
-                    periodoIngresso,
-                    turno,
-                    idCurso: cursoData.id // Vincula a matrícula ao curso
-                }),
-            });
-
-            if (!matriculaResponse.ok) {
-                throw new Error("Erro ao criar a matrícula.");
-            }
-
-            alert("Curso e matrícula criados com sucesso!");
-            window.location.href = "lista-curso.html";
-        } catch (error) {
-            console.error("Erro:", error);
-            alert("Erro ao criar o curso e a matrícula.");
-        }
-    });
-});
-
-
 // Função para obter cursos
 async function getCursos() {
     try {
@@ -103,17 +37,25 @@ function exibirCursos(cursos) {
 
             </div>
             <br>
-            <button onclick="deletarCurso(${curso.id})">🗑️ Deletar</button>
-            <button onclick="toggleEditAll(${curso.id})">🖋️Editar </button>
-            <button id="atualizar-${curso.id}" style="display:none;" onclick="atualizarCurso(${curso.id})">Atualizar</button>
+            <button class="edit-button" data-cursoId="${curso.id}">Editar ✏️</button>  
+            <button class="delete-button" data-cursoId="${curso.id}">Deletar 🗑️</button>
+            <button class="update-button" id="atualizar-${curso.id}" style="display:none;" onclick="atualizarCurso(${curso.id})">Atualizar ✏️</button>
         `;
         eventsContainer.appendChild(eventCard);
     });
 
+    // Adiciona o evento de clique aos botões de editar
+    document.querySelectorAll(".edit-button").forEach((button) => {
+        button.addEventListener("click", function(event) {
+            const cursoId = event.target.getAttribute("data-cursoId");
+            toggleEditAll(cursoId); // Chama a função para alternar o modo de edição
+        });
+    });
+
     // Adiciona o evento de clique aos botões de deletar
     document.querySelectorAll(".delete-button").forEach((button) => {
-        button.addEventListener("click", function (event) {
-            const cursoId = event.target.getAttribute("data-id");
+        button.addEventListener("click", function(event) {
+            const cursoId = event.target.getAttribute("data-cursoId");
             console.log(`ID do curso clicado: ${cursoId}`);
             deletarCurso(cursoId);
         });
@@ -130,22 +72,41 @@ getCursos().then((cursos) => {
 function toggleEditAll(id) {
     const fields = ['nome', 'modalidade'];
 
+    // Seleciona os botões relacionados ao curso
+    const editButton = document.querySelector(`.edit-button[data-cursoId="${id}"]`);
+    const deleteButton = document.querySelector(`.delete-button[data-cursoId="${id}"]`);
+    const atualizarButton = document.getElementById(`atualizar-${id}`);
+
+    // Alterna entre o modo de edição e visualização
+    let isEditing = atualizarButton.style.display === "inline";
+
     fields.forEach(field => {
         const inputField = document.getElementById(`${field}-${id}`);
         const displayField = document.getElementById(`${field}-display-${id}`);
-        const atualizarButton = document.getElementById(`atualizar-${id}`);
 
-        if (inputField.style.display === "none") {
+        if (!isEditing) {
+            // Modo de edição: mostra inputs e oculta texto
             inputField.style.display = "inline";
             inputField.value = displayField.textContent; // Preenche o input com o valor atual
-            displayField.style.display = "none"; // Oculta o valor exibido
+            displayField.style.display = "none";
         } else {
+            // Modo de visualização: oculta inputs e mostra texto
             inputField.style.display = "none";
-            displayField.style.display = "inline"; // Mostra o valor exibido
+            displayField.style.display = "inline";
         }
-
-        atualizarButton.style.display = "inline"; // Mostra o botão de atualizar
     });
+
+    if (!isEditing) {
+        // Oculta os botões de "Editar" e "Deletar", e exibe o botão de "Atualizar"
+        editButton.style.display = "none";
+        deleteButton.style.display = "none";
+        atualizarButton.style.display = "inline";
+    } else {
+        // Exibe os botões de "Editar" e "Deletar", e oculta o botão de "Atualizar"
+        editButton.style.display = "inline";
+        deleteButton.style.display = "inline";
+        atualizarButton.style.display = "none";
+    }
 }
 
 

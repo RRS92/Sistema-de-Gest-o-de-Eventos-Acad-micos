@@ -1,4 +1,4 @@
-//Função para criar eventos
+//Função para criar certificados
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("form-certificados");
     const saveButton = document.querySelector(".btn");
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(response => {
             if (response.ok) {
                 alert("Certificado criado com sucesso!");
-                window.location.href = "lista-certificado.html";
+                window.location.href = "perfil-servidor.html";
 
             } else {
                 throw new Error("Erro ao criar o certificado");
@@ -72,24 +72,32 @@ function exibirCertificados(certificados) {
         eventCard.classList.add('event-card');
         eventCard.innerHTML = `
             <div class="event-details">
-            <p><strong>Carga Horaria:</strong> <span id="cargaHoraria-display-${certificado.id}">${certificado.cargaHoraria}</span>
+            <p><strong>Carga Horária:</strong> <span id="cargaHoraria-display-${certificado.id}">${certificado.cargaHoraria}</span>
             <input type="text" id="cargaHoraria-${certificado.id}" value="${certificado.cargaHoraria}" style="display:none;" /></p>
 
-            <p><strong>Descricao:</strong> <span id="descricao-display-${certificado.id}">${certificado.descricao}</span>
+            <p><strong>Descrição:</strong> <span id="descricao-display-${certificado.id}">${certificado.descricao}</span>
             <input type="text" id="descricao-${certificado.id}" value="${certificado.descricao}" style="display:none;" /></p>
             </div>
             <br>
-            <button onclick="deletarCertificado(${certificado.id})">🗑️ Deletar</button>
-            <button onclick="toggleEditAll(${certificado.id})">🖋️Editar </button>
-            <button id="atualizar-${certificado.id}" style="display:none;" onclick="atualizarCertificado(${certificado.id})">Atualizar</button>
+           <button class="edit-button" data-certificadoId="${certificado.id}">Editar ✏️</button>  
+            <button class="delete-button" data-certificadoId="${certificado.id}">Deletar 🗑️</button>
+            <button class="update-button" id="atualizar-${certificado.id}" style="display:none;" onclick="atualizarCertificado(${certificado.id})">Atualizar ✏️</button>
         `;
         eventsContainer.appendChild(eventCard);
     });
 
+    // Adiciona o evento de clique aos botões de editar
+    document.querySelectorAll(".edit-button").forEach((button) => {
+        button.addEventListener("click", function(event) {
+            const certificadoId = event.target.getAttribute("data-certificadoId");
+            toggleEditAll(certificadoId); // Chama a função para alternar o modo de edição
+        });
+    });
+
     // Adiciona o evento de clique aos botões de deletar
-    document.querySelectorAll('.delete-button').forEach(button => {
-        button.addEventListener('click', function(event) {
-            const certificadoId = event.target.getAttribute('data-id');
+    document.querySelectorAll(".delete-button").forEach((button) => {
+        button.addEventListener("click", function(event) {
+            const certificadoId = event.target.getAttribute("data-certificadoId");
             console.log(`ID do certificado clicado: ${certificadoId}`);
             deletarCertificado(certificadoId);
         });
@@ -105,25 +113,44 @@ getCertificados().then(certificados => {
 function toggleEditAll(id) {
     const fields = ['cargaHoraria', 'descricao'];
 
+    // Seleciona os botões relacionados ao certificado
+    const editButton = document.querySelector(`.edit-button[data-certificadoId="${id}"]`);
+    const deleteButton = document.querySelector(`.delete-button[data-certificadoId="${id}"]`);
+    const atualizarButton = document.getElementById(`atualizar-${id}`);
+
+    // Alterna entre o modo de edição e visualização
+    let isEditing = atualizarButton.style.display === "inline";
+
     fields.forEach(field => {
         const inputField = document.getElementById(`${field}-${id}`);
         const displayField = document.getElementById(`${field}-display-${id}`);
-        const atualizarButton = document.getElementById(`atualizar-${id}`);
 
-        if (inputField.style.display === "none") {
+        if (!isEditing) {
+            // Modo de edição: mostra inputs e oculta texto
             inputField.style.display = "inline";
             inputField.value = displayField.textContent; // Preenche o input com o valor atual
-            displayField.style.display = "none"; // Oculta o valor exibido
+            displayField.style.display = "none";
         } else {
+            // Modo de visualização: oculta inputs e mostra texto
             inputField.style.display = "none";
-            displayField.style.display = "inline"; // Mostra o valor exibido
+            displayField.style.display = "inline";
         }
-
-        atualizarButton.style.display = "inline"; // Mostra o botão de atualizar
     });
+
+    if (!isEditing) {
+        // Oculta os botões de "Editar" e "Deletar", e exibe o botão de "Atualizar"
+        editButton.style.display = "none";
+        deleteButton.style.display = "none";
+        atualizarButton.style.display = "inline";
+    } else {
+        // Exibe os botões de "Editar" e "Deletar", e oculta o botão de "Atualizar"
+        editButton.style.display = "inline";
+        deleteButton.style.display = "inline";
+        atualizarButton.style.display = "none";
+    }
 }
 
-// Função para atualizar todos os atributos do transporte
+// Função para atualizar todos os atributos do certificado
 async function atualizarCertificado(id) {
     const certificadoData = {
         id: id,

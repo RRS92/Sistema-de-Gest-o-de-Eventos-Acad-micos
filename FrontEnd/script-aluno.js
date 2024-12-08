@@ -63,7 +63,7 @@ async function cadastrarAluno() {
         alert("Aluno cadastrado com sucesso!");
 
         // Redireciona para outra página
-        window.location.href = "lista-aluno.html";
+        window.location.href = "perfil-aluno.html";
 
     } catch (error) {
         console.error(error);
@@ -86,6 +86,7 @@ async function getAlunos() {
         return [];
     }
 }
+
 
 // Função para exibir alunos na página
 function exibirAlunos(alunos) {
@@ -124,19 +125,27 @@ function exibirAlunos(alunos) {
                 <input type="text" id="email-${aluno.id}" value="${aluno.email}" style="display:none;" /></p>
             </div>
             <br>
-            <button onclick="deletarAluno(${aluno.id})">🗑️ Deletar</button>
-            <button onclick="toggleEditAll(${aluno.id})">🖋️Editar </button>
-            <button id="atualizar-${aluno.id}" style="display:none;" onclick="atualizarAluno(${aluno.id})">Atualizar</button>
+            <button class="edit-button" data-alunoId="${aluno.id}">Editar ✏️</button>  
+            <button class="delete-button" data-alunoId="${aluno.id}">Deletar 🗑️</button>
+            <button class="update-button" id="atualizar-${aluno.id}" style="display:none;" onclick="atualizarAluno(${aluno.id})">Atualizar ✏️</button>
         `;
         eventsContainer.appendChild(eventCard);
     });
 
+    // Adiciona o evento de clique aos botões de editar
+    document.querySelectorAll(".edit-button").forEach((button) => {
+        button.addEventListener("click", function(event) {
+            const alunoId = event.target.getAttribute("data-alunoId");
+            toggleEditAll(alunoId); // Chama a função para alternar o modo de edição
+        });
+    });
+
     // Adiciona o evento de clique aos botões de deletar
     document.querySelectorAll(".delete-button").forEach((button) => {
-        button.addEventListener("click", function (event) {
-            const AlunoId = event.target.getAttribute("data-AlunoId");
-            console.log(`ID do aluno clicado: ${AlunoId}`);
-            deletarAluno(AlunoId);
+        button.addEventListener("click", function(event) {
+            const alunoId = event.target.getAttribute("data-alunoId");
+            console.log(`ID do aluno clicado: ${alunoId}`);
+            deletarAluno(alunoId);
         });
     });
 }
@@ -149,24 +158,43 @@ getAlunos().then((alunos) => {
 
 // Função para alternar entre editar e exibir valores de todos os campos ao mesmo tempo
 function toggleEditAll(id) {
-    const fields = ['nome', 'matricula', 'dataNasc', 'telefone', 'email'];
+    const fields = ['nome', 'matricula', 'cpf', 'rg', 'dataNasc', 'telefone', 'email'];
+
+    // Seleciona os botões relacionados ao aluno
+    const editButton = document.querySelector(`.edit-button[data-alunoId="${id}"]`);
+    const deleteButton = document.querySelector(`.delete-button[data-alunoId="${id}"]`);
+    const atualizarButton = document.getElementById(`atualizar-${id}`);
+
+    // Alterna entre o modo de edição e visualização
+    let isEditing = atualizarButton.style.display === "inline";
 
     fields.forEach(field => {
         const inputField = document.getElementById(`${field}-${id}`);
         const displayField = document.getElementById(`${field}-display-${id}`);
-        const atualizarButton = document.getElementById(`atualizar-${id}`);
 
-        if (inputField.style.display === "none") {
+        if (!isEditing) {
+            // Modo de edição: mostra inputs e oculta texto
             inputField.style.display = "inline";
             inputField.value = displayField.textContent; // Preenche o input com o valor atual
-            displayField.style.display = "none"; // Oculta o valor exibido
+            displayField.style.display = "none";
         } else {
+            // Modo de visualização: oculta inputs e mostra texto
             inputField.style.display = "none";
-            displayField.style.display = "inline"; // Mostra o valor exibido
+            displayField.style.display = "inline";
         }
-
-        atualizarButton.style.display = "inline"; // Mostra o botão de atualizar
     });
+
+    if (!isEditing) {
+        // Oculta os botões de "Editar" e "Deletar", e exibe o botão de "Atualizar"
+        editButton.style.display = "none";
+        deleteButton.style.display = "none";
+        atualizarButton.style.display = "inline";
+    } else {
+        // Exibe os botões de "Editar" e "Deletar", e oculta o botão de "Atualizar"
+        editButton.style.display = "inline";
+        deleteButton.style.display = "inline";
+        atualizarButton.style.display = "none";
+    }
 }
 
 
@@ -211,12 +239,12 @@ async function atualizarAluno(id) {
 }
 
 
-async function deletarAluno(AlunoId) {
+async function deletarAluno(alunoId) {
     // Confirmação antes de deletar
     if (window.confirm("Tem certeza que deseja deletar este aluno?")) {
         try {
-            console.log(`Tentando deletar o aluno com ID: ${AlunoId}`);
-            const response = await fetch(`http://localhost:8080/alunos/deletar/${AlunoId}`, {
+            console.log(`Tentando deletar o aluno com ID: ${alunoId}`);
+            const response = await fetch(`http://localhost:8080/alunos/deletar/${alunoId}`, {
                     method: "DELETE",
                 });
 
@@ -224,7 +252,7 @@ async function deletarAluno(AlunoId) {
             if (!response.ok) {
                 throw new Error(`Erro ao deletar aluno: ${response.status}`);
             }
-            console.log(`Aluno ${AlunoId} deletado com sucesso.`);
+            console.log(`Aluno ${alunoId} deletado com sucesso.`);
             alert("Aluno deletado com sucesso!");
             window.location.reload();
         } catch (error) {

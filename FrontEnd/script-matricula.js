@@ -14,7 +14,7 @@ async function getMatriculas() {
     }
 }
 
-// Função para exibir cursos na página
+// Função para exibir matrículas na página
 function exibirMatriculas(matriculas) {
     const eventsContainer = document.querySelector(".events-container");
     eventsContainer.innerHTML = ""; // Limpa a lista existente
@@ -39,18 +39,26 @@ function exibirMatriculas(matriculas) {
                 <input type="text" id="turno-${matricula.id}" value="${matricula.turno}" style="display:none;" /></p>
             </div>
             <br>
-            <button onclick="deletarMatricula(${matricula.id})">🗑️ Deletar</button>
-            <button onclick="toggleEditAll(${matricula.id})">🖋️Editar </button>
-            <button id="atualizar-${matricula.id}" style="display:none;" onclick="atualizarMatricula(${matricula.id})">Atualizar</button>
+            <button class="edit-button" data-matriculaId="${matricula.id}">Editar ✏️</button>  
+            <button class="delete-button" data-matriculaId="${matricula.id}">Deletar 🗑️</button>
+            <button class="update-button" id="atualizar-${matricula.id}" style="display:none;" onclick="atualizarMatricula(${matricula.id})">Atualizar ✏️</button>
         `;
         eventsContainer.appendChild(eventCard);
     });
 
+    // Adiciona o evento de clique aos botões de editar
+    document.querySelectorAll(".edit-button").forEach((button) => {
+        button.addEventListener("click", function(event) {
+            const matriculaId = event.target.getAttribute("data-matriculaId");
+            toggleEditAll(matriculaId); // Chama a função para alternar o modo de edição
+        });
+    });
+
     // Adiciona o evento de clique aos botões de deletar
     document.querySelectorAll(".delete-button").forEach((button) => {
-        button.addEventListener("click", function (event) {
-            const matriculaId = event.target.getAttribute("data-id");
-            console.log(`ID da matricula clicada: ${matriculaId}`);
+        button.addEventListener("click", function(event) {
+            const matriculaId = event.target.getAttribute("data-matriculaId");
+            console.log(`ID da matrícula clicado: ${matriculaId}`);
             deletarMatricula(matriculaId);
         });
     });
@@ -66,22 +74,41 @@ getMatriculas().then((matriculas) => {
 function toggleEditAll(id) {
     const fields = ['numMatricula', 'periodoIngresso', 'turno'];
 
+    // Seleciona os botões relacionados a matrícula
+    const editButton = document.querySelector(`.edit-button[data-matriculaId="${id}"]`);
+    const deleteButton = document.querySelector(`.delete-button[data-matriculaId="${id}"]`);
+    const atualizarButton = document.getElementById(`atualizar-${id}`);
+
+    // Alterna entre o modo de edição e visualização
+    let isEditing = atualizarButton.style.display === "inline";
+
     fields.forEach(field => {
         const inputField = document.getElementById(`${field}-${id}`);
         const displayField = document.getElementById(`${field}-display-${id}`);
-        const atualizarButton = document.getElementById(`atualizar-${id}`);
 
-        if (inputField.style.display === "none") {
+        if (!isEditing) {
+            // Modo de edição: mostra inputs e oculta texto
             inputField.style.display = "inline";
             inputField.value = displayField.textContent; // Preenche o input com o valor atual
-            displayField.style.display = "none"; // Oculta o valor exibido
+            displayField.style.display = "none";
         } else {
+            // Modo de visualização: oculta inputs e mostra texto
             inputField.style.display = "none";
-            displayField.style.display = "inline"; // Mostra o valor exibido
+            displayField.style.display = "inline";
         }
-
-        atualizarButton.style.display = "inline"; // Mostra o botão de atualizar
     });
+
+    if (!isEditing) {
+        // Oculta os botões de "Editar" e "Deletar", e exibe o botão de "Atualizar"
+        editButton.style.display = "none";
+        deleteButton.style.display = "none";
+        atualizarButton.style.display = "inline";
+    } else {
+        // Exibe os botões de "Editar" e "Deletar", e oculta o botão de "Atualizar"
+        editButton.style.display = "inline";
+        deleteButton.style.display = "inline";
+        atualizarButton.style.display = "none";
+    }
 }
 
 

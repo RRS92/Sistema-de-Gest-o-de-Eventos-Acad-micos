@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import br.edu.ifpe.gestaoacademica.controllers.dto.TransporteDTO;
+import br.edu.ifpe.gestaoacademica.entities.Evento;
 import br.edu.ifpe.gestaoacademica.entities.Transporte;
+import br.edu.ifpe.gestaoacademica.repository.EventoRepository;
 import br.edu.ifpe.gestaoacademica.repository.TransporteRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -19,6 +21,10 @@ public class TransporteService {
 	
 	@Autowired
 	private TransporteRepository transporteRepository;
+	
+	@Autowired
+    private EventoRepository eventoRepository;
+
 
 	public Transporte cadastrarTransporte(TransporteDTO dadosTransporteDTO) {
 
@@ -31,7 +37,9 @@ public class TransporteService {
 		transporte.setHoraChegada(dadosTransporteDTO.horaChegada());
 		transporte.setAtivo(true);
 		
-		transporte.setEvento(dadosTransporteDTO.evento());
+		Evento evento = eventoRepository.findById(dadosTransporteDTO.idEvento())
+                .orElseThrow(() -> new EntityNotFoundException("Evento não encontrado"));
+		transporte.setEvento(evento);
 		transporte.setServidor(dadosTransporteDTO.servidor());
 		
 		return transporteRepository.save(transporte);

@@ -35,8 +35,34 @@ function exibirEventos(eventos) {
                 <p>Local: ${evento.local}</p>
                 <p>Tipo: ${evento.tipo}</p>
             </div>
+            <div class="buttons-container">
+                <button class="btnAvaliar" data-id="${evento.id}">Avaliar Evento</button>
+                <button class="btnVerAvaliacoes" data-id="${evento.id}">Ver Avaliações</button>
+            </div>
         `;
         eventsContainer.appendChild(eventCard);
+    });
+
+    // Botão de Avaliação
+    document.querySelectorAll('.btnAvaliar').forEach(button => {
+        button.addEventListener('click', function() {
+            const idEvento = this.getAttribute('data-id'); // Captura o ID do evento
+            const nomeEvento = this.closest('.event-card').querySelector('h3').textContent; // Captura o nome do evento
+            localStorage.setItem('idEventoSelecionado', idEvento); // Salva o ID do evento
+            localStorage.setItem('nomeEventoSelecionado', nomeEvento); // Salva o nome do evento
+            window.location.href = 'Avaliar-evento.html'; // Redireciona para a página de avaliação
+        });
+    });
+
+    // Botão de Ver Avaliações
+    document.querySelectorAll('.btnVerAvaliacoes').forEach(button => {
+        button.addEventListener('click', function() {
+            const idEvento = this.getAttribute('data-id');
+            const nomeEvento = this.closest('.event-card').querySelector('h3').textContent; // Captura o nome do evento
+            localStorage.setItem('idEventoSelecionado', idEvento);  // Salva o ID do evento no localStorage
+            localStorage.setItem('nomeEventoSelecionado', nomeEvento); // Salva o nome do evento
+            window.location.href = 'lista-avaliacoes.html';  // Redireciona para a página de listagem de avaliações
+        });
     });
 }
 

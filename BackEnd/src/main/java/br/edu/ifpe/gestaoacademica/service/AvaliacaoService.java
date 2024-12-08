@@ -25,7 +25,7 @@ public class AvaliacaoService {
     private EventoRepository eventoRepository;
 
     public Avaliacao cadastrarAvaliacao(AvaliacaoDTO dadosAvaliacaoDTO) {
-        Long idParticipanteFixo = 1L;
+        
 
         Avaliacao avaliacao = new Avaliacao();
         avaliacao.setNota(dadosAvaliacaoDTO.nota());
@@ -35,7 +35,7 @@ public class AvaliacaoService {
         Evento evento = eventoRepository.findById(dadosAvaliacaoDTO.idEvento())
                 .orElseThrow(() -> new EntityNotFoundException("Evento não encontrado"));
         avaliacao.setEvento(evento);
-        avaliacao.setIdParticipante(idParticipanteFixo);
+        avaliacao.setParticipante(dadosAvaliacaoDTO.participante());
 
         return avaliacaoRepository.save(avaliacao);
     }
