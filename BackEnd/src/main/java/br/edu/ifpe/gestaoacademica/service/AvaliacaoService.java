@@ -15,6 +15,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "*")
+
 @Service
 public class AvaliacaoService {
 

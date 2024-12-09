@@ -29,11 +29,11 @@ public class Avaliacao {
 	private boolean ativo;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_evento", nullable = false)
+	@JoinColumn(name = "id_evento")
 	private Evento evento;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_participante", nullable = false)
+	@JoinColumn(name = "id_participante")
 	private Participante participante;
 	
 	public void inativar() {
