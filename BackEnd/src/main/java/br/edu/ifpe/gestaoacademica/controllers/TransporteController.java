@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifpe.gestaoacademica.controllers.dto.TransporteDTO;
@@ -39,6 +40,12 @@ public class TransporteController {
 	public List<TransporteDTO> listarTransporte() {
 		return transporteService.listarTransporte().stream().map(TransporteDTO::new).toList();
 	}
+	
+	@GetMapping("/evento")
+    public List<TransporteDTO> listarTransportesPorEvento(@RequestParam Long eventoId) {
+        List<Transporte> transportes = transporteService.listarTransportesPorEvento(eventoId);
+        return transportes.stream().map(TransporteDTO::new).toList();
+    }
 	
 	@PutMapping
 	@Transactional

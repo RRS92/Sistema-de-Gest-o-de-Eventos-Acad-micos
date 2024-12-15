@@ -2,7 +2,13 @@
 // Função para obter transportes
 async function getTransportes() {
     try {
-        const response = await fetch("http://localhost:8080/transportes");
+        const response = await fetch("http://localhost:8080/transportes", 
+            {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                "Authorization": localStorage.getItem("token")
+            }});
         if (!response.ok) {
             throw new Error(`Erro ao buscar transportes: ${response.status}`);
         }
@@ -141,7 +147,8 @@ async function atualizarTransporte(id) {
         const response = await fetch(`http://localhost:8080/transportes`, {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
             },
             body: JSON.stringify(transporteData)
         });
@@ -165,6 +172,10 @@ async function deletarTransporte(transporteId) {
             console.log(`Tentando deletar o transporte com ID: ${transporteId}`);
             const response = await fetch(`http://localhost:8080/transportes/deletar/${transporteId}`, {
                     method: "DELETE",
+                    headers: {
+                        "Authorization": `Bearer ${localStorage.getItem("token")}`
+                    }
+    
                 }
             );
             console.log("Resposta da requisição:", response);

@@ -23,7 +23,8 @@ public record ServidorDTO(
 		@NotBlank
 		String email,
 		Endereco endereco,
-		Banco banco) {
+		Banco banco
+		) {
 	
 	//Construtor para cadastrar servidor
 	public ServidorDTO(String siape, String cargo, String nome, String cpf, String rg, String dataNasc, 

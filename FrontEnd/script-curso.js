@@ -1,7 +1,13 @@
 // Função para obter cursos
 async function getCursos() {
     try {
-        const response = await fetch("http://localhost:8080/cursos");
+        const response = await fetch("http://localhost:8080/cursos", 
+            {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                "Authorization": localStorage.getItem("token")
+            }});
         if (!response.ok) {
             throw new Error(`Erro ao buscar cursos: ${response.status}`);
         }
@@ -129,7 +135,8 @@ async function atualizarCurso(id) {
         const response = await fetch(`http://localhost:8080/cursos`, {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
             },
             body: JSON.stringify(cursoData)
         });
@@ -153,6 +160,9 @@ async function deletarCurso(cursoId) {
             console.log(`Tentando deletar o transporte com ID: ${cursoId}`);
             const response = await fetch(`http://localhost:8080/cursos/deletar/${cursoId}`, {
                     method: "DELETE",
+                    headers: {
+                        "Authorization": `Bearer ${localStorage.getItem("token")}`
+                    }
                 }
             );
             console.log("Resposta da requisição:", response);

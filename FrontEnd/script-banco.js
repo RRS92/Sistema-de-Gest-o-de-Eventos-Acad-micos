@@ -1,7 +1,13 @@
 // Função para obter bancos
 async function getBancos() {
     try {
-        const response = await fetch("http://localhost:8080/bancos");
+        const response = await fetch("http://localhost:8080/bancos", 
+            {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                "Authorization": localStorage.getItem("token")
+            }});
         if (!response.ok) {
             throw new Error(`Erro ao buscar bancos: ${response.status}`);
         }
@@ -132,7 +138,8 @@ async function atualizarBanco(id) {
         const response = await fetch(`http://localhost:8080/bancos`, {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
             },
             body: JSON.stringify(bancoData)
         });
@@ -156,6 +163,9 @@ async function deletarBanco(bancoId) {
             console.log(`Tentando deletar o banco com ID: ${bancoId}`);
             const response = await fetch(`http://localhost:8080/bancos/deletar/${bancoId}`, {
                     method: "DELETE",
+                    headers: {
+                        "Authorization": `Bearer ${localStorage.getItem("token")}`
+                    }
                 }
             );
             console.log("Resposta da requisição:", response);

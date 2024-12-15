@@ -26,7 +26,8 @@ document.getElementById('formAvaliacao').addEventListener('submit', async functi
     try {
         const response = await fetch('http://localhost:8080/avaliacoes', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',
+                "Authorization": localStorage.getItem("token") },
             body: JSON.stringify(dados)
         });
 

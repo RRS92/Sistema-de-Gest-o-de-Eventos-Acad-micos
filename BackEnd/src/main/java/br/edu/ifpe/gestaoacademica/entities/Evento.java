@@ -1,11 +1,14 @@
 package br.edu.ifpe.gestaoacademica.entities;
 
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -14,7 +17,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.util.List;
 
 @Table(name = "Evento")
 @Entity
@@ -34,19 +36,22 @@ public class Evento {
     private String tipo;
     private boolean ativo;
     
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "idServidor")
     private Servidor servidor;
     
-    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
     private List<Avaliacao> avaliacoes;
     
-    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
     private List<Participante> participantes;
 
-    @OneToOne(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Transporte transporte;
-
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
+    private List<Transporte> transportes;
+    
+    @OneToOne(mappedBy = "evento", cascade = CascadeType.ALL)
+    private Certificado certificado;
+    
     public void inativar() {
         this.ativo = false;
     }

@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro Certificado</title>
+    <title>Criar certificado</title>
     <link rel="icon" href="images\logo.png" type="image/png">
     <link rel="stylesheet" href="style.css">
-    <script src="script-certificado.js"></script>
 </head>
 <body>
     <header class="main-header">
@@ -14,25 +13,33 @@
             <img src="images\ifpe_logo.png" alt="Instituto Federal" class="logo">
             <nav>
                 <a href="index.html">Início</a>
-                <a href="lista-certificado.html">Certificados</a>
+                <a href="lista-evento.html">Eventos</a>
             </nav>
         </div>
     </header>
-
     <main class="form-container">
-        <h2>Criar Certificado</h2>
-        <form id="form-certificados" action="">
+        <h2>Avaliar Evento</h2>
+        <form id="formTransporte">
+            <!-- Campo de ID do Evento oculto -->
+            <input type="hidden" id="idEvento" name="idEvento">
 
-        <section class="certificados-info">
-            <label for="cargaHoraria">Carga Horaria</label>
-            <input type="number" id="cargaHoraria" name="cargaHoraria" maxlength="5" required>
+            <!-- Exibir nome do evento -->
+            <div class="transporte-evento">
+                
+                <p id="nomeEvento"></p>  <!-- Nome do evento será exibido aqui -->
+            </div>
+            <br>
+            <label for="cargaHoraria">Carga Horaria:</label>
+            <input type="number" id="cargaHoraria" name="cargaHoraria" required>
 
-            <label for="descricao">Descrição</label>
-            <input type="text" id="descricao" name="descricao" required>
-        </section>
-        <button type="button" class="btn" id="submit-certificado">Salvar</button>
+            <label for="descricao">Descrição:</label>
+            <textarea id="descricao" name="descricao" required></textarea>
+
+            <button type="submit" class="btn">Criar Certificado</button>
         </form>
     </main>
+
+    <script src="script-criar-certificado.js"></script>
 
     <footer>
         <div class="container">

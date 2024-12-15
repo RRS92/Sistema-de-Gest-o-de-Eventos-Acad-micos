@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
             },
             body: JSON.stringify(certificadoData)
         })
@@ -43,7 +44,13 @@ document.addEventListener("DOMContentLoaded", () => {
 //Função para obter eventos
 async function getCertificados() {
     try {
-        const response = await fetch('http://localhost:8080/certificados'); // URL do seu backend
+        const response = await fetch('http://localhost:8080/certificados', 
+            {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                "Authorization": localStorage.getItem("token")
+            }}); // URL do seu backend
         if (!response.ok) {
             throw new Error(`Erro ao buscar certificados: ${response.status}`);
         }
@@ -169,7 +176,8 @@ async function atualizarCertificado(id) {
         const response = await fetch(`http://localhost:8080/certificados`, {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
             },
             body: JSON.stringify(certificadoData)
         });
@@ -194,6 +202,9 @@ async function deletarCertificado(certificadoId) {
             console.log(`Tentando deletar o certificado com ID: ${certificadoId}`);
             const response = await fetch(`http://localhost:8080/certificados/deletar/${certificadoId}`, {
                 method: 'DELETE',
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
             });
             console.log('Resposta da requisição:', response); // Log da resposta
             if (!response.ok) {

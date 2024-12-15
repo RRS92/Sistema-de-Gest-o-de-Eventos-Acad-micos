@@ -24,7 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch("http://localhost:8080/transportes", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
             },
             body: JSON.stringify(transporteData)
         })

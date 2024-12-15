@@ -1,7 +1,13 @@
 // Função para obter matriculas
 async function getMatriculas() {
     try {
-        const response = await fetch("http://localhost:8080/matriculas");
+        const response = await fetch("http://localhost:8080/matriculas", 
+            {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                "Authorization": localStorage.getItem("token")
+            }});
         if (!response.ok) {
             throw new Error(`Erro ao buscar matrículas: ${response.status}`);
         }
@@ -132,7 +138,8 @@ async function atualizarMatricula(id) {
         const response = await fetch(`http://localhost:8080/matriculas`, {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
             },
             body: JSON.stringify(matriculaData)
         });
@@ -156,6 +163,9 @@ async function deletarMatricula(matriculaId) {
             console.log(`Tentando deletar a matrícula com ID: ${matriculaId}`);
             const response = await fetch(`http://localhost:8080/matriculas/deletar/${matriculaId}`, {
                     method: "DELETE",
+                    headers: {
+                        "Authorization": `Bearer ${localStorage.getItem("token")}`
+                    }
                 }
             );
             console.log("Resposta da requisição:", response);

@@ -1,5 +1,7 @@
 package br.edu.ifpe.gestaoacademica.controllers.dto;
 
+import java.util.List;
+
 import br.edu.ifpe.gestaoacademica.entities.Evento;
 import br.edu.ifpe.gestaoacademica.entities.Servidor;
 import br.edu.ifpe.gestaoacademica.entities.Transporte;
@@ -20,11 +22,11 @@ public record TransporteDTO(
 		@NotBlank
 		String horaChegada,
 		Long idEvento,
-		Servidor servidor) {
+		List<Servidor> servidor) {
 	
 	//Construtor para cadastrar transporte
 	public TransporteDTO(String categoria, String placa, String quilometragem, String nomeMotorista, 
-						 String horaSaida, String horaChegada, Long idEvento, Servidor servidor) {
+						 String horaSaida, String horaChegada, Long idEvento, List<Servidor> servidor) {
 		this(null, categoria, placa, quilometragem, nomeMotorista, horaSaida, horaChegada, idEvento, servidor);
 	}
 
@@ -32,12 +34,12 @@ public record TransporteDTO(
 	public TransporteDTO(Transporte transporte) {
 		this(transporte.getId(), transporte.getCategoria(), transporte.getPlaca(), transporte.getQuilometragem(), 
 			 transporte.getNomeMotorista(), transporte.getHoraSaida(), transporte.getHoraChegada(), 
-			 transporte.getEvento() != null ? transporte.getEvento().getId() : null, transporte.getServidor());
+			 transporte.getEvento() != null ? transporte.getEvento().getId() : null,transporte.getServidores());
 	}
 	
 	//Construtor para atualizar transporte
 	public TransporteDTO(Long id, String categoria, String placa, String quilometragem, String nomeMotorista, 
-						 String horaSaida, String horaChegada, Long idEvento, Servidor servidor) {
+						 String horaSaida, String horaChegada, Long idEvento, List<Servidor> servidor) {
 		this.id = id; 
 		this.categoria = categoria;
 		this.placa = placa;
