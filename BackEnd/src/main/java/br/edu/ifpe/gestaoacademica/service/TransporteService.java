@@ -24,7 +24,7 @@ public class TransporteService {
 	
 	@Autowired
     private EventoRepository eventoRepository;
-
+	
 
 	public Transporte cadastrarTransporte(TransporteDTO dadosTransporteDTO) {
 
@@ -39,8 +39,8 @@ public class TransporteService {
 		
 		Evento evento = eventoRepository.findById(dadosTransporteDTO.idEvento())
                 .orElseThrow(() -> new EntityNotFoundException("Evento não encontrado"));
-		transporte.setEvento(evento);
-		transporte.setServidor(dadosTransporteDTO.servidor());
+        transporte.setEvento(evento);
+		transporte.setServidores(dadosTransporteDTO.servidor());
 		
 		return transporteRepository.save(transporte);
 	}
@@ -48,6 +48,13 @@ public class TransporteService {
 	public List<Transporte> listarTransporte() {
 		return transporteRepository.findAllByAtivoTrue();
 	}
+	
+	// Método para listar as transportes de um evento específico
+    public List<Transporte> listarTransportesPorEvento(Long eventoId) {
+        Evento evento = eventoRepository.findById(eventoId)
+                .orElseThrow(() -> new EntityNotFoundException("Evento não encontrado"));
+        return transporteRepository.findByEvento(evento);
+    }
 	
 	public Transporte atualizarTransporte(@Valid TransporteDTO dadosTransporteDTO) {
 		

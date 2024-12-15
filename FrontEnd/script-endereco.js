@@ -1,7 +1,13 @@
 // Função para obter enderecos
 async function getEnderecos() {
     try {
-        const response = await fetch("http://localhost:8080/enderecos");
+        const response = await fetch("http://localhost:8080/enderecos", 
+            {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                "Authorization": localStorage.getItem("token")
+            }});
         if (!response.ok) {
             throw new Error(`Erro ao buscar endereços: ${response.status}`);
         }
@@ -144,7 +150,8 @@ async function atualizarEndereco(id) {
         const response = await fetch(`http://localhost:8080/enderecos`, {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
             },
             body: JSON.stringify(enderecoData)
         });
@@ -168,6 +175,9 @@ async function deletarEndereco(enderecoId) {
             console.log(`Tentando deletar o endereço com ID: ${enderecoId}`);
             const response = await fetch(`http://localhost:8080/enderecos/deletar/${enderecoId}`, {
                     method: "DELETE",
+                    headers: {
+                        "Authorization": `Bearer ${localStorage.getItem("token")}`
+                    }
                 }
             );
             console.log("Resposta da requisição:", response);

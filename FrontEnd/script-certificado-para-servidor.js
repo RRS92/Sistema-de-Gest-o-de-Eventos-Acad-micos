@@ -1,7 +1,13 @@
 
 async function getCertificados() {
     try {
-        const response = await fetch('http://localhost:8080/certificados'); // URL do seu backend
+        const response = await fetch('http://localhost:8080/certificados', 
+            {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                "Authorization": localStorage.getItem("token")
+            }}); // URL do seu backend
         if (!response.ok) {
             throw new Error(`Erro ao buscar certificados: ${response.status}`);
         }

@@ -1,5 +1,7 @@
 package br.edu.ifpe.gestaoacademica.entities;
 
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,7 +16,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.util.List;
 
 @Table(name = "Participante")
 @Entity
@@ -29,17 +30,19 @@ public class Participante {
 	private Long id;
 	private boolean ativo;
 	
-	@ManyToOne
-	@JoinColumn(name = "id_usuario")
-	private Usuario usuario;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_evento")
+	@JoinColumn(name = "idUsuario") 
+	private Usuario usuario;
+	    
+	@ManyToOne
+	@JoinColumn(name = "idEvento")
 	private Evento evento;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_certificado")
+	@JoinColumn(name = "idCertificado")
 	private Certificado certificado;
+	
 	
 	@OneToMany(mappedBy = "participante", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Avaliacao> avaliacoes;

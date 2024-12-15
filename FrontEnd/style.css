@@ -546,6 +546,7 @@ footer .footer-column {
     background-color: #004d00; /* Tom mais escuro para o hover */
 }
 
+
 /* Contêiner dos botões */
 .buttons-container {
     display: flex;
@@ -571,23 +572,6 @@ footer .footer-column {
 
 .buttons-container button:hover {
     opacity: 0.8;
-}
-
-/* Botão Criar Certificado */
-.btnCertificado {
-    background-color: #229526; /* Cor de fundo verde */
-    color: rgb(255, 255, 255);
-    border: none;
-    font-size: 14px; /* Tamanho específico para este botão */
-
-}
-
-.btnTransporte {
-    background-color: #229526; /* Cor de fundo azul */
-    color: white;
-    border: none;
-    font-size: 14px; /* Tamanho específico para este botão */
-
 }
 
 /* Botão Deletar */
@@ -624,12 +608,12 @@ footer .footer-column {
     background-color: #00008B; /* Cor do fundo ao passar o mouse */
 }
 
-/* Botão Atualizar */
-.update-button {
-    background-color: #006400; /* Cor de fundo verde */
+/* Botão Editar Centro */
+.edit-center-button {
+    background-color: #0000CD; /* Cor de fundo azul */
     color: white;        /* Cor do texto branca */
-    padding: 10px 20px;   /* Aumenta o tamanho do botão */
-    margin-left: 60px;      
+    padding: 10px 20px;   /* Aumenta o tamanho do botão */ 
+    margin-left: 75px;    
     border: none;         /* Remove a borda padrão */
     border-radius: 5px;  /* Adiciona bordas arredondadas */
     cursor: pointer;      /* Muda o cursor ao passar o mouse */
@@ -637,13 +621,13 @@ footer .footer-column {
     transition: background-color 0.3s; /* Efeito de transição */
 }
 
-.update-button:hover {
-    background-color: #004d00; /* Cor do fundo ao passar o mouse */
+.edit-button:hover {
+    background-color: #00008B; /* Cor do fundo ao passar o mouse */
 }
 
 /* Botão Criar Certificado */
 .certificate-button {
-    background-color: #229526; /* Cor de fundo verde */
+    background-color: #006400; /* Cor de fundo verde */
     color: white;        /* Cor do texto branca */
     padding: 10px 10px;   /* Aumenta o tamanho do botão */
     margin-left: 10px; 
@@ -657,12 +641,12 @@ footer .footer-column {
 }
 
 .certificate-button:hover {
-    background-color: #006400; /* Cor do fundo ao passar o mouse */
+    background-color: #004d00; /* Cor do fundo ao passar o mouse */
 }
 
 /* Botão Criar Transporte */
 .transport-button {
-    background-color: #229526; /* Cor de fundo verde */
+    background-color: #006400; /* Cor de fundo verde */
     color: white;        /* Cor do texto branca */
     padding: 10px 10px;   /* Aumenta o tamanho do botão */
     margin-left: 24px;      
@@ -675,7 +659,7 @@ footer .footer-column {
 }
 
 .transport-button:hover {
-    background-color: #006400; /* Cor do fundo ao passar o mouse */
+    background-color: #004d00; /* Cor do fundo ao passar o mouse */
 }
 
 /* Botão Avaliar Evento */ 
@@ -711,6 +695,90 @@ footer .footer-column {
 
 .seeReviews-button:hover {
     background-color: #A9A9A9; /* Cor do fundo ao passar o mouse */  
+}
+
+/* Botão Ver Transportes */ 
+.seeTransportes-button {
+    background-color: white; /* Cor de fundo cinza */
+    color: black;        /* Cor do texto preta */
+    padding: 10px 10px;   /* Aumenta o tamanho do botão */
+    margin-left: 24px;      
+    border-radius: 5px;  /* Adiciona bordas arredondadas */
+    cursor: pointer;      /* Muda o cursor ao passar o mouse */
+    font-size: 16px;      /* Aumenta o tamanho da fonte */
+    transition: background-color 0.3s; /* Efeito de transição */
+    width: 106px; /* Define uma largura fixa para todos os botões */
+}
+
+.seeTransportes-button:hover {
+    background-color: #A9A9A9; /* Cor do fundo ao passar o mouse */  
+}
+
+/* Botão Ver Certificados */ 
+.seeCertificados-button {
+    background-color: white; /* Cor de fundo cinza */
+    color: black;        /* Cor do texto preta */
+    padding: 10px 10px;   /* Aumenta o tamanho do botão */
+    margin-left: 24px;      
+    border-radius: 5px;  /* Adiciona bordas arredondadas */
+    cursor: pointer;      /* Muda o cursor ao passar o mouse */
+    font-size: 16px;      /* Aumenta o tamanho da fonte */
+    transition: background-color 0.3s; /* Efeito de transição */
+    width: 106px; /* Define uma largura fixa para todos os botões */
+}
+
+.seeCertificados-button:hover {
+    background-color: #A9A9A9; /* Cor do fundo ao passar o mouse */  
+}
+
+/* Botão Atualizar */
+.update-button {
+    background-color: #006400; /* Cor de fundo verde */
+    color: white;        /* Cor do texto branca */
+    padding: 10px 12px;   /* Aumenta o tamanho do botão */
+    margin-right: 15px;
+    margin-left: 10px;      
+    border: none;         /* Remove a borda padrão */
+    border-radius: 5px;  /* Adiciona bordas arredondadas */
+    cursor: pointer;      /* Muda o cursor ao passar o mouse */
+    font-size: 16px;      /* Aumenta o tamanho da fonte */
+    transition: background-color 0.3s; /* Efeito de transição */
+}
+
+.update-button:hover {
+    background-color: #004d00; /* Cor do fundo ao passar o mouse */
+}
+
+/* Botão Cancelar Edição */
+.cancel-edit-button {
+    background-color: red; /* Cor de fundo vermelha */
+    color: white;          /* Cor do texto branca */
+    padding: 10px 12px;   /* Aumenta o tamanho do botão */
+    border: none;         /* Remove a borda padrão */
+    border-radius: 5px;  /* Adiciona bordas arredondadas */
+    cursor: pointer;      /* Muda o cursor ao passar o mouse */
+    font-size: 16px;      /* Aumenta o tamanho da fonte */
+    transition: background-color 0.3s; /* Efeito de transição */
+}
+
+.cancel-edit-button:hover {
+    background-color: darkred; /* Cor do fundo ao passar o mouse */
+}
+
+/* Botão Participar */
+.partipate-button {
+    background-color: #006400; /* Cor de fundo verde */
+    color: white;        /* Cor do texto branca */
+    padding: 10px 20px;   /* Aumenta o tamanho do botão */     
+    border: none;         /* Remove a borda padrão */
+    border-radius: 5px;  /* Adiciona bordas arredondadas */
+    cursor: pointer;      /* Muda o cursor ao passar o mouse */
+    font-size: 16px;      /* Aumenta o tamanho da fonte */
+    transition: background-color 0.3s; /* Efeito de transição */
+}
+
+.update-button:hover {
+    background-color: #004d00; /* Cor do fundo ao passar o mouse */
 }
 
 
@@ -777,6 +845,90 @@ h2 {
 
 /* Estilo para os cards de avaliação */
 .avaliacao-card {
+    background-color: #f9f9f9; /* Fundo suave */
+    border: 1px solid #ddd;    /* Borda leve */
+    border-radius: 8px;        /* Bordas arredondadas */
+    padding: 15px;             /* Espaçamento interno */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    width: 100%;               /* Ocupa toda a largura disponível do container */
+    text-align: left;          /* Alinha o texto à esquerda */
+}
+
+/* Estilos para a seção de transporte */
+.transporte-section {
+    padding: 20px;
+    text-align: center; /* Centraliza o título e o nome do evento */
+}
+
+.transpote-section h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Estilo para o nome do evento */
+.transporte-evento {
+    font-size: 25px;
+    color: #555;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Container das avaliações */
+.transportes-container {
+    display: flex;
+    flex-direction: column; /* Alinha os elementos na vertical */
+    align-items: center;   /* Centraliza os elementos horizontalmente */
+    gap: 10px;             /* Espaçamento vertical entre os cards */
+    margin: 0 auto;        /* Centraliza o container */
+    max-width: 600px;      /* Limita a largura máxima */
+}
+
+/* Estilo para os cards de avaliação */
+.transporte-card {
+    background-color: #f9f9f9; /* Fundo suave */
+    border: 1px solid #ddd;    /* Borda leve */
+    border-radius: 8px;        /* Bordas arredondadas */
+    padding: 15px;             /* Espaçamento interno */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    width: 100%;               /* Ocupa toda a largura disponível do container */
+    text-align: left;          /* Alinha o texto à esquerda */
+}
+
+/* Estilos para a seção de certificado */
+.certificado-section {
+    padding: 20px;
+    text-align: center; /* Centraliza o título e o nome do evento */
+}
+
+.cetificado-section h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Estilo para o nome do evento */
+.certificado-evento {
+    font-size: 25px;
+    color: #555;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Container das certificado */
+.certificados-container {
+    display: flex;
+    flex-direction: column; /* Alinha os elementos na vertical */
+    align-items: center;   /* Centraliza os elementos horizontalmente */
+    gap: 10px;             /* Espaçamento vertical entre os cards */
+    margin: 0 auto;        /* Centraliza o container */
+    max-width: 600px;      /* Limita a largura máxima */
+}
+
+/* Estilo para os cards de certificado */
+.certificado-card {
     background-color: #f9f9f9; /* Fundo suave */
     border: 1px solid #ddd;    /* Borda leve */
     border-radius: 8px;        /* Bordas arredondadas */

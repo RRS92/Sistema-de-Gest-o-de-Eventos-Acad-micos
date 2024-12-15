@@ -1,7 +1,17 @@
 // Função para obter eventos
+
+const userId = localStorage.getItem('userIdUtilizador');
+
 async function getEventos() {
     try {
-        const response = await fetch('http://localhost:8080/eventos'); // URL do seu backend
+        const response = await fetch('http://localhost:8080/eventos', 
+            {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    "Authorization": localStorage.getItem("token")
+                }
+            }); // URL do seu backend
         if (!response.ok) {
             throw new Error(`Erro ao buscar eventos: ${response.status}`);
         }
@@ -38,6 +48,7 @@ function exibirEventos(eventos) {
             <div class="buttons-container">
                 <button class="btnAvaliar" data-id="${evento.id}">Avaliar Evento</button>
                 <button class="btnVerAvaliacoes" data-id="${evento.id}">Ver Avaliações</button>
+                <button class="partipate-button" data-id="${evento.id}">Participar</button> 
             </div>
         `;
         eventsContainer.appendChild(eventCard);
@@ -46,11 +57,11 @@ function exibirEventos(eventos) {
     // Botão de Avaliação
     document.querySelectorAll('.btnAvaliar').forEach(button => {
         button.addEventListener('click', function() {
-            const idEvento = this.getAttribute('data-id'); // Captura o ID do evento
-            const nomeEvento = this.closest('.event-card').querySelector('h3').textContent; // Captura o nome do evento
-            localStorage.setItem('idEventoSelecionado', idEvento); // Salva o ID do evento
-            localStorage.setItem('nomeEventoSelecionado', nomeEvento); // Salva o nome do evento
-            window.location.href = 'Avaliar-evento.html'; // Redireciona para a página de avaliação
+            const idEvento = this.getAttribute('data-id');
+            const nomeEvento = this.closest('.event-card').querySelector('h3').textContent;
+            localStorage.setItem('idEventoSelecionado', idEvento);
+            localStorage.setItem('nomeEventoSelecionado', nomeEvento);
+            window.location.href = 'Avaliar-evento.html';
         });
     });
 
@@ -58,15 +69,50 @@ function exibirEventos(eventos) {
     document.querySelectorAll('.btnVerAvaliacoes').forEach(button => {
         button.addEventListener('click', function() {
             const idEvento = this.getAttribute('data-id');
-            const nomeEvento = this.closest('.event-card').querySelector('h3').textContent; // Captura o nome do evento
-            localStorage.setItem('idEventoSelecionado', idEvento);  // Salva o ID do evento no localStorage
-            localStorage.setItem('nomeEventoSelecionado', nomeEvento); // Salva o nome do evento
-            window.location.href = 'lista-avaliacoes.html';  // Redireciona para a página de listagem de avaliações
+            const nomeEvento = this.closest('.event-card').querySelector('h3').textContent;
+            localStorage.setItem('idEventoSelecionado', idEvento);
+            localStorage.setItem('nomeEventoSelecionado', nomeEvento);
+            window.location.href = 'lista-avaliacoes.html';
         });
     });
+
+    // Botão de Participar
+document.querySelectorAll('.partipate-button').forEach(button => {
+    button.addEventListener('click', async function() {
+        const idEvento = this.getAttribute('data-id');
+        const eventoSelecionado = eventos.find(evento => evento.id === parseInt(idEvento));
+
+        if (!eventoSelecionado) {
+            alert('Erro: Evento não encontrado.');
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:8080/participantes', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': localStorage.getItem("token")
+                },
+                body: JSON.stringify({
+                    evento: eventoSelecionado, // Envia o evento completo
+                    usuarioId: localStorage.getItem('userId') // ID do usuário
+                })
+            });
+            if (!response.ok) {
+                throw new Error(`Erro ao criar participante: ${response.status}`);
+            }
+            alert('Participação criada com sucesso!'); // Mensagem de sucesso
+        } catch (error) {
+            console.error(error);
+            alert('Erro ao participar do evento. Tente novamente mais tarde.');
+        }
+    });
+});
 }
 
 // Chama a função para obter eventos e exibi-los na página
 getEventos().then(eventos => {
-    exibirEventos(eventos); // Exibe os eventos na página
+    exibirEventos(eventos);
 });

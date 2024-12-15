@@ -36,7 +36,9 @@ public class ServidorService {
 		servidor.setBanco(dadosServidorDTO.banco());
 		servidor.setEndereco(dadosServidorDTO.endereco());
 		servidor.setAtivo(true);
-
+		
+		
+		//servidor.setUtilizador(dadosServidorDTO.utilizador());
 		return servidorRepository.save(servidor);
 
 	}

@@ -1,7 +1,13 @@
 // Função para obter alunos
 async function getAlunos() {
     try {
-        const response = await fetch("http://localhost:8080/alunos");
+        const response = await fetch("http://localhost:8080/alunos", 
+            {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                "Authorization": localStorage.getItem("token")
+            }});
         if (!response.ok) {
             throw new Error(`Erro ao buscar alunos: ${response.status}`);
         }

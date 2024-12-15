@@ -16,7 +16,13 @@
         // Função para buscar as avaliações do evento
         async function listarAvaliacoes() {
             try {
-                const response = await fetch(`http://localhost:8080/avaliacoes/evento?eventoId=${idEvento}`);
+                const response = await fetch(`http://localhost:8080/avaliacoes/evento?eventoId=${idEvento}`, {
+                    method: 'GET',
+                    headers: {
+                        "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                        "Content-Type": "application/json" // Adiciona cabeçalho para JSON se necessário
+                    }
+                });
                 const avaliacoes = await response.json();
         
                 const avaliacoesContainer = document.querySelector('.avaliacoes-container');

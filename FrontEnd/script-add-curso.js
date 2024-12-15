@@ -9,7 +9,8 @@ async function cadastrarMatricula() {
 
         const cursoResponse = await fetch("http://localhost:8080/cursos", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token") },
             body: JSON.stringify(cursoData)
         });
 
@@ -28,7 +29,8 @@ async function cadastrarMatricula() {
 
         const matriculaResponse = await fetch("http://localhost:8080/matriculas", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json" ,
+                "Authorization": localStorage.getItem("token")},
             body: JSON.stringify(matriculaData)
         });
 

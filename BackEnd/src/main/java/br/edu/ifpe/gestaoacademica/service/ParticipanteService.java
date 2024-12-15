@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import br.edu.ifpe.gestaoacademica.controllers.dto.ParticipanteDTO;
 import br.edu.ifpe.gestaoacademica.entities.Participante;
 import br.edu.ifpe.gestaoacademica.repository.ParticipanteRepository;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "*")
 

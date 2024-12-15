@@ -12,8 +12,7 @@
         <div class="container">
             <img src="images\ifpe_logo.png" alt="Logo IFPE" class="logo">
             <nav>
-                <a href="usuarios.html">Login</a>
-                <a href="index.html">Sair</a>
+                <a href="#" id="encerrarSessao" style="color: white; background-color: rgb(255, 0, 0); padding: 10px 20px; text-decoration: none; border-radius: 5px;">Encerrar Sessão</a>
             </nav>
         </div>
     </header>
@@ -31,16 +30,19 @@
                 </div>
             </div>
             <div class="profile-actions">
+                <a href="cadastro-servidor.html" class="btn">Adicionar Informações Pessoais</a>
+
                 <a href="lista-servidor.html" class="btn">Editar Informações</a>
                 <a href="cadastro-evento.html" class="btn">Criar Evento</a>
                 <a href="lista-evento.html" class="btn">Eventos Disponíveis</a>
-                <br>
                 <a href="lista-aluno-para-servidor.html" class="btn">Alunos Disponíveis</a>
-                <a href="lista-transporte.html" class="btn">Transportes Disponíveis</a>
-                <a href="lista-certificado.html" class="btn">Certificados Disponíveis</a>
                 <a href="lista-banco.html" class="btn">Editar Banco</a>
                 <a href="lista-endereco.html" class="btn">Editar Endereço</a>
-
+                <br>
+                <br>
+                <div>
+                    <a href="" class="btn" style="color: white; background-color: red; border: none; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Excluir Conta</a>
+                </div>
             </div>
         </div>
     </section>
@@ -52,5 +54,18 @@
         </div>
     </footer>
 
+    <script>
+        // Evento de clique para o botão "Encerrar Sessão"
+        document.getElementById('encerrarSessao').addEventListener('click', function(event) {
+            event.preventDefault();  // Previne a navegação imediata para index.html
+
+            // Limpa o localStorage
+            localStorage.clear();
+
+            // Redireciona para a página inicial (index.html)
+            window.location.href = 'index.html';
+        });
+    </script>
+
 </body>
-</html>     
+</html>

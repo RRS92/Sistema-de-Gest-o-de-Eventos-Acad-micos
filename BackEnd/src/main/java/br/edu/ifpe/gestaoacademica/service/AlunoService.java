@@ -30,10 +30,22 @@ public class AlunoService {
 		aluno.setDataNasc(dadosAlunoDTO.dataNasc());
 		aluno.setEmail(dadosAlunoDTO.email());
 		aluno.setTelefone(dadosAlunoDTO.telefone());
+		
 		aluno.setBanco(dadosAlunoDTO.banco());
 		aluno.setEndereco(dadosAlunoDTO.endereco());
 		aluno.setAtivo(true);
-
+		/*if (dadosAlunoDTO.participante() != null) {
+		        List<Participante> participantes = dadosAlunoDTO.participante().stream()
+		            .map(participante -> {
+		                participante.setUsuario(aluno); // Vincula o participante ao aluno
+		                return participante;
+		            })
+		            .collect(Collectors.toList());
+		        aluno.setParticipante(participantes);
+		    }
+		   */
+	   aluno.setParticipante(dadosAlunoDTO.participante());
+	   aluno.setUtilizador(dadosAlunoDTO.utilizador());
 		return alunoRepository.save(aluno);
 
 	}

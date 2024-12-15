@@ -1,3 +1,5 @@
+const userId = localStorage.getItem('userIdUtilizador');
+
 // Função para cadastrar servidor
 async function cadastrarServidor() {
     try {
@@ -11,7 +13,9 @@ async function cadastrarServidor() {
 
         const bancoResponse = await fetch("http://localhost:8080/bancos", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json" ,
+                "Authorization": localStorage.getItem("token")
+},
             body: JSON.stringify(bancoData)
         });
 
@@ -32,7 +36,9 @@ async function cadastrarServidor() {
 
         const enderecoResponse = await fetch("http://localhost:8080/enderecos", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
+ },
             body: JSON.stringify(enderecoData)
         });
 
@@ -51,12 +57,15 @@ async function cadastrarServidor() {
             siape: document.getElementById("siape").value,
             cargo: document.getElementById("cargo").value,
             banco: { id: bancoId },
-            endereco: { id: enderecoId }
+            endereco: { id: enderecoId },
+            utilizador: { id: userId }
         };
 
         const servidorResponse = await fetch("http://localhost:8080/servidores", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json" ,
+                "Authorization": localStorage.getItem("token")
+},
             body: JSON.stringify(servidorData)
         });
 
@@ -77,7 +86,14 @@ async function cadastrarServidor() {
 // Função para obter servidores
 async function getServidores() {
     try {
-        const response = await fetch("http://localhost:8080/servidores");
+        const response = await fetch("http://localhost:8080/servidores", 
+            {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                "Authorization": localStorage.getItem("token")
+            }});
+
         if (!response.ok) {
             throw new Error(`Erro ao buscar servidores: ${response.status}`);
         }
@@ -228,7 +244,8 @@ async function atualizarServidor(id) {
         const response = await fetch(`http://localhost:8080/servidores`, {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
             },
             body: JSON.stringify(servidorData)
         });
@@ -252,6 +269,9 @@ async function deletarServidor(servidorId) {
             console.log(`Tentando deletar o servidor com ID: ${servidorId}`);
             const response = await fetch(`http://localhost:8080/servidores/deletar/${servidorId}`, {
                     method: "DELETE",
+                    headers: {
+                        "Authorization": `Bearer ${localStorage.getItem("token")}`
+                    },
                 });
 
             console.log("Resposta da requisição:", response);

@@ -2,8 +2,6 @@ package br.edu.ifpe.gestaoacademica.entities;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -37,7 +35,6 @@ public class Endereco {
 	private boolean ativo;
 	
 	@OneToMany(mappedBy = "endereco")
-	@JsonIgnore
 	private List<Usuario> usuarios;
 	
 	public void inativar() {

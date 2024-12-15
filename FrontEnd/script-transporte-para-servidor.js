@@ -2,7 +2,13 @@
 // Função para obter transportes
 async function getTransportes() {
     try {
-        const response = await fetch("http://localhost:8080/transportes");
+        const response = await fetch("http://localhost:8080/transportes", 
+            {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                "Authorization": localStorage.getItem("token")
+            }});
         if (!response.ok) {
             throw new Error(`Erro ao buscar transportes: ${response.status}`);
         }
