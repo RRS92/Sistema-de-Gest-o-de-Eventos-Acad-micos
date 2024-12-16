@@ -39,5 +39,4 @@ public class Avaliacao {
 	public void inativar() {
 		this.ativo = false;
 	}
-
 }

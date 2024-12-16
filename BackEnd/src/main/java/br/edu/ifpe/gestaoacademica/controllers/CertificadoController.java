@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.ifpe.gestaoacademica.controllers.dto.AvaliacaoDTO;
 import br.edu.ifpe.gestaoacademica.controllers.dto.CertificadoDTO;
-import br.edu.ifpe.gestaoacademica.entities.Avaliacao;
 import br.edu.ifpe.gestaoacademica.entities.Certificado;
 import br.edu.ifpe.gestaoacademica.service.CertificadoService;
 import jakarta.transaction.Transactional;

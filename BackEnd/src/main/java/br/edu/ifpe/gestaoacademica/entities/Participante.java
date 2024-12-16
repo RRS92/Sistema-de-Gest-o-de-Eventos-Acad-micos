@@ -50,5 +50,4 @@ public class Participante {
 	public void inativar() {
 		this.ativo = false;
 	}
-
 }
