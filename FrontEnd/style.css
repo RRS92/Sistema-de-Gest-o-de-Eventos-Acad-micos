@@ -702,7 +702,8 @@ footer .footer-column {
     background-color: white; /* Cor de fundo cinza */
     color: black;        /* Cor do texto preta */
     padding: 10px 10px;   /* Aumenta o tamanho do botão */
-    margin-left: 24px;      
+    margin-left: 10px;
+    margin-bottom: 15px;     
     border-radius: 5px;  /* Adiciona bordas arredondadas */
     cursor: pointer;      /* Muda o cursor ao passar o mouse */
     font-size: 16px;      /* Aumenta o tamanho da fonte */
