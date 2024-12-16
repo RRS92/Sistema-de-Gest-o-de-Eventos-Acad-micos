@@ -18,21 +18,20 @@ import br.edu.ifpe.gestaoacademica.entities.Utilizador;
 public class TokenService {
 	@Value("${api.security.token.secret}")
 	private String secret;
-	
+
 	public String gerarToken(Utilizador utilizador) {
 		try {
 			var algorithm = Algorithm.HMAC256(secret);
-			return JWT.create()
-					.withIssuer("Gestao_academica")
-					.withSubject(utilizador.getLogin())
+			return JWT.create().withIssuer("Gestao_academica").withSubject(utilizador.getLogin())
 					.withExpiresAt(dataExpiracao())
-					//.withClaim("id", utilizador.getId())
+					// .withClaim("id", utilizador.getId())
 					.sign(algorithm);
 
 		} catch (JWTCreationException exception) {
 			throw new RuntimeException("Erro ao gerar o token", exception);
 
-		}}
+		}
+	}
 
 	private Instant dataExpiracao() {
 		return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
@@ -40,14 +39,10 @@ public class TokenService {
 
 	public String validateToken(String token) {
 		try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
-            return JWT.require(algorithm)
-                    .withIssuer("Gestao_academica")
-                    .build()
-                    .verify(token)
-                    .getSubject();
-        } catch (JWTVerificationException exception) {
-            return null;
-        }
-}
+			Algorithm algorithm = Algorithm.HMAC256(secret);
+			return JWT.require(algorithm).withIssuer("Gestao_academica").build().verify(token).getSubject();
+		} catch (JWTVerificationException exception) {
+			return null;
+		}
 	}
+}

@@ -55,14 +55,14 @@ function exibirTransportes(transportes) {
                 <input type="text" id="horaChegada-${transporte.id}" value="${transporte.horaChegada}" style="display:none;" /></p>
             </div>
             <br>
-            <button class="edit-button" data-transporteId="${transporte.id}">Editar ✏️</button>  
+            <button class="edit-center-button" data-transporteId="${transporte.id}">Editar ✏️</button>  
             <button class="update-button" id="atualizar-${transporte.id}" style="display:none;" onclick="atualizarTransporte(${transporte.id})">Atualizar ✏️</button>
         `;
         eventsContainer.appendChild(eventCard);
     });
 
     // Adiciona o evento de clique aos botões de editar
-    document.querySelectorAll(".edit-button").forEach((button) => {
+    document.querySelectorAll(".edit-center-button").forEach((button) => {
         button.addEventListener("click", function(event) {
             const transporteId = event.target.getAttribute("data-transporteId");
             toggleEditAll(transporteId); // Chama a função para alternar o modo de edição
@@ -90,7 +90,7 @@ function toggleEditAll(id) {
     const fields = ['categoria', 'placa', 'quilometragem', 'nomeMotorista', 'horaSaida', 'horaChegada'];
 
     // Seleciona os botões relacionados ao transporte
-    const editButton = document.querySelector(`.edit-button[data-transporteId="${id}"]`);
+    const editButton = document.querySelector(`.edit-center-button[data-transporteId="${id}"]`);
     const atualizarButton = document.getElementById(`atualizar-${id}`);
 
     // Alterna entre o modo de edição e visualização

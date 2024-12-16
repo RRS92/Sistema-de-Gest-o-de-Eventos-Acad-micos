@@ -19,6 +19,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @Entity
 @Table(name = "Utilizador")
 @Getter
@@ -27,43 +28,44 @@ import lombok.Setter;
 @NoArgsConstructor
 @EqualsAndHashCode
 
-public class Utilizador implements UserDetails{
+public class Utilizador implements UserDetails {
 
-	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-    @Column(nullable = false, unique = true, length = 45)
-	private String login;
-	
-    @Column(nullable = false, length = 60)
-	private String senha;
-    
-	private boolean ativo;
-	
-	 @OneToOne(mappedBy = "utilizador")
-	 private Usuario usuario;
 
-	   
+	@Column(nullable = false, unique = true, length = 45)
+	private String login;
+
+	@Column(nullable = false, length = 60)
+	private String senha;
+
+	private boolean ativo;
+
+	@OneToOne(mappedBy = "utilizador")
+	private Usuario usuario;
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return List.of(new SimpleGrantedAuthority("ROLE_USER"));
 	}
+
 	@Override
 	public String getPassword() {
 		return senha;
 	}
+
 	@Override
 	public String getUsername() {
 		return login;
 	}
+
 	public void inativar() {
-		this.ativo= false;
+		this.ativo = false;
 	}
 }

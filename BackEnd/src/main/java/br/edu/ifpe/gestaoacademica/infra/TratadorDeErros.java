@@ -11,7 +11,6 @@ import jakarta.persistence.EntityNotFoundException;
 @RestControllerAdvice
 public class TratadorDeErros {
 
-	
 	@ExceptionHandler(EntityNotFoundException.class)
 	public ResponseEntity<?> tratador404() {
 		return ResponseEntity.notFound().build();
@@ -24,10 +23,10 @@ public class TratadorDeErros {
 	}
 
 	public record DadosErros(String campo, String messagem) {
-		
+
 		public DadosErros(FieldError erro) {
 			this(erro.getField(), erro.getDefaultMessage());
-			}
+		}
 	}
 
 }

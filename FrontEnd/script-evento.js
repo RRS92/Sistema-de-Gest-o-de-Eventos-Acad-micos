@@ -108,8 +108,8 @@ function exibirEventos(eventos) {
             <button class="evaluateEvent-button" data-eventoId="${evento.id}">Avaliar Evento</button>
             <button class="seeReviews-button" data-eventoId="${evento.id}">Ver Avaliações</button>
 
-            <button class="seeTransportes-button" data-eventoId="${evento.id}">Ver Transportes</button>
-            <button class="seeCertificados-button" data-eventoId="${evento.id}">Ver Certificados</button>
+            <button class="seeTransports-button" data-eventoId="${evento.id}">Ver Transportes</button>
+            <button class="seeCertificates-button" data-eventoId="${evento.id}">Ver Certificados</button>
 
             <button class="edit-button" data-eventoId="${evento.id}">Editar ✏️</button>
             <button class="delete-button" data-eventoId="${evento.id}">Deletar 🗑️</button>  
@@ -165,7 +165,7 @@ function exibirEventos(eventos) {
     });
 
     // Botão de Ver transportes
-    document.querySelectorAll('.seeTransportes-button').forEach(button => {
+    document.querySelectorAll('.seeTransports-button').forEach(button => {
         button.addEventListener('click', function() {
             const idEvento = this.getAttribute('data-eventoId');
             const nomeEvento = this.closest('.event-card').querySelector('h3').textContent; // Captura o nome do evento
@@ -176,7 +176,7 @@ function exibirEventos(eventos) {
     });
 
     // Botão de Ver certificados
-    document.querySelectorAll('.seeCertificados-button').forEach(button => {
+    document.querySelectorAll('.seeCertificates-button').forEach(button => {
         button.addEventListener('click', function() {
             const idEvento = this.getAttribute('data-eventoId');
             const nomeEvento = this.closest('.event-card').querySelector('h3').textContent; // Captura o nome do evento
@@ -209,7 +209,6 @@ function exibirEventos(eventos) {
             location.reload(); // Recarrega a página
         });
     });
-
 }
 
 // Chama a função para obter eventos e exibi-los na página
@@ -229,6 +228,8 @@ function toggleEditAll(id) {
     const seeReviewsButton = document.querySelector(`.seeReviews-button[data-eventoId="${id}"]`);
     const certificateButton = document.querySelector(`.certificate-button[data-eventoId="${id}"]`);
     const transportButton = document.querySelector(`.transport-button[data-eventoId="${id}"]`);
+    const seeTransportButton = document.querySelector(`.seeTransports-button[data-eventoId="${id}"]`);
+    const seeCertificateButton = document.querySelector(`.seeCertificates-button[data-eventoId="${id}"]`);
 
     const atualizarButton = document.getElementById(`atualizar-${id}`);
     const cancelEditButton = document.querySelector(`.cancel-edit-button[data-eventoId="${id}"]`);
@@ -260,6 +261,9 @@ function toggleEditAll(id) {
         seeReviewsButton.style.display = "none"
         certificateButton.style.display = "none"
         transportButton.style.display = "none"
+        seeTransportButton.style.display = "none"
+        seeCertificateButton.style.display = "none"
+        
         atualizarButton.style.display = "inline";
         cancelEditButton.style.display = "inline";
     } else {
@@ -270,6 +274,9 @@ function toggleEditAll(id) {
         seeReviewsButton.style.display = "inline"
         certificateButton.style.display = "inline"
         transportButton.style.display = "inline"
+        seeTransportButton.style.display = "inline"
+        seeCertificateButton.style.display = "inline"
+        
         atualizarButton.style.display = "none";
         cancelEditButton.style.display = "none";
     }

@@ -56,4 +56,3 @@ public class Evento {
         this.ativo = false;
     }
 }
-

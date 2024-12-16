@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import br.edu.ifpe.gestaoacademica.controllers.dto.CertificadoDTO;
-import br.edu.ifpe.gestaoacademica.entities.Avaliacao;
 import br.edu.ifpe.gestaoacademica.entities.Certificado;
 import br.edu.ifpe.gestaoacademica.entities.Evento;
 import br.edu.ifpe.gestaoacademica.repository.CertificadoRepository;
