@@ -13,4 +13,3 @@ public interface TransporteRepository extends JpaRepository<Transporte, Long> {
 	// Método para buscar transportes por evento
     List<Transporte> findByEvento(Evento evento);
 }
-

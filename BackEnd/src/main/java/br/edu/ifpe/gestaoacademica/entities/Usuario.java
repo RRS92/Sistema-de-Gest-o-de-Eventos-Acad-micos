@@ -2,9 +2,6 @@ package br.edu.ifpe.gestaoacademica.entities;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -58,6 +55,4 @@ public abstract class Usuario {
 	
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<Participante> participante;
-	
-
 }

@@ -2,7 +2,6 @@ package br.edu.ifpe.gestaoacademica.controllers.dto;
 
 import br.edu.ifpe.gestaoacademica.entities.Avaliacao;
 import br.edu.ifpe.gestaoacademica.entities.Participante;
-import br.edu.ifpe.gestaoacademica.entities.Servidor;
 import jakarta.validation.constraints.NotBlank;
 
 public record AvaliacaoDTO(

@@ -2,7 +2,6 @@ package br.edu.ifpe.gestaoacademica.controllers.dto;
 
 import java.util.List;
 
-import br.edu.ifpe.gestaoacademica.entities.Evento;
 import br.edu.ifpe.gestaoacademica.entities.Servidor;
 import br.edu.ifpe.gestaoacademica.entities.Transporte;
 import jakarta.validation.constraints.NotBlank;

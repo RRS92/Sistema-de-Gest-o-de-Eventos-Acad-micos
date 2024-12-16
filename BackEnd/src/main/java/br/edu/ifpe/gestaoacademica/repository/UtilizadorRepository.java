@@ -10,8 +10,6 @@ import br.edu.ifpe.gestaoacademica.entities.Utilizador;
 
 @Repository
 public interface UtilizadorRepository extends JpaRepository<Utilizador, Long>{
-
 	UserDetails findByLogin(String login);
 	List<Utilizador> findAllByAtivoTrue();
-
 }
