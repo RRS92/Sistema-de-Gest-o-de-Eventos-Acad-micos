@@ -25,16 +25,28 @@ function efetuarLogin() {
     })
     .then(data => {
         const token = data.token;
-        const id = data.id;  // Adiciona a captura do id do usuário
+            const id = data.id;  // Adiciona a captura do id do usuário
+            const idUser = data.idUser; // Jair Ajudou
+            const acessLevel = data.acessLevel;
+            if (token && acessLevel == "ALUNO") {
+                localStorage.setItem('token', token);  // Armazena o token no localStorage
+                localStorage.setItem('userIdUtilizador', id);  // Armazena o id do usuário no localStorage
 
-        if (token) {
-            localStorage.setItem('token', token);  // Armazena o token no localStorage
-            localStorage.setItem('userIdUtilizador', id);  // Armazena o id do usuário no localStorage
-            window.location.href = 'perfil-aluno.html';  // Redireciona para a página do perfil
-        } else {
-            alert('Token não encontrado!');
-        }
-    })
+                if (idUser == null) {
+                    localStorage.setItem('userIdUsuario', idUser);  // Jair Ajudou
+                    window.location.href = 'cadastro-aluno.html';  // Jair Ajudou
+
+                }
+                else {
+                    localStorage.setItem('userIdUsuario', idUser);  // Jair Ajudou
+                    window.location.href = 'perfil-aluno.html';  // Jair Ajudou
+                }
+
+            } else {
+                alert('Acesso negado!');
+            }
+        })
+   
     .catch(error => {
         console.error('Erro na requisição:', error);
         alert('Ocorreu um erro. Tente novamente mais tarde.');

@@ -1,6 +1,7 @@
 package br.edu.ifpe.gestaoacademica.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,20 @@ public class ServidorController {
 	public List<ServidorDTO> listarServidor() {
 		return servidorService.listarServidores().stream().map(ServidorDTO::new).toList();
 	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<ServidorDTO> listarServidorId(@PathVariable Long id) {
+	    Optional<Servidor> servidorOptional = servidorService.listarServidor(id);
+	    
+	    if (servidorOptional.isEmpty()) {
+	        return ResponseEntity.notFound().build();  // Retorna 404 caso o servidor não seja encontrado
+	    }
+
+	    ServidorDTO servidorDTO = new ServidorDTO(servidorOptional.get());  // Converte para o DTO
+	    return ResponseEntity.ok(servidorDTO);  // Retorna o servidor encontrado com status 200
+	}
+
+	
 	
 	@PutMapping
 	@Transactional

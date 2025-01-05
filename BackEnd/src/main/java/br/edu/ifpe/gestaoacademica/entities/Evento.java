@@ -10,7 +10,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -49,10 +48,9 @@ public class Evento {
     @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
     private List<Transporte> transportes;
     
-    @OneToOne(mappedBy = "evento", cascade = CascadeType.ALL)
-    private Certificado certificado;
     
     public void inativar() {
         this.ativo = false;
     }
 }
+

@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(response => {
             if (response.ok) {
                 alert("Transporte cadastrado com sucesso!");
-                form.reset();
+                window.location.href = "lista-evento.html";  
             } else {
                 return response.json().then(errorData => {
                     throw new Error(errorData.message || "Erro ao cadastrar transporte.");

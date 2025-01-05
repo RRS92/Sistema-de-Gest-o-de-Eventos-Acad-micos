@@ -1,7 +1,9 @@
 // Função para cadastrar aluno
-const userId = localStorage.getItem('userIdUtilizador');
 
 async function cadastrarAluno() {
+    const userId = localStorage.getItem('userIdUtilizador');  // Pega o userId do localStorage
+    alert(userId);
+
     try {
         // 1. Cadastra o banco e obtém o ID
         const bancoData = {
@@ -48,7 +50,7 @@ async function cadastrarAluno() {
         const endereco = await enderecoResponse.json();
         const enderecoId = endereco.id;
 
-        // 3. Cadastra o aluno com os IDs de banco e endereço
+        // 3. Cadastra o aluno com os IDs de banco, endereço e utilizador (userId)
         const alunoData = {
             nome: document.getElementById("nome-aluno").value,
             cpf: document.getElementById("cpf").value,
@@ -59,7 +61,7 @@ async function cadastrarAluno() {
             matricula: document.getElementById("matricula").value,
             banco: { id: bancoId },
             endereco: { id: enderecoId },
-            utilizador: { id: userId }
+            utilizador: { id: parseInt(userId) }  // Garantir que o userId é passado como número
         };
 
         const alunoResponse = await fetch("http://localhost:8080/alunos", {
@@ -81,6 +83,7 @@ async function cadastrarAluno() {
         alert("Erro ao cadastrar. Tente novamente.");
     }
 }
+
 
 // Função para obter alunos
 async function getAlunos() {
@@ -152,7 +155,7 @@ function exibirAlunos(alunos) {
 
     // Adiciona o evento de clique aos botões de editar
     document.querySelectorAll(".edit-button").forEach((button) => {
-        button.addEventListener("click", function(event) {
+        button.addEventListener("click", function (event) {
             const alunoId = event.target.getAttribute("data-alunoId");
             toggleEditAll(alunoId); // Chama a função para alternar o modo de edição
         });
@@ -160,7 +163,7 @@ function exibirAlunos(alunos) {
 
     // Adiciona o evento de clique aos botões de deletar
     document.querySelectorAll(".delete-button").forEach((button) => {
-        button.addEventListener("click", function(event) {
+        button.addEventListener("click", function (event) {
             const alunoId = event.target.getAttribute("data-alunoId");
             console.log(`ID do aluno clicado: ${alunoId}`);
             deletarAluno(alunoId);

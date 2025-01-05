@@ -31,10 +31,15 @@ public class Participante {
 	private boolean ativo;
 	
 	
+	//@ManyToOne
+	//@JoinColumn(name = "idUsuario") 
+	//private Usuario usuario;
+	  
 	@ManyToOne
-	@JoinColumn(name = "idUsuario") 
-	private Usuario usuario;
-	    
+	@JoinColumn(name = "idAluno") 
+	private Aluno aluno;
+	  
+	
 	@ManyToOne
 	@JoinColumn(name = "idEvento")
 	private Evento evento;
@@ -50,4 +55,5 @@ public class Participante {
 	public void inativar() {
 		this.ativo = false;
 	}
+
 }

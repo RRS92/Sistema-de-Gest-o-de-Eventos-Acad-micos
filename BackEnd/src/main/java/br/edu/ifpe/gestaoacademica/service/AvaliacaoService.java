@@ -33,9 +33,8 @@ public class AvaliacaoService {
         avaliacao.setComentario(dadosAvaliacaoDTO.comentario());
         avaliacao.setAtivo(true);
 
-        Evento evento = eventoRepository.findById(dadosAvaliacaoDTO.idEvento())
-                .orElseThrow(() -> new EntityNotFoundException("Evento não encontrado"));
-        avaliacao.setEvento(evento);
+       
+        avaliacao.setEvento(dadosAvaliacaoDTO.evento());
         avaliacao.setParticipante(dadosAvaliacaoDTO.participante());
 
         return avaliacaoRepository.save(avaliacao);
@@ -72,3 +71,4 @@ public class AvaliacaoService {
         avaliacaoRepository.deleteById(id);
     }
 }
+
