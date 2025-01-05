@@ -14,7 +14,7 @@ function criarUsuario() {
         senha: senha
     };
 
-    fetch('http://localhost:8080/login/cadastrar', {
+    fetch('http://localhost:8080/login/cadastrarAluno', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

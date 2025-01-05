@@ -17,32 +17,41 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigurations {
-
+	
 	@Autowired
 	private SecurityFilter securityFilter;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		return http.csrf(csrf -> csrf.disable())
+		return http
+                .csrf(csrf -> csrf.disable())
 
-				.headers(h -> {
-					h.frameOptions(f -> f.disable());
-				}).authorizeHttpRequests(auth -> {
-					auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll().requestMatchers("/login").permitAll()
-							.requestMatchers("/login/cadastrar").permitAll() // Permite acesso sem autenticação
+                .headers(h -> {h.frameOptions(f->f.disable());})
+                .authorizeHttpRequests(auth ->{
+                    auth
+                            .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+                            .requestMatchers("/login").permitAll()
+                            .requestMatchers("/login/cadastrarServidor").permitAll() // Permite acesso sem autenticação
+                            .requestMatchers("/login/cadastrarAluno").permitAll() // Permite acesso sem autenticação
 
-							.anyRequest().authenticated();
-				}).httpBasic(Customizer.withDefaults())
-				.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class).build();
+                            .anyRequest().authenticated();
+                })
+                .httpBasic(Customizer.withDefaults())
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
 	}
 
+	
 	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
 		return configuration.getAuthenticationManager();
 	}
-
+	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+		return new BCryptPasswordEncoder();}
+	
+	
+	
+	
 }

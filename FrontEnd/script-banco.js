@@ -48,14 +48,14 @@ function exibirBancos(bancos) {
                 <input type="text" id="operacao-${banco.id}" value="${banco.operacao}" style="display:none;" /></p>
             </div>
             <br>
-            <button class="edit-center-button" data-bancoId="${banco.id}">Editar ✏️</button>  
+            <button class="edit-button" data-bancoId="${banco.id}">Editar ✏️</button>  
             <button class="update-button" id="atualizar-${banco.id}" style="display:none;" onclick="atualizarBanco(${banco.id})">Atualizar ✏️</button>
         `;
         eventsContainer.appendChild(eventCard);
     });
 
     // Adiciona o evento de clique aos botões de editar
-    document.querySelectorAll(".edit-center-button").forEach((button) => {
+    document.querySelectorAll(".edit-button").forEach((button) => {
         button.addEventListener("click", function(event) {
             const bancoId = event.target.getAttribute("data-bancoId");
             toggleEditAll(bancoId); // Chama a função para alternar o modo de edição
@@ -83,7 +83,7 @@ function toggleEditAll(id) {
     const fields = ['nomeBanco', 'numConta', 'agencia', 'operacao'];
 
     // Seleciona os botões relacionados ao banco
-    const editButton = document.querySelector(`.edit-center-button[data-bancoId="${id}"]`);
+    const editButton = document.querySelector(`.edit-button[data-bancoId="${id}"]`);
     const atualizarButton = document.getElementById(`atualizar-${id}`);
 
     // Alterna entre o modo de edição e visualização

@@ -1,3 +1,13 @@
+function verificar() {
+    var token = localStorage.getItem("token");
+    if (token == null) {
+        window.location.href = "index.html";
+    }
+}
+
+verificar();
+
+
 const userId = localStorage.getItem('userIdUtilizador');
 
 // Função para cadastrar servidor
@@ -101,9 +111,10 @@ async function getServidores() {
         return servidores;
     } catch (error) {
         console.error(error);
-        alert("Erro ao carregar servidores. Tente novamente mais tarde.");
+        //alert("Erro ao carregar servidores. Tente novamente mais tarde.");
         return [];
     }
+    
 }
 
 // Função para exibir servidores na página

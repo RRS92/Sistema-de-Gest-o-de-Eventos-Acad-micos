@@ -8,4 +8,5 @@ import br.edu.ifpe.gestaoacademica.entities.Participante;
 
 public interface ParticipanteRepository extends JpaRepository<Participante, Long> {
 	List<Participante> findAllByAtivoTrue();
+
 }

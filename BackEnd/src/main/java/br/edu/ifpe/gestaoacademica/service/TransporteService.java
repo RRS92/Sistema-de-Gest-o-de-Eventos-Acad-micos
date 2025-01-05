@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import br.edu.ifpe.gestaoacademica.controllers.dto.TransporteDTO;
-import br.edu.ifpe.gestaoacademica.entities.Evento;
 import br.edu.ifpe.gestaoacademica.entities.Transporte;
-import br.edu.ifpe.gestaoacademica.repository.EventoRepository;
 import br.edu.ifpe.gestaoacademica.repository.TransporteRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -21,9 +19,6 @@ public class TransporteService {
 	
 	@Autowired
 	private TransporteRepository transporteRepository;
-	
-	@Autowired
-    private EventoRepository eventoRepository;
 	
 
 	public Transporte cadastrarTransporte(TransporteDTO dadosTransporteDTO) {
@@ -37,9 +32,7 @@ public class TransporteService {
 		transporte.setHoraChegada(dadosTransporteDTO.horaChegada());
 		transporte.setAtivo(true);
 		
-		Evento evento = eventoRepository.findById(dadosTransporteDTO.idEvento())
-                .orElseThrow(() -> new EntityNotFoundException("Evento não encontrado"));
-        transporte.setEvento(evento);
+		transporte.setEvento(dadosTransporteDTO.evento());
 		transporte.setServidores(dadosTransporteDTO.servidor());
 		
 		return transporteRepository.save(transporte);
@@ -48,13 +41,6 @@ public class TransporteService {
 	public List<Transporte> listarTransporte() {
 		return transporteRepository.findAllByAtivoTrue();
 	}
-	
-	// Método para listar as transportes de um evento específico
-    public List<Transporte> listarTransportesPorEvento(Long eventoId) {
-        Evento evento = eventoRepository.findById(eventoId)
-                .orElseThrow(() -> new EntityNotFoundException("Evento não encontrado"));
-        return transporteRepository.findByEvento(evento);
-    }
 	
 	public Transporte atualizarTransporte(@Valid TransporteDTO dadosTransporteDTO) {
 		

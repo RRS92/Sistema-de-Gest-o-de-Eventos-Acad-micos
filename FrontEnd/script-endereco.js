@@ -57,14 +57,14 @@ function exibirEnderecos(enderecos) {
                 <input type="text" id="complemento-${endereco.id}" value="${endereco.complemento}" style="display:none;" /></p>
             </div>
             <br>
-            <button class="edit-center-button" data-enderecoId="${endereco.id}">Editar ✏️</button>  
+            <button class="edit-button" data-enderecoId="${endereco.id}">Editar ✏️</button>  
             <button class="update-button" id="atualizar-${endereco.id}" style="display:none;" onclick="atualizarEndereco(${endereco.id})">Atualizar ✏️</button>
         `;
         eventsContainer.appendChild(eventCard);
     });
 
     // Adiciona o evento de clique aos botões de editar
-    document.querySelectorAll(".edit-center-button").forEach((button) => {
+    document.querySelectorAll(".edit-button").forEach((button) => {
         button.addEventListener("click", function(event) {
             const enderecoId = event.target.getAttribute("data-enderecoId");
             toggleEditAll(enderecoId); // Chama a função para alternar o modo de edição
@@ -92,7 +92,7 @@ function toggleEditAll(id) {
     const fields = ['rua', 'numero', 'bairro', 'cidade', 'estado', 'cep', 'complemento'];
 
     // Seleciona os botões relacionados ao banco
-    const editButton = document.querySelector(`.edit-center-button[data-enderecoId="${id}"]`);
+    const editButton = document.querySelector(`.edit-button[data-enderecoId="${id}"]`);
     const atualizarButton = document.getElementById(`atualizar-${id}`);
 
     // Alterna entre o modo de edição e visualização

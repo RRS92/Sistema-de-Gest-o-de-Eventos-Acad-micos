@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifpe.gestaoacademica.controllers.dto.CertificadoDTO;
@@ -40,12 +39,6 @@ public class CertificadoController {
 	public List<CertificadoDTO> listarCertificado() {
 		return certificadoService.listarCertificados().stream().map(CertificadoDTO::new).toList();
 	}
-	
-	@GetMapping("/evento")
-    public List<CertificadoDTO> listarCertificadosPorEvento(@RequestParam Long eventoId) {
-        List<Certificado> certificados = certificadoService.listarCertificadosPorEvento(eventoId);
-        return certificados.stream().map(CertificadoDTO::new).toList();
-    }
 	
 	@PutMapping
 	@Transactional
