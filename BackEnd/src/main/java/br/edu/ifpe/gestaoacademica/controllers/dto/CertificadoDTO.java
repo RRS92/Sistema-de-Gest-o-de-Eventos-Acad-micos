@@ -8,24 +8,22 @@ public record CertificadoDTO(
 		@NotBlank
 		String cargaHoraria,
 		@NotBlank
-		String descricao,
-		Long idEvento) {
+		String descricao) {
 	
 	//Construtor para cadastrar certificado
-	public CertificadoDTO(String cargaHoraria,String descricao,Long idEvento) {
-		this(null, cargaHoraria, descricao, idEvento);
+	public CertificadoDTO(String cargaHoraria,String descricao) {
+		this(null, cargaHoraria, descricao);
 	}
 	
 	//Construtor para listar certificado
 	public CertificadoDTO(Certificado certificado) {
-		this(certificado.getId(), certificado.getCargaHoraria(), certificado.getDescricao(), certificado.getEvento() != null ? certificado.getEvento().getId() : null);
+		this(certificado.getId(), certificado.getCargaHoraria(), certificado.getDescricao());
 	}
 	
 	//Construtor para atualizar certificado
-	public CertificadoDTO(Long id,String cargaHoraria,String descricao,Long idEvento) {
+	public CertificadoDTO(Long id,String cargaHoraria,String descricao) {
 		this.id = id;
 		this.cargaHoraria = cargaHoraria;
 		this.descricao = descricao;
-		this.idEvento = idEvento;
 	}
 }

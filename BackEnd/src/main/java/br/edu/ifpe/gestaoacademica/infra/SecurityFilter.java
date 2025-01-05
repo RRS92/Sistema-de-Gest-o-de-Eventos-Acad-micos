@@ -15,41 +15,42 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class SecurityFilter extends OncePerRequestFilter {
+public class SecurityFilter extends OncePerRequestFilter{
 
 	private TokenService tokenService;
-
+	
 	private UtilizadorRepository utilizadorRepository;
-
-	public SecurityFilter(TokenService tokenService, UtilizadorRepository utilizadorRepository) {
+	
+	public SecurityFilter(TokenService tokenService,UtilizadorRepository utilizadorRepository) {
 		this.tokenService = tokenService;
 		this.utilizadorRepository = utilizadorRepository;
 	}
-
+	
+	
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
 
-		String token = getToken(request);
-		if (token != null) {
-			String username = tokenService.validateToken(token);
+        String token = getToken(request);
+        if(token != null){
+            String username = tokenService.validateToken(token);
 
-			if (username != null) {
-				UserDetails user = utilizadorRepository.findByLogin(username);
+            if(username != null) {
+                UserDetails user = utilizadorRepository.findByLogin(username);
 
-				var auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-				SecurityContextHolder.getContext().setAuthentication(auth);
-			}
-		}
+                var auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(auth);
+            }
+        }
 
-		filterChain.doFilter(request, response);
-	}
+        filterChain.doFilter(request,response);
+    }
+	
+	public String getToken(HttpServletRequest request){
+        String auth = request.getHeader("Authorization");
+        if (auth != null)
+            auth = auth.replace("Bearer ","");
 
-	public String getToken(HttpServletRequest request) {
-		String auth = request.getHeader("Authorization");
-		if (auth != null)
-			auth = auth.replace("Bearer ", "");
-
-		return auth;
-	}
+        return auth;
+    }
 }

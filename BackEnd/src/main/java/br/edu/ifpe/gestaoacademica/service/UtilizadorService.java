@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import br.edu.ifpe.gestaoacademica.controllers.dto.UtilizadorDTO;
 import br.edu.ifpe.gestaoacademica.entities.Utilizador;
+import br.edu.ifpe.gestaoacademica.entities.enums.AcessLevel;
 import br.edu.ifpe.gestaoacademica.repository.UtilizadorRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -33,7 +34,7 @@ public class UtilizadorService implements UserDetailsService {
 	
 	
 
-	public Utilizador cadastrarUtilizador(UtilizadorDTO dadosUtilizadorDTO) {
+	public Utilizador cadastrarUtilizadorAluno(UtilizadorDTO dadosUtilizadorDTO) {
 	    
 		String senhaCriptografada = passwordEncoder.encode(dadosUtilizadorDTO.senha());
 		
@@ -42,7 +43,22 @@ public class UtilizadorService implements UserDetailsService {
 	    
 	    utilizador.setSenha(senhaCriptografada);
 	    utilizador.setAtivo(true);
+	    utilizador.setAcessLevel(AcessLevel.ALUNO);
 	    
+	    return utilizadorRepository.save(utilizador);
+
+	}
+	
+public Utilizador cadastrarUtilizadorServidor(UtilizadorDTO dadosUtilizadorDTO) {
+	    
+		String senhaCriptografada = passwordEncoder.encode(dadosUtilizadorDTO.senha());
+		
+	    Utilizador utilizador = new Utilizador();
+	    utilizador.setLogin(dadosUtilizadorDTO.login());
+	    
+	    utilizador.setSenha(senhaCriptografada);
+	    utilizador.setAtivo(true);
+	    utilizador.setAcessLevel(AcessLevel.SERVIDOR);
 	    
 	    return utilizadorRepository.save(utilizador);
 

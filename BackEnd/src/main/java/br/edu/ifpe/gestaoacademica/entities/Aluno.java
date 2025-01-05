@@ -15,6 +15,7 @@ import lombok.Setter;
 @Setter
 
 public class Aluno extends Usuario {
+
 	private String matricula;
 	private boolean ativo;
 	
@@ -24,4 +25,7 @@ public class Aluno extends Usuario {
 	
 	@OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Matricula> matriculas;
+
+	@OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
+    private List<Participante> participante;
 }

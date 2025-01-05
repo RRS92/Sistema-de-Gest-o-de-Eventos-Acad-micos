@@ -13,7 +13,7 @@
             <img src="images\ifpe_logo.png" alt="Instituto Federal" class="logo">
             <nav>
                 <a href="index.html">Início</a>
-                <a href="usuarios.html">Voltar</a>
+                <a id="voltarLogin">Voltar</a>
             </nav>
         </div>
     </header>
@@ -115,4 +115,19 @@
         </div>
     </footer>
 </body>
+
+<script>
+    // Evento de clique para o botão "Voltar Login"
+    document.getElementById('voltarLogin').addEventListener('click', function(event) {
+        event.preventDefault();  // Previne a navegação imediata para index.html
+
+        // Limpa o localStorage
+        localStorage.clear();
+
+        // Redireciona para a página inicial (index.html)
+        window.location.href = 'login-servidor.html';
+    });
+
+   
+</script>
 </html>
