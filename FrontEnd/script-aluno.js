@@ -1,9 +1,17 @@
+function verificar() {
+    var token = localStorage.getItem("token");
+    if (token == null) {
+        window.location.href = "index.html";
+    }
+}
+
+verificar();
+
+
+const userId = localStorage.getItem('userIdUtilizador');
+
 // Função para cadastrar aluno
-
 async function cadastrarAluno() {
-    const userId = localStorage.getItem('userIdUtilizador');  // Pega o userId do localStorage
-    alert(userId);
-
     try {
         // 1. Cadastra o banco e obtém o ID
         const bancoData = {
@@ -15,9 +23,8 @@ async function cadastrarAluno() {
 
         const bancoResponse = await fetch("http://localhost:8080/bancos", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": localStorage.getItem("token")
+            headers: { "Content-Type": "application/json",   
+                    "Authorization": localStorage.getItem("token")
             },
             body: JSON.stringify(bancoData)
         });
@@ -39,10 +46,8 @@ async function cadastrarAluno() {
 
         const enderecoResponse = await fetch("http://localhost:8080/enderecos", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": localStorage.getItem("token")
-            },
+            headers: { "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token") },
             body: JSON.stringify(enderecoData)
         });
 
@@ -50,7 +55,7 @@ async function cadastrarAluno() {
         const endereco = await enderecoResponse.json();
         const enderecoId = endereco.id;
 
-        // 3. Cadastra o aluno com os IDs de banco, endereço e utilizador (userId)
+        // 3. Cadastra o aluno com os IDs de banco e endereço
         const alunoData = {
             nome: document.getElementById("nome-aluno").value,
             cpf: document.getElementById("cpf").value,
@@ -61,15 +66,14 @@ async function cadastrarAluno() {
             matricula: document.getElementById("matricula").value,
             banco: { id: bancoId },
             endereco: { id: enderecoId },
-            utilizador: { id: parseInt(userId) }  // Garantir que o userId é passado como número
+            utilizador: { id: userId }
+
         };
 
         const alunoResponse = await fetch("http://localhost:8080/alunos", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": localStorage.getItem("token")
-            },
+            headers: { "Content-Type": "application/json" ,
+                "Authorization": localStorage.getItem("token")},
             body: JSON.stringify(alunoData)
         });
 
@@ -78,28 +82,28 @@ async function cadastrarAluno() {
 
         // Redireciona para outra página
         window.location.href = "perfil-aluno.html";
+
     } catch (error) {
         console.error(error);
         alert("Erro ao cadastrar. Tente novamente.");
     }
 }
 
-
 // Função para obter alunos
 async function getAlunos() {
     try {
-        const response = await fetch("http://localhost:8080/alunos", {
-            method: "GET",
-            headers: {
-                'Accept': 'application/json',
-                "Authorization": localStorage.getItem("token")
-            }
-        });
+        const response = await fetch("http://localhost:8080/alunos",
 
+{
+method:"GET",
+headers:{
+    'Accept': 'application/json',
+    "Authorization": localStorage.getItem("token")
+
+}});
         if (!response.ok) {
             throw new Error(`Erro ao buscar alunos: ${response.status}`);
         }
-
         const alunos = await response.json();
         return alunos;
     } catch (error) {
@@ -108,6 +112,7 @@ async function getAlunos() {
         return [];
     }
 }
+
 
 // Função para exibir alunos na página
 function exibirAlunos(alunos) {
@@ -155,7 +160,7 @@ function exibirAlunos(alunos) {
 
     // Adiciona o evento de clique aos botões de editar
     document.querySelectorAll(".edit-button").forEach((button) => {
-        button.addEventListener("click", function (event) {
+        button.addEventListener("click", function(event) {
             const alunoId = event.target.getAttribute("data-alunoId");
             toggleEditAll(alunoId); // Chama a função para alternar o modo de edição
         });
@@ -163,7 +168,7 @@ function exibirAlunos(alunos) {
 
     // Adiciona o evento de clique aos botões de deletar
     document.querySelectorAll(".delete-button").forEach((button) => {
-        button.addEventListener("click", function (event) {
+        button.addEventListener("click", function(event) {
             const alunoId = event.target.getAttribute("data-alunoId");
             console.log(`ID do aluno clicado: ${alunoId}`);
             deletarAluno(alunoId);
@@ -171,9 +176,15 @@ function exibirAlunos(alunos) {
     });
 }
 
+// Chama a função para obter alunos e exibi-los na página
+getAlunos().then((alunos) => {
+    exibirAlunos(alunos);
+});
+
+
 // Função para alternar entre editar e exibir valores de todos os campos ao mesmo tempo
 function toggleEditAll(id) {
-    const fields = ['nome', 'matricula', 'dataNasc', 'telefone', 'email'];
+    const fields = ['nome', 'matricula', 'cpf', 'rg', 'dataNasc', 'telefone', 'email'];
 
     // Seleciona os botões relacionados ao aluno
     const editButton = document.querySelector(`.edit-button[data-alunoId="${id}"]`);
@@ -212,17 +223,29 @@ function toggleEditAll(id) {
     }
 }
 
-// Função para atualizar aluno
-async function atualizarAluno(id) {
-    const fields = ['nome', 'matricula', 'dataNasc', 'telefone', 'email'];
-    const alunoData = {};
 
-    fields.forEach(field => {
-        alunoData[field] = document.getElementById(`${field}-${id}`).value;
-    });
+// Função para atualizar todos os atributos do aluno
+async function atualizarAluno(id) {
+    const alunoData = {
+        id: id,
+        nome: document.getElementById(`nome-${id}`).value.trim(),
+        matricula: document.getElementById(`matricula-${id}`).value.trim(),
+        cpf: document.getElementById(`cpf-${id}`).value.trim(),
+        rg: document.getElementById(`rg-${id}`).value.trim(),
+        dataNasc: document.getElementById(`dataNasc-${id}`).value.trim(),
+        telefone: document.getElementById(`telefone-${id}`).value.trim(),
+        email: document.getElementById(`email-${id}`).value.trim()
+    };
+
+    // Validação dos campos obrigatórios
+    if (!alunoData.nome || !alunoData.matricula || !alunoData.cpf || !alunoData.rg || !alunoData.dataNasc || !alunoData.telefone || !alunoData.email) {
+        alert("Por favor, preencha todos os campos.");
+        return;
+    }
 
     try {
-        const response = await fetch(`http://localhost:8080/alunos/${id}`, {
+        // Realiza a atualização via PUT
+        const response = await fetch(`http://localhost:8080/alunos`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -234,37 +257,50 @@ async function atualizarAluno(id) {
         if (!response.ok) throw new Error("Erro ao atualizar aluno.");
 
         alert("Aluno atualizado com sucesso!");
-        const alunos = await getAlunos();
-        exibirAlunos(alunos);
+        const alunosAtualizados = await getAlunos();
+        exibirAlunos(alunosAtualizados); // Atualiza a lista de alunos após a atualização
     } catch (error) {
         console.error(error);
-        alert("Erro ao atualizar. Tente novamente.");
+        alert("Erro ao atualizar aluno.");
     }
 }
 
-// Função para deletar aluno
-async function deletarAluno(id) {
-    try {
-        const response = await fetch(`http://localhost:8080/alunos/${id}`, {
-            method: "DELETE",
-            headers: {
-                "Authorization": localStorage.getItem("token")
+
+async function deletarAluno(alunoId) {
+    // Confirmação antes de deletar
+    if (window.confirm("Tem certeza que deseja deletar este aluno?")) {
+        try {
+            console.log(`Tentando deletar o aluno com ID: ${alunoId}`);
+            const response = await fetch(`http://localhost:8080/alunos/deletar/${alunoId}`, {
+                    method: "DELETE",
+                });
+
+            console.log("Resposta da requisição:", response);
+            if (!response.ok) {
+                throw new Error(`Erro ao deletar aluno: ${response.status}`);
             }
-        });
-
-        if (!response.ok) throw new Error("Erro ao deletar aluno.");
-
-        alert("Aluno deletado com sucesso!");
-        const alunos = await getAlunos();
-        exibirAlunos(alunos);
-    } catch (error) {
-        console.error(error);
-        alert("Erro ao deletar. Tente novamente.");
+            console.log(`Aluno ${alunoId} deletado com sucesso.`);
+            alert("Aluno deletado com sucesso!");
+            window.location.reload();
+        } catch (error) {
+            console.error(`Erro: ${error.message}`);
+            alert("Erro ao deletar o aluno. Tente novamente mais tarde.");
+        }
     }
 }
 
-// Carrega a lista de alunos quando a página for carregada
-document.addEventListener("DOMContentLoaded", async () => {
-    const alunos = await getAlunos();
-    exibirAlunos(alunos);
+// Verifica em qual página o script está sendo executado
+document.addEventListener("DOMContentLoaded", () => {
+    const submitButton = document.getElementById("submit-aluno");
+    const alunosContainer = document.getElementById("alunos-container");
+
+    // Se o botão de cadastro existir, estamos na página de cadastro
+    if (submitButton) {
+        submitButton.addEventListener("click", cadastrarAluno);
+    }
+
+    // Se o container de alunos existir, estamos na página de listagem
+    if (alunosContainer) {
+        exibirAlunos(alunos);
+    }
 });

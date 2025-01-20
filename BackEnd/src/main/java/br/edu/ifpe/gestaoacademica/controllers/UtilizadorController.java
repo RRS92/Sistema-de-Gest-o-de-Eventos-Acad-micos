@@ -32,7 +32,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @RestController
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin(origins = "*")
 @RequestMapping("/login")
 public class UtilizadorController {
 	
@@ -48,6 +48,7 @@ public class UtilizadorController {
 
 	@PostMapping
 	public ResponseEntity<?> efetuarLogin(@RequestBody @Valid UtilizadorDTO dados) {
+		
 		var token = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
 		var autenticacao = authenticationManager.authenticate(token);
 
@@ -64,7 +65,7 @@ public class UtilizadorController {
 
 	}
 	
-    @CrossOrigin(origins = "http://127.0.0.1:5500")
+    @CrossOrigin(origins = "*")
 	@PostMapping("/cadastrarAluno")
 	@Transactional
 	public ResponseEntity<Utilizador> cadastrarUtilizadorAluno(@RequestBody @Valid UtilizadorDTO dadosUtilizadorDTO) {

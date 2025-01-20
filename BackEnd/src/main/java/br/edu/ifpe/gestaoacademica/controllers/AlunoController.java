@@ -1,6 +1,7 @@
 package br.edu.ifpe.gestaoacademica.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,18 @@ public class AlunoController {
     public List<AlunoDTO> listarAluno() {
         return alunoService.listarAlunos().stream().map(AlunoDTO::new).toList();
     }
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<AlunoDTO> listarAlunoId(@PathVariable Long id) {
+	    Optional<Aluno> alunoOptional = alunoService.listarAluno(id);
+	    
+	    if (alunoOptional.isEmpty()) {
+	        return ResponseEntity.notFound().build();  // Retorna 404 caso o aluno não seja encontrado
+	    }
+
+	    AlunoDTO alunoDTO = new AlunoDTO(alunoOptional.get());  // Converte para o DTO
+	    return ResponseEntity.ok(alunoDTO);  // Retorna o aluno encontrado com status 200
+	}
 	
 	@PutMapping
 	@Transactional
