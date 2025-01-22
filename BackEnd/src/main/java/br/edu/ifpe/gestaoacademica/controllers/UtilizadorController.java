@@ -1,6 +1,7 @@
 package br.edu.ifpe.gestaoacademica.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifpe.gestaoacademica.controllers.dto.UtilizadorDTO;
+import br.edu.ifpe.gestaoacademica.entities.Usuario;
 import br.edu.ifpe.gestaoacademica.entities.Utilizador;
+import br.edu.ifpe.gestaoacademica.entities.enums.AcessLevel;
 import br.edu.ifpe.gestaoacademica.infra.DadosTokenJWTdto;
 import br.edu.ifpe.gestaoacademica.infra.TokenService;
 import br.edu.ifpe.gestaoacademica.service.UtilizadorService;
@@ -29,7 +32,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @RestController
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin(origins = "*")
 @RequestMapping("/login")
 public class UtilizadorController {
 	
@@ -42,22 +45,39 @@ public class UtilizadorController {
 
 	@Autowired
 	private UtilizadorService utilizadorService;
+
 	@PostMapping
 	public ResponseEntity<?> efetuarLogin(@RequestBody @Valid UtilizadorDTO dados) {
+		
 		var token = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
 		var autenticacao = authenticationManager.authenticate(token);
 
 		var tokenJWT = tokenService.gerarToken((Utilizador) autenticacao.getPrincipal());
-	    var idzador = (Utilizador) autenticacao.getPrincipal();
+	    
+		var idzador = (Utilizador) autenticacao.getPrincipal();
+	    Optional<Usuario> user = Optional.ofNullable(idzador.getUsuario());
+	    AcessLevel nivel = idzador.getAcessLevel();
+	    
+	    if (user.isPresent()) {
+	        return ResponseEntity.ok(new DadosTokenJWTdto(tokenJWT, idzador.getId(), user.get().getId(),nivel));
+	    }
+	    return ResponseEntity.ok(new DadosTokenJWTdto(tokenJWT, idzador.getId(), null,nivel));
 
-		return ResponseEntity.ok(new DadosTokenJWTdto(tokenJWT,idzador.getId()));
-		
 	}
-    @CrossOrigin(origins = "http://127.0.0.1:5500")
-	@PostMapping("/cadastrar")
+	
+    @CrossOrigin(origins = "*")
+	@PostMapping("/cadastrarAluno")
 	@Transactional
-	public ResponseEntity<Utilizador> cadastrarUtilizador(@RequestBody @Valid UtilizadorDTO dadosUtilizadorDTO) {
-		Utilizador utilizador= utilizadorService.cadastrarUtilizador(dadosUtilizadorDTO);
+	public ResponseEntity<Utilizador> cadastrarUtilizadorAluno(@RequestBody @Valid UtilizadorDTO dadosUtilizadorDTO) {
+		Utilizador utilizador= utilizadorService.cadastrarUtilizadorAluno(dadosUtilizadorDTO);
+		return ResponseEntity.ok(utilizador);
+	}
+    
+    @CrossOrigin(origins = "*")
+    @PostMapping("/cadastrarServidor")
+	@Transactional
+	public ResponseEntity<Utilizador> cadastrarUtilizadorServidor(@RequestBody @Valid UtilizadorDTO dadosUtilizadorDTO) {
+		Utilizador utilizador= utilizadorService.cadastrarUtilizadorServidor(dadosUtilizadorDTO);
 		return ResponseEntity.ok(utilizador);
 	}
 

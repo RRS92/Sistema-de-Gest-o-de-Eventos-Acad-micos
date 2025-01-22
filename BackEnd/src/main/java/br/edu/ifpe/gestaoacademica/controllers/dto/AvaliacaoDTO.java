@@ -6,8 +6,10 @@ import jakarta.validation.constraints.NotBlank;
 
 public record AvaliacaoDTO(
 	    Long id,
-	    @NotBlank String nota,
-	    @NotBlank String comentario,
+	    @NotBlank 
+	    String nota,
+	    @NotBlank 
+	    String comentario,
 	    Long idEvento,
 	    Participante participante) {
 	

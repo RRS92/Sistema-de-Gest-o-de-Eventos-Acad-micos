@@ -13,8 +13,8 @@
             <img src="images\ifpe_logo.png" alt="Instituto Federal" class="logo">
             <nav>
                 <a href="index.html">Início</a>
-                <a href="usuarios.html">Voltar</a>
-            </nav>
+                <a id="voltarLogin">Voltar</a>
+          </nav>
         </div>
     </header>
 
@@ -27,16 +27,16 @@
                 <center><h3>Informações Bancárias</h3></center>
                 <br>
                 <label for="nomeBanco">Nome do Banco</label>
-                <input type="text" id="nomeBanco" name="nomeBanco" maxlength="10" required>
+                <input type="text" id="nomeBanco" name="nomeBanco" maxlength="50" required>
 
                 <label for="numConta">Número da Conta</label>
-                <input type="number" id="numConta" name="numConta" maxlength="11" required>
+                <input type="number" id="numConta" name="numConta" maxlength="13" required>
 
                 <label for="agencia">Agência</label>
-                <input type="number" id="agencia" name="agencia" maxlength="5" required>
+                <input type="number" id="agencia" name="agencia" maxlength="7" required>
 
                 <label for="operacao">Operação</label>
-                <input type="number" id="operacao" name="operacao" maxlength="5" required>
+                <input type="number" id="operacao" name="operacao" maxlength="3" required>
 
                 
             </section>
@@ -49,22 +49,22 @@
                 <center><h3>Endereço</h3></center>
                 <br>
                 <label for="rua">Rua</label>
-                <input type="text" id="rua" name="rua" maxlength="35" required>
+                <input type="text" id="rua" name="rua" maxlength="58" required>
 
                 <label for="numero">Número</label>
-                <input type="number" id="numero" name="numero" maxlength="10" required>
+                <input type="number" id="numero" name="numero" maxlength="15" required>
 
                 <label for="bairro">Bairro</label>
-                <input type="text" id="bairro" name="bairro" maxlength="35" required>
+                <input type="text" id="bairro" name="bairro" maxlength="47" required>
 
                 <label for="cidade">Cidade</label>
-                <input type="text" id="cidade" name="cidade" maxlength="35" required>
+                <input type="text" id="cidade" name="cidade" maxlength="48" required>
 
                 <label for="estado">Estado</label>
-                <input type="text" id="estado" name="estado" maxlength="20" required>
+                <input type="text" id="estado" name="estado" maxlength="15" required>
 
                 <label for="cep">CEP</label>
-                <input type="number" id="cep" name="cep" maxlength="8" required>
+                <input type="number" id="cep" name="cep" maxlength="10" required>
 
                 <label for="complemento">Complemento</label>
                 <input type="text" id="complemento" name="complemento" maxlength="50" required>
@@ -79,22 +79,22 @@
             <center><h3>Informações Pessoais</h3></center>
             <br>
             <label for="nome-aluno">Nome</label>
-            <input type="text" id="nome-aluno" name="nome" maxlength="50" required>
+            <input type="text" id="nome-aluno" name="nome" maxlength="58" required>
 
             <label for="cpf">CPF</label>
-            <input type="number" id="cpf" name="cpf" maxlength="11" required>
+            <input type="number" id="cpf" name="cpf" maxlength="14" required>
 
             <label for="rg">RG</label>
-            <input type="number" id="rg" name="rg" maxlength="10" required>
+            <input type="number" id="rg" name="rg" maxlength="12" required>
 
             <label for="dataNasc">Data de Nascimento</label>
-            <input type="date" id="dataNasc" name="dataNasc" required>
+            <input type="date" id="dataNasc" maxlength="10" name="dataNasc" required>
 
             <label for="telefone">Telefone</label>
-            <input type="tel" id="telefone" name="telefone" maxlength="11" required>
+            <input type="tel" id="telefone" name="telefone" maxlength="15" required>
 
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="email" maxlength="70" required>
 
             <label for="matricula">Matrícula</label>
             <input type="text" id="matricula" name="matricula" maxlength="15" required>
@@ -115,4 +115,20 @@
         </div>
     </footer>
 </body>
+
+
+<script>
+    // Evento de clique para o botão "Voltar Login"
+    document.getElementById('voltarLogin').addEventListener('click', function(event) {
+        event.preventDefault();  // Previne a navegação imediata para index.html
+
+        // Limpa o localStorage
+        localStorage.clear();
+
+        // Redireciona para a página inicial (index.html)
+        window.location.href = 'login-servidor.html';
+    });
+
+   
+</script>
 </html>

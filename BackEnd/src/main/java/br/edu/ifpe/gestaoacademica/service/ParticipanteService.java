@@ -14,7 +14,7 @@ import br.edu.ifpe.gestaoacademica.repository.ParticipanteRepository;
 
 @Service
 public class ParticipanteService {
-	
+		
 	@Autowired
 	private ParticipanteRepository participanteRepository;
 	
@@ -24,7 +24,8 @@ public class ParticipanteService {
 		Participante participante = new Participante();
 		participante.setAtivo(true);
 
-		participante.setUsuario(dadosParticipanteDTO.usuario());
+		//participante.setUsuario(dadosParticipanteDTO.usuario());
+		participante.setAluno(dadosParticipanteDTO.aluno());
 		participante.setEvento(dadosParticipanteDTO.evento());
 		participante.setCertificado(dadosParticipanteDTO.certificado());
 

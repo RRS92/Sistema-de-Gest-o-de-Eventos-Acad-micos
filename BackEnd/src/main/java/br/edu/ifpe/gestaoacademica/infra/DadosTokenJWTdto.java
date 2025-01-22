@@ -1,5 +1,7 @@
 package br.edu.ifpe.gestaoacademica.infra;
 
-public record DadosTokenJWTdto(String token, Long id) {
+import br.edu.ifpe.gestaoacademica.entities.enums.AcessLevel;
+
+public record DadosTokenJWTdto(String token, Long id, Long idUser, AcessLevel acessLevel) {
 
 }
