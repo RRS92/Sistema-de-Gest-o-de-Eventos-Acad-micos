@@ -1,6 +1,7 @@
 package br.edu.ifpe.gestaoacademica.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,9 +37,8 @@ public class ServidorService {
 		servidor.setBanco(dadosServidorDTO.banco());
 		servidor.setEndereco(dadosServidorDTO.endereco());
 		servidor.setAtivo(true);
+		servidor.setUtilizador(dadosServidorDTO.utilizador());
 		
-		
-		//servidor.setUtilizador(dadosServidorDTO.utilizador());
 		return servidorRepository.save(servidor);
 
 	}
@@ -47,6 +47,11 @@ public class ServidorService {
 		return servidorRepository.findAllByAtivoTrue();
 	}
 
+	public Optional<Servidor> listarServidor(Long id) {
+		return servidorRepository.findById(id);
+	}
+	
+	
 	public Servidor atualizarServidor(@Valid ServidorDTO dadosServidorDTO) {
 		
 	    Servidor servidor = servidorRepository.findById(dadosServidorDTO.id())
