@@ -2,6 +2,8 @@ package br.edu.ifpe.gestaoacademica.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -24,8 +26,10 @@ public class Aluno extends Usuario {
 	}
 	
 	@OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnore
     private List<Matricula> matriculas;
 	
-	@OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnore
     private List<Participante> participante;
 }
