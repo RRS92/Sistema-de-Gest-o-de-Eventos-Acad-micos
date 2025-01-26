@@ -1,33 +1,52 @@
-// Função para obter eventos
+// Obtém o ID do usuário do localStorage
+const IdUsuario = localStorage.getItem('userIdUsuario');
 
-const userId = localStorage.getItem('userIdUtilizador');
-
+// Função para obter eventos do backend
 async function getEventos() {
     try {
-        const response = await fetch('http://localhost:8080/eventos', 
-            {
-                method: "GET",
-                headers: {
-                    'Accept': 'application/json',
-                    "Authorization": localStorage.getItem("token")
-                }
-            }); // URL do seu backend
+        const response = await fetch('http://localhost:8080/eventos', {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                "Authorization": localStorage.getItem("token")
+            }
+        });
         if (!response.ok) {
             throw new Error(`Erro ao buscar eventos: ${response.status}`);
         }
-        const eventos = await response.json(); // Parse do JSON retornado
-        return eventos; // Retorna a lista de eventos
+        return await response.json(); // Retorna os eventos como JSON
     } catch (error) {
-        console.error(error); // Log de erros
-        alert("Erro ao carregar eventos. Tente novamente mais tarde."); // Mensagem ao usuário
+        console.error(error);
+        alert("Erro ao carregar eventos. Tente novamente mais tarde.");
         return []; // Retorna um array vazio em caso de erro
     }
 }
 
-// Função para exibir eventos na página
-function exibirEventos(eventos) {
+// Função para obter os participantes do backend
+async function verificarParticipacao() {
+    try {
+        const response = await fetch('http://localhost:8080/participantes', {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                "Authorization": localStorage.getItem("token")
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`Erro ao buscar participantes: ${response.status}`);
+        }
+        return await response.json(); // Retorna os participantes como JSON
+    } catch (error) {
+        console.error(error);
+        alert("Erro ao verificar participação. Tente novamente mais tarde.");
+        return []; // Retorna um array vazio em caso de erro
+    }
+}
+
+// Função para exibir os eventos na página
+async function exibirEventos(eventos) {
     const eventsContainer = document.querySelector('.events-container');
-    eventsContainer.innerHTML = ''; // Limpa a lista existente
+    eventsContainer.innerHTML = ''; // Limpa o conteúdo existente
 
     if (eventos.length === 0) {
         eventsContainer.innerHTML = '<p>Nenhum evento encontrado.</p>';
@@ -46,47 +65,70 @@ function exibirEventos(eventos) {
                 <p>Tipo: ${evento.tipo}</p>
             </div>
             <div class="buttons-container">
-                <button class="btnAvaliar" data-id="${evento.id}">Avaliar Evento</button>
-                <button class="btnVerAvaliacoes" data-id="${evento.id}">Ver Avaliações</button>
-                <button class="partipate-button" data-id="${evento.id}">Participar</button> 
+                <button class="partipate-button" data-id="${evento.id}">Participar</button>
             </div>
         `;
         eventsContainer.appendChild(eventCard);
     });
 
-    // Botão de Avaliação
-    document.querySelectorAll('.btnAvaliar').forEach(button => {
-        button.addEventListener('click', function() {
-            const idEvento = this.getAttribute('data-id');
-            const nomeEvento = this.closest('.event-card').querySelector('h3').textContent;
-            localStorage.setItem('idEventoSelecionado', idEvento);
-            localStorage.setItem('nomeEventoSelecionado', nomeEvento);
-            window.location.href = 'Avaliar-evento.html';
-        });
-    });
+    // Atualiza os botões de participação
+    await atualizarBotoesParticipacao();
+}
 
-    // Botão de Ver Avaliações
-    document.querySelectorAll('.btnVerAvaliacoes').forEach(button => {
-        button.addEventListener('click', function() {
-            const idEvento = this.getAttribute('data-id');
-            const nomeEvento = this.closest('.event-card').querySelector('h3').textContent;
-            localStorage.setItem('idEventoSelecionado', idEvento);
-            localStorage.setItem('nomeEventoSelecionado', nomeEvento);
-            window.location.href = 'lista-avaliacoes.html';
-        });
-    });
+// Função para atualizar os botões de participação/desinscrição
+async function atualizarBotoesParticipacao() {
+    const participantes = await verificarParticipacao();
+    const userId = parseInt(IdUsuario);
 
-    // Botão de Participar
-document.querySelectorAll('.partipate-button').forEach(button => {
-    button.addEventListener('click', async function() {
-        const idEvento = this.getAttribute('data-id');
-        const eventoSelecionado = eventos.find(evento => evento.id === parseInt(idEvento));
+    // Filtra as participações do usuário
+    const participacoesUsuario = participantes.filter(part => part.aluno?.id === userId);
 
-        if (!eventoSelecionado) {
-            alert('Erro: Evento não encontrado.');
-            return;
+    // Atualiza o texto e estilo dos botões com base nas participações
+    const buttons = document.querySelectorAll('.partipate-button');
+    buttons.forEach(button => {
+        const eventoId = parseInt(button.getAttribute('data-id'));
+        const participacao = participacoesUsuario.find(part => part.evento?.id === eventoId);
+
+        if (participacao) {
+            button.textContent = "Desinscrever";
+            button.classList.add('desinscrever');
+        } else {
+            button.textContent = "Participar";
+            button.classList.remove('desinscrever');
         }
+    });
+}
 
+// Gerencia os cliques nos botões de participar/desinscrever
+document.querySelector('.events-container').addEventListener('click', async (event) => {
+    const button = event.target.closest('.partipate-button');
+    if (!button) return;
+
+    const eventoId = parseInt(button.getAttribute('data-id'));
+    const userId = parseInt(IdUsuario);
+    const participantes = await verificarParticipacao();
+
+    const participacao = participantes.find(part => part.aluno?.id === userId && part.evento?.id === eventoId);
+
+    if (button.classList.contains('desinscrever')) {
+        // Desinscrição do evento
+        try {
+            const response = await fetch(`http://localhost:8080/participantes/deletar/${participacao.id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': localStorage.getItem("token")
+                }
+            });
+            if (!response.ok) throw new Error(`Erro ao desinscrever: ${response.status}`);
+            alert('Você foi desinscrito com sucesso!');
+            button.textContent = "Participar";
+            button.classList.remove('desinscrever');
+        } catch (error) {
+            console.error(error);
+            alert("Erro ao desinscrever. Tente novamente mais tarde.");
+        }
+    } else {
+        // Inscrição no evento
         try {
             const response = await fetch('http://localhost:8080/participantes', {
                 method: 'POST',
@@ -96,23 +138,26 @@ document.querySelectorAll('.partipate-button').forEach(button => {
                     'Authorization': localStorage.getItem("token")
                 },
                 body: JSON.stringify({
-                    evento: eventoSelecionado, // Envia o evento completo
-                    usuarioId: localStorage.getItem('userId') // ID do usuário
+                    evento: { id: eventoId },
+                    aluno: { id: userId }
                 })
             });
-            if (!response.ok) {
-                throw new Error(`Erro ao criar participante: ${response.status}`);
-            }
-            alert('Participação criada com sucesso!'); // Mensagem de sucesso
+            if (!response.ok) throw new Error(`Erro ao participar do evento: ${response.status}`);
+            alert('Você se inscreveu no evento com sucesso!');
+            button.textContent = "Desinscrever";
+            button.classList.add('desinscrever');
         } catch (error) {
             console.error(error);
-            alert('Erro ao participar do evento. Tente novamente mais tarde.');
+            alert("Erro ao participar do evento. Tente novamente mais tarde.");
         }
-    });
+    }
 });
+
+// Inicialização da página
+async function inicializar() {
+    const eventos = await getEventos();
+    await exibirEventos(eventos);
 }
 
-// Chama a função para obter eventos e exibi-los na página
-getEventos().then(eventos => {
-    exibirEventos(eventos);
-});
+// Chama a função de inicialização ao carregar a página
+inicializar();
