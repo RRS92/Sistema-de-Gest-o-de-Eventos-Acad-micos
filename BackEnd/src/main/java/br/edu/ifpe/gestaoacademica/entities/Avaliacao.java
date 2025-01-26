@@ -1,5 +1,7 @@
 package br.edu.ifpe.gestaoacademica.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,10 +32,12 @@ public class Avaliacao {
 	
 	@ManyToOne
 	@JoinColumn(name = "id_evento")
+	@JsonIgnore
 	private Evento evento;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_participante")
+	@JsonIgnore
 	private Participante participante;
 	
 	public void inativar() {

@@ -43,7 +43,7 @@ public class Evento {
     @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
     private List<Avaliacao> avaliacoes;
     
-    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Participante> participantes;
 
     @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)

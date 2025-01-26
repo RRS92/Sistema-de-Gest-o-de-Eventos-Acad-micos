@@ -2,6 +2,8 @@ package br.edu.ifpe.gestaoacademica.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,19 +39,23 @@ public class Participante {
 	
 	@ManyToOne
 	@JoinColumn(name = "idAluno") 
+	@JsonIgnore
 	private Aluno aluno;
 	  
 	    
 	@ManyToOne
 	@JoinColumn(name = "idEvento")
+	@JsonIgnore
 	private Evento evento;
 	
 	@ManyToOne
 	@JoinColumn(name = "idCertificado")
+	@JsonIgnore
 	private Certificado certificado;
 	
 	
 	@OneToMany(mappedBy = "participante", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnore
 	private List<Avaliacao> avaliacoes;
 	
 	public void inativar() {
