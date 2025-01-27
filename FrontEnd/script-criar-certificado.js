@@ -33,7 +33,7 @@ document.getElementById('formTransporte').addEventListener('submit', async funct
 
         if (response.ok) {
             alert('Certificado criado com sucesso!');
-            window.location.href = 'perfil-servidor.html'; // Redirecionamento após sucesso
+            window.location.href = 'lista-evento.html'; // Redirecionamento após sucesso
         } else {
             alert('Erro ao criar certificado.');
         }

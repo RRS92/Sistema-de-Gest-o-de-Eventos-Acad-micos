@@ -83,7 +83,7 @@ async function cadastrarServidor() {
         alert("servidor cadastrado com sucesso!");
 
         // Redireciona para outra página
-        window.location.href = "perfil-servidor.html";  
+        window.location.href = "login-servidor.html";  
         
 
     } catch (error) {
@@ -158,7 +158,11 @@ function exibirServidores(servidores) {
             <br>
             <button class="edit-button" data-servidorId="${servidor.id}">Editar ✏️</button>  
             <button class="delete-button" data-servidorId="${servidor.id}">Deletar 🗑️</button>
+
+            <button class="edit-bank-button" data-servidorId="${servidor.id}">Info Banco</button>  
+            <button class="edit-adress-button" data-servidorId="${servidor.id}">Info End. </button>
             <button class="update-button" id="atualizar-${servidor.id}" style="display:none;" onclick="atualizarServidor(${servidor.id})">Atualizar ✏️</button>
+            <button class="cancel-edit-button" style="display:none;" data-servidorId="${servidor.id}">Cancelar ✖️</button>
         `;
         eventsContainer.appendChild(eventCard);
     });
@@ -179,6 +183,31 @@ function exibirServidores(servidores) {
             deletarServidor(servidorId);
         });
     });
+
+     // Botão de Editar Banco
+     document.querySelectorAll('.edit-bank-button').forEach(button => {
+        button.addEventListener('click', function() { 
+            const idServidor = this.getAttribute('data-servidorId'); // Captura o ID do servidor
+            localStorage.setItem('idServidorSelecionado', idServidor); // Salva o ID do servidor
+            window.location.href = 'lista-banco-servidor.html';
+        });
+    });
+
+     // Botão de Editar Endereço
+     document.querySelectorAll('.edit-adress-button').forEach(button => {
+        button.addEventListener('click', function() { 
+            const idServidor = this.getAttribute('data-servidorId'); // Captura o ID do servidor
+            localStorage.setItem('idServidorSelecionado', idServidor); // Salva o ID do servidor
+            window.location.href = 'lista-endereco-servidor.html';
+        });
+    });
+
+   // Adiciona evento de clique ao botão de cancelar edição
+    document.querySelectorAll(".cancel-edit-button").forEach((button) => {
+        button.addEventListener("click", function () {
+            location.reload(); // Recarrega a página
+        });
+    });
 }
 
 // Chama a função para obter servidores e exibi-los na página
@@ -194,7 +223,11 @@ function toggleEditAll(id) {
     // Seleciona os botões relacionados ao servidor
     const editButton = document.querySelector(`.edit-button[data-servidorId="${id}"]`);
     const deleteButton = document.querySelector(`.delete-button[data-servidorId="${id}"]`);
+    const bankButton = document.querySelector(`.edit-bank-button[data-servidorId="${id}"]`);
+    const adressButton = document.querySelector(`.edit-adress-button[data-servidorId="${id}"]`);
+
     const atualizarButton = document.getElementById(`atualizar-${id}`);
+    const cancelEditButton = document.querySelector(`.cancel-edit-button[data-servidorId="${id}"]`);
 
     // Alterna entre o modo de edição e visualização
     let isEditing = atualizarButton.style.display === "inline";
@@ -219,12 +252,18 @@ function toggleEditAll(id) {
         // Oculta os botões de "Editar" e "Deletar", e exibe o botão de "Atualizar"
         editButton.style.display = "none";
         deleteButton.style.display = "none";
+        bankButton.style.display = "none";
+        adressButton.style.display = "none";
         atualizarButton.style.display = "inline";
+        cancelEditButton.style.display = "inline";
     } else {
         // Exibe os botões de "Editar" e "Deletar", e oculta o botão de "Atualizar"
         editButton.style.display = "inline";
         deleteButton.style.display = "inline";
+        bankButton.style.display = "inline";
+        adressButton.style.display = "inline";
         atualizarButton.style.display = "none";
+        cancelEditButton.style.display = "none";
     }
 }
 
