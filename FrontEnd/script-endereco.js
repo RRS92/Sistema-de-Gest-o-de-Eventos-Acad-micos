@@ -59,6 +59,7 @@ function exibirEnderecos(enderecos) {
             <br>
             <button class="edit-center-button" data-enderecoId="${endereco.id}">Editar ✏️</button>  
             <button class="update-button" id="atualizar-${endereco.id}" style="display:none;" onclick="atualizarEndereco(${endereco.id})">Atualizar ✏️</button>
+            <button class="cancel-edit-button" style="display:none;" data-enderecoId="${endereco.id}">Cancelar ✖️</button>
         `;
         eventsContainer.appendChild(eventCard);
     });
@@ -79,6 +80,13 @@ function exibirEnderecos(enderecos) {
             deletarEndereco(enderecoId);
         });
     });
+
+    // Adiciona evento de clique ao botão de cancelar edição
+    document.querySelectorAll(".cancel-edit-button").forEach((button) => {
+        button.addEventListener("click", function () {
+            location.reload(); // Recarrega a página
+        });
+    });
 }
 
 // Chama a função para obter endereços e exibi-los na página
@@ -93,7 +101,9 @@ function toggleEditAll(id) {
 
     // Seleciona os botões relacionados ao banco
     const editButton = document.querySelector(`.edit-center-button[data-enderecoId="${id}"]`);
+
     const atualizarButton = document.getElementById(`atualizar-${id}`);
+    const cancelEditButton = document.querySelector(`.cancel-edit-button[data-enderecoId="${id}"]`);
 
     // Alterna entre o modo de edição e visualização
     let isEditing = atualizarButton.style.display === "inline";
@@ -117,11 +127,15 @@ function toggleEditAll(id) {
     if (!isEditing) {
         // Oculta os botões de "Editar" e "Deletar", e exibe o botão de "Atualizar"
         editButton.style.display = "none";
+
         atualizarButton.style.display = "inline";
+        cancelEditButton.style.display = "inline";
     } else {
         // Exibe os botões de "Editar" e "Deletar", e oculta o botão de "Atualizar"
         editButton.style.display = "inline";
+
         atualizarButton.style.display = "none";
+        cancelEditButton.style.display = "none";
     }
 }
 

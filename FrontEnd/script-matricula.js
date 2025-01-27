@@ -48,6 +48,7 @@ function exibirMatriculas(matriculas) {
             <button class="edit-button" data-matriculaId="${matricula.id}">Editar ✏️</button>  
             <button class="delete-button" data-matriculaId="${matricula.id}">Deletar 🗑️</button>
             <button class="update-button" id="atualizar-${matricula.id}" style="display:none;" onclick="atualizarMatricula(${matricula.id})">Atualizar ✏️</button>
+            <button class="cancel-edit-button" style="display:none;" data-matriculaId="${matricula.id}">Cancelar ✖️</button>
         `;
         eventsContainer.appendChild(eventCard);
     });
@@ -68,6 +69,13 @@ function exibirMatriculas(matriculas) {
             deletarMatricula(matriculaId);
         });
     });
+
+    // Adiciona evento de clique ao botão de cancelar edição
+    document.querySelectorAll(".cancel-edit-button").forEach((button) => {
+        button.addEventListener("click", function () {
+            location.reload(); // Recarrega a página
+        });
+    });
 }
 
 // Chama a função para obter matriculas e exibi-las na página
@@ -83,7 +91,9 @@ function toggleEditAll(id) {
     // Seleciona os botões relacionados a matrícula
     const editButton = document.querySelector(`.edit-button[data-matriculaId="${id}"]`);
     const deleteButton = document.querySelector(`.delete-button[data-matriculaId="${id}"]`);
+
     const atualizarButton = document.getElementById(`atualizar-${id}`);
+    const cancelEditButton = document.querySelector(`.cancel-edit-button[data-matriculaId="${id}"]`);
 
     // Alterna entre o modo de edição e visualização
     let isEditing = atualizarButton.style.display === "inline";
@@ -108,12 +118,16 @@ function toggleEditAll(id) {
         // Oculta os botões de "Editar" e "Deletar", e exibe o botão de "Atualizar"
         editButton.style.display = "none";
         deleteButton.style.display = "none";
+
         atualizarButton.style.display = "inline";
+        cancelEditButton.style.display = "inline";
     } else {
         // Exibe os botões de "Editar" e "Deletar", e oculta o botão de "Atualizar"
         editButton.style.display = "inline";
         deleteButton.style.display = "inline";
+
         atualizarButton.style.display = "none";
+        cancelEditButton.style.display = "none";
     }
 }
 

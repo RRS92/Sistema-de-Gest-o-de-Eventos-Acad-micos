@@ -90,7 +90,7 @@ async function atualizarBotoesParticipacao() {
         const participacao = participacoesUsuario.find(part => part.evento?.id === eventoId);
 
         if (participacao) {
-            button.textContent = "Desinscrever";
+            button.textContent = "Cancelar Inscrição";
             button.classList.add('desinscrever');
         } else {
             button.textContent = "Participar";
@@ -119,8 +119,8 @@ document.querySelector('.events-container').addEventListener('click', async (eve
                     'Authorization': localStorage.getItem("token")
                 }
             });
-            if (!response.ok) throw new Error(`Erro ao desinscrever: ${response.status}`);
-            alert('Você foi desinscrito com sucesso!');
+            if (!response.ok) throw new Error(`Erro ao cancelar inscrição: ${response.status}`);
+            alert('Você cancelou sua inscrição com sucesso!');
             button.textContent = "Participar";
             button.classList.remove('desinscrever');
         } catch (error) {
@@ -144,7 +144,7 @@ document.querySelector('.events-container').addEventListener('click', async (eve
             });
             if (!response.ok) throw new Error(`Erro ao participar do evento: ${response.status}`);
             alert('Você se inscreveu no evento com sucesso!');
-            button.textContent = "Desinscrever";
+            button.textContent = "Cancelar Inscrição";
             button.classList.add('desinscrever');
         } catch (error) {
             console.error(error);

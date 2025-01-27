@@ -33,7 +33,7 @@ document.getElementById('formAvaliacao').addEventListener('submit', async functi
 
         if (response.ok) {
             alert('Avaliação enviada com sucesso!');
-            window.location.href = 'perfil-servidor.html'; // Redirecionamento após sucesso
+            window.location.href = 'lista-evento.html'; // Redirecionamento após sucesso
         } else {
             alert('Erro ao enviar avaliação.');
         }
