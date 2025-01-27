@@ -800,8 +800,7 @@ footer .footer-column {
 /* Botão Deslogar */
 .logout-button {
     background-color: #004d00; /* Cor de fundo verde */
-    color: white;        /* Cor do texto branca */
-    padding: 10px 20px;   /* Aumenta o tamanho do botão */     
+    color: white;        /* Cor do texto branca */    
     border: none;         /* Remove a borda padrão */
     border-radius: 5px;  /* Adiciona bordas arredondadas */
     cursor: pointer;      /* Muda o cursor ao passar o mouse */
@@ -810,6 +809,78 @@ footer .footer-column {
 }
 
 .logout-button:hover {
+    background-color: #004d00; /* Cor do fundo ao passar o mouse */
+}
+
+/* Botão Info Banco */
+.edit-bank-button {
+    background-color: #006400; /* Cor de fundo verde */
+    color: white;        /* Cor do texto branca */
+    padding: 10px 16px;   /* Aumenta o tamanho do botão */
+    margin-left: 10px; 
+    margin-top: 15px;     
+    border: none;         /* Remove a borda padrão */
+    border-radius: 5px;  /* Adiciona bordas arredondadas */
+    cursor: pointer;      /* Muda o cursor ao passar o mouse */
+    font-size: 16px;      /* Aumenta o tamanho da fonte */
+    transition: background-color 0.3s; /* Efeito de transição */
+    
+}
+
+.edit-bank-button:hover {
+    background-color: #004d00; /* Cor do fundo ao passar o mouse */
+}
+
+/* Botão Info Endereço */
+.edit-adress-button {
+    background-color: #006400; /* Cor de fundo verde */
+    color: white;        /* Cor do texto branca */
+    padding: 10px 27px;   /* Aumenta o tamanho do botão */
+    margin-left: 15px;      
+    border: none;         /* Remove a borda padrão */
+    border-radius: 5px;  /* Adiciona bordas arredondadas */
+    cursor: pointer;      /* Muda o cursor ao passar o mouse */
+    font-size: 16px;      /* Aumenta o tamanho da fonte */
+    transition: background-color 0.3s; /* Efeito de transição */
+    
+}
+
+.edit-adress-button:hover {
+    background-color: #004d00; /* Cor do fundo ao passar o mouse */
+}
+
+/* Botão Info Curso */
+.edit-course-button {
+    background-color: #006400; /* Cor de fundo verde */
+    color: white;        /* Cor do texto branca */
+    padding: 10px 18px;   /* Aumenta o tamanho do botão */
+    margin-left: 10px; 
+    margin-top: 15px;     
+    border: none;         /* Remove a borda padrão */
+    border-radius: 5px;  /* Adiciona bordas arredondadas */
+    cursor: pointer;      /* Muda o cursor ao passar o mouse */
+    font-size: 16px;      /* Aumenta o tamanho da fonte */
+    transition: background-color 0.3s; /* Efeito de transição */
+}
+
+.edit-course-button:hover {
+    background-color: #004d00; /* Cor do fundo ao passar o mouse */
+}
+
+/* Botão Info Matrícula */
+.edit-matricula-button {
+    background-color: #006400; /* Cor de fundo verde */
+    color: white;        /* Cor do texto branca */
+    padding: 10px 27px;   /* Aumenta o tamanho do botão */
+    margin-left: 14px;      
+    border: none;         /* Remove a borda padrão */
+    border-radius: 5px;  /* Adiciona bordas arredondadas */
+    cursor: pointer;      /* Muda o cursor ao passar o mouse */
+    font-size: 16px;      /* Aumenta o tamanho da fonte */
+    transition: background-color 0.3s; /* Efeito de transição */
+}
+
+.edit-matricula-button:hover {
     background-color: #004d00; /* Cor do fundo ao passar o mouse */
 }
 

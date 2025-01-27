@@ -50,6 +50,7 @@ function exibirBancos(bancos) {
             <br>
             <button class="edit-center-button" data-bancoId="${banco.id}">Editar ✏️</button>  
             <button class="update-button" id="atualizar-${banco.id}" style="display:none;" onclick="atualizarBanco(${banco.id})">Atualizar ✏️</button>
+            <button class="cancel-edit-button" style="display:none;" data-bancoId="${banco.id}">Cancelar ✖️</button>
         `;
         eventsContainer.appendChild(eventCard);
     });
@@ -70,6 +71,13 @@ function exibirBancos(bancos) {
             deletarBanco(bancoId);
         });
     });
+
+    // Adiciona evento de clique ao botão de cancelar edição
+    document.querySelectorAll(".cancel-edit-button").forEach((button) => {
+        button.addEventListener("click", function () {
+            location.reload(); // Recarrega a página
+        });
+    });
 }
 
 // Chama a função para obter bancos e exibi-los na página
@@ -84,7 +92,9 @@ function toggleEditAll(id) {
 
     // Seleciona os botões relacionados ao banco
     const editButton = document.querySelector(`.edit-center-button[data-bancoId="${id}"]`);
+
     const atualizarButton = document.getElementById(`atualizar-${id}`);
+    const cancelEditButton = document.querySelector(`.cancel-edit-button[data-bancoId="${id}"]`);
 
     // Alterna entre o modo de edição e visualização
     let isEditing = atualizarButton.style.display === "inline";
@@ -108,11 +118,15 @@ function toggleEditAll(id) {
     if (!isEditing) {
         // Oculta os botões de "Editar" e "Deletar", e exibe o botão de "Atualizar"
         editButton.style.display = "none";
+
         atualizarButton.style.display = "inline";
+        cancelEditButton.style.display = "inline";
     } else {
         // Exibe os botões de "Editar" e "Deletar", e oculta o botão de "Atualizar"
         editButton.style.display = "inline";
+
         atualizarButton.style.display = "none";
+        cancelEditButton.style.display = "none";
     }
 }
 

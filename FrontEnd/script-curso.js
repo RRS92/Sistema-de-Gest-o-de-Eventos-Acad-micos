@@ -46,6 +46,7 @@ function exibirCursos(cursos) {
             <button class="edit-button" data-cursoId="${curso.id}">Editar ✏️</button>  
             <button class="delete-button" data-cursoId="${curso.id}">Deletar 🗑️</button>
             <button class="update-button" id="atualizar-${curso.id}" style="display:none;" onclick="atualizarCurso(${curso.id})">Atualizar ✏️</button>
+            <button class="cancel-edit-button" style="display:none;" data-cursoId="${curso.id}">Cancelar ✖️</button>
         `;
         eventsContainer.appendChild(eventCard);
     });
@@ -66,6 +67,13 @@ function exibirCursos(cursos) {
             deletarCurso(cursoId);
         });
     });
+
+    // Adiciona evento de clique ao botão de cancelar edição
+    document.querySelectorAll(".cancel-edit-button").forEach((button) => {
+        button.addEventListener("click", function () {
+            location.reload(); // Recarrega a página
+        });
+    });
 }
 
 // Chama a função para obter cursos e exibi-los na página
@@ -81,7 +89,9 @@ function toggleEditAll(id) {
     // Seleciona os botões relacionados ao curso
     const editButton = document.querySelector(`.edit-button[data-cursoId="${id}"]`);
     const deleteButton = document.querySelector(`.delete-button[data-cursoId="${id}"]`);
+
     const atualizarButton = document.getElementById(`atualizar-${id}`);
+    const cancelEditButton = document.querySelector(`.cancel-edit-button[data-cursoId="${id}"]`);
 
     // Alterna entre o modo de edição e visualização
     let isEditing = atualizarButton.style.display === "inline";
@@ -106,12 +116,16 @@ function toggleEditAll(id) {
         // Oculta os botões de "Editar" e "Deletar", e exibe o botão de "Atualizar"
         editButton.style.display = "none";
         deleteButton.style.display = "none";
+
         atualizarButton.style.display = "inline";
+        cancelEditButton.style.display = "inline";
     } else {
         // Exibe os botões de "Editar" e "Deletar", e oculta o botão de "Atualizar"
         editButton.style.display = "inline";
         deleteButton.style.display = "inline";
+
         atualizarButton.style.display = "none";
+        cancelEditButton.style.display = "none";
     }
 }
 

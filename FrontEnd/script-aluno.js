@@ -81,7 +81,7 @@ async function cadastrarAluno() {
         alert("Aluno cadastrado com sucesso!");
 
         // Redireciona para outra página
-        window.location.href = "perfil-aluno.html";
+        window.location.href = "login-aluno.html";
 
     } catch (error) {
         console.error(error);
@@ -153,7 +153,14 @@ function exibirAlunos(alunos) {
             <br>
             <button class="edit-button" data-alunoId="${aluno.id}">Editar ✏️</button>  
             <button class="delete-button" data-alunoId="${aluno.id}">Deletar 🗑️</button>
+
+            <button class="edit-bank-button" data-alunoId="${aluno.id}">Info Banco</button>
+            <button class="edit-adress-button" data-alunoId="${aluno.id}">Info End. </button>
+
+            <button class="edit-course-button" data-alunoId="${aluno.id}">Info Curso</button>
+            <button class="edit-matricula-button" data-alunoId="${aluno.id}">Info Matr. </button>
             <button class="update-button" id="atualizar-${aluno.id}" style="display:none;" onclick="atualizarAluno(${aluno.id})">Atualizar ✏️</button>
+            <button class="cancel-edit-button" style="display:none;" data-alunoId="${aluno.id}">Cancelar ✖️</button>
         `;
         eventsContainer.appendChild(eventCard);
     });
@@ -174,6 +181,49 @@ function exibirAlunos(alunos) {
             deletarAluno(alunoId);
         });
     });
+
+     // Botão de Editar Banco
+     document.querySelectorAll('.edit-bank-button').forEach(button => {
+        button.addEventListener('click', function() { 
+            const idAluno = this.getAttribute('data-alunoId'); // Captura o ID do aluno
+            localStorage.setItem('idAlunoSelecionado', idAluno); // Salva o ID do aluno
+            window.location.href = 'lista-banco-aluno.html';
+        });
+    });
+
+     // Botão de Editar Endereço
+     document.querySelectorAll('.edit-adress-button').forEach(button => {
+        button.addEventListener('click', function() { 
+            const idAluno = this.getAttribute('data-alunoId'); // Captura o ID do aluno
+            localStorage.setItem('idAlunoSelecionado', idAluno); // Salva o ID do aluno
+            window.location.href = 'lista-endereco-aluno.html';
+        });
+    });
+
+     // Botão de Editar Curso
+     document.querySelectorAll('.edit-course-button').forEach(button => {
+        button.addEventListener('click', function() { 
+            const idAluno = this.getAttribute('data-alunoId'); // Captura o ID do aluno
+            localStorage.setItem('idAlunoSelecionado', idAluno); // Salva o ID do aluno
+            window.location.href = 'lista-curso.html';
+        });
+    });
+
+     // Botão de Editar Matrícula
+     document.querySelectorAll('.edit-matricula-button').forEach(button => {
+        button.addEventListener('click', function() { 
+            const idAluno = this.getAttribute('data-alunoId'); // Captura o ID do aluno
+            localStorage.setItem('idAlunoSelecionado', idAluno); // Salva o ID do aluno
+            window.location.href = 'lista-matricula.html';
+        });
+    });
+
+   // Adiciona evento de clique ao botão de cancelar edição
+    document.querySelectorAll(".cancel-edit-button").forEach((button) => {
+        button.addEventListener("click", function () {
+            location.reload(); // Recarrega a página
+        });
+    });
 }
 
 // Chama a função para obter alunos e exibi-los na página
@@ -189,7 +239,14 @@ function toggleEditAll(id) {
     // Seleciona os botões relacionados ao aluno
     const editButton = document.querySelector(`.edit-button[data-alunoId="${id}"]`);
     const deleteButton = document.querySelector(`.delete-button[data-alunoId="${id}"]`);
+    const bankButton = document.querySelector(`.edit-bank-button[data-alunoId="${id}"]`);
+    const adressButton = document.querySelector(`.edit-adress-button[data-alunoId="${id}"]`);
+    const courseButton = document.querySelector(`.edit-course-button[data-alunoId="${id}"]`);
+    const matriculaButton = document.querySelector(`.edit-matricula-button[data-alunoId="${id}"]`);
+
     const atualizarButton = document.getElementById(`atualizar-${id}`);
+    const cancelEditButton = document.querySelector(`.cancel-edit-button[data-alunoId="${id}"]`);
+
 
     // Alterna entre o modo de edição e visualização
     let isEditing = atualizarButton.style.display === "inline";
@@ -214,12 +271,22 @@ function toggleEditAll(id) {
         // Oculta os botões de "Editar" e "Deletar", e exibe o botão de "Atualizar"
         editButton.style.display = "none";
         deleteButton.style.display = "none";
+        bankButton.style.display = "none";
+        adressButton.style.display = "none";
+        courseButton.style.display = "none";
+        matriculaButton.style.display = "none";
         atualizarButton.style.display = "inline";
+        cancelEditButton.style.display = "inline";
     } else {
         // Exibe os botões de "Editar" e "Deletar", e oculta o botão de "Atualizar"
         editButton.style.display = "inline";
         deleteButton.style.display = "inline";
+        bankButton.style.display = "inline";
+        adressButton.style.display = "inline";
+        courseButton.style.display = "inline";
+        matriculaButton.style.display = "inline";
         atualizarButton.style.display = "none";
+        cancelEditButton.style.display = "none";
     }
 }
 
