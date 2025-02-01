@@ -83,7 +83,30 @@ async function cadastrarAluno() {
         });
 
         if (!alunoResponse.ok) throw new Error("Erro ao salvar aluno.");
-        alert("Aluno cadastrado com sucesso!");
+        // alert("Aluno cadastrado com sucesso!");
+        co
+        const aluno = await bancoResponse.json();
+        const alunoId = aluno.id;
+
+        const bancoData = {
+            nomeBanco: document.getElementById("nomeBanco").value,
+            numConta: document.getElementById("numConta").value,
+            agencia: document.getElementById("agencia").value,
+            operacao: document.getElementById("operacao").value
+        };
+
+        const bancoResponse = await fetch("http://localhost:8080/bancos", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
+            },
+            body: JSON.stringify(bancoData)
+        });
+
+        if (!bancoResponse.ok) throw new Error("Erro ao salvar banco.");
+        const banco = await bancoResponse.json();
+        const bancoId = banco.id;
 
         // Redireciona para outra página
         window.location.href = "login-aluno.html";
