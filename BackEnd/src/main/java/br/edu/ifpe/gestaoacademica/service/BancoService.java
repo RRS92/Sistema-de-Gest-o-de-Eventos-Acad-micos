@@ -1,6 +1,7 @@
 package br.edu.ifpe.gestaoacademica.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,10 @@ public class BancoService {
 
 	public List<Banco> listarBanco(){
 		return bancoRepository.findAllByAtivoTrue();
+	}
+	
+	public Optional<Banco> listarBancoId(Long id){
+		return bancoRepository.findById(id);
 	}
 
 	public void inativarBanco(Long id) {

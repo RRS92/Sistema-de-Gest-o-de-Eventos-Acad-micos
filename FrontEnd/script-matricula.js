@@ -1,17 +1,24 @@
-// Função para obter matriculas
 async function getMatriculas() {
     try {
-        const response = await fetch("http://localhost:8080/matriculas", 
-            {
+        const response = await fetch("http://localhost:8080/matriculas", {
             method: "GET",
             headers: {
                 'Accept': 'application/json',
                 "Authorization": localStorage.getItem("token")
-            }});
+            }
+        });
+
         if (!response.ok) {
             throw new Error(`Erro ao buscar matrículas: ${response.status}`);
         }
+
         const matriculas = await response.json();
+
+        if (Array.isArray(matriculas) && matriculas.length > 0 && matriculas[0].curso) {
+            const idCurso = matriculas[0].curso.id; // Pegando o ID do curso dentro do objeto curso
+            localStorage.setItem("idCurso", idCurso);
+        }
+
         return matriculas;
     } catch (error) {
         console.error(error);
@@ -19,6 +26,9 @@ async function getMatriculas() {
         return [];
     }
 }
+
+const idCursos = JSON.parse(localStorage.getItem("idCursos"));
+
 
 // Função para exibir matrículas na página
 function exibirMatriculas(matriculas) {
@@ -43,6 +53,14 @@ function exibirMatriculas(matriculas) {
 
                 <p><strong>Turno:</strong> <span id="turno-display-${matricula.id}">${matricula.turno}</span>
                 <input type="text" id="turno-${matricula.id}" value="${matricula.turno}" style="display:none;" /></p>
+
+                <p><strong>Curso:</strong> <span id="nomeCurso-display-${matricula.id}">${matricula.nomeCurso}</span>
+                <input type="text" id="nomeCurso-${matricula.id}" value="${matricula.nomeCurso}" style="display:none;" /></p>
+
+                <p><strong>Modalidade:</strong> <span id="modalidade-display-${matricula.id}">${matricula.modalidade}</span>
+                <input type="text" id="modalidade-${matricula.id}" value="${matricula.modalidade}" style="display:none;" /></p>
+
+
             </div>
             <br>
             <button class="edit-button" data-matriculaId="${matricula.id}">Editar ✏️</button>  
@@ -86,7 +104,7 @@ getMatriculas().then((matriculas) => {
 
 // Função para alternar entre editar e exibir valores de todos os campos ao mesmo tempo
 function toggleEditAll(id) {
-    const fields = ['numMatricula', 'periodoIngresso', 'turno'];
+    const fields = ['numMatricula', 'periodoIngresso', 'turno', 'nomeCurso', 'modalidade'];
 
     // Seleciona os botões relacionados a matrícula
     const editButton = document.querySelector(`.edit-button[data-matriculaId="${id}"]`);
@@ -138,11 +156,13 @@ async function atualizarMatricula(id) {
         id: id,
         numMatricula: document.getElementById(`numMatricula-${id}`).value.trim(),
         periodoIngresso: document.getElementById(`periodoIngresso-${id}`).value.trim(),
-        turno: document.getElementById(`turno-${id}`).value.trim()
+        turno: document.getElementById(`turno-${id}`).value.trim(),
+        nomeCurso:document.getElementById(`nomeCurso-${id}`).value.trim(),
+        modalidade:document.getElementById(`modalidade-${id}`).value.trim()
     };
 
     // Validação dos campos obrigatórios
-    if (!matriculaData.numMatricula || !matriculaData.periodoIngresso || !matriculaData.turno) {
+    if (!matriculaData.numMatricula || !matriculaData.periodoIngresso || !matriculaData.turno || !matriculaData.nomeCurso || !matriculaData.modalidade) {
         alert("Por favor, preencha todos os campos.");
         return;
     }

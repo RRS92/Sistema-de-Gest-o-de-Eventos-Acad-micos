@@ -96,7 +96,9 @@ async function cadastrarServidor() {
 // Função para obter servidores
 async function getServidores() {
     try {
-        const response = await fetch("http://localhost:8080/servidores", 
+        const idUser = localStorage.getItem("userIdUsuario");
+
+        const response = await fetch(`http://localhost:8080/servidores/${idUser}`, 
             {
             method: "GET",
             headers: {
@@ -112,21 +114,53 @@ async function getServidores() {
     } catch (error) {
         console.error(error);
         //alert("Erro ao carregar servidores. Tente novamente mais tarde.");
-        return [];
+        return null;
     }  
 }
 
+function formatarData(data) {
+    return new Intl.DateTimeFormat('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    }).format(new Date(data));
+}
+
+
+function formatarCPF(cpf) {
+    // Remove qualquer caractere que não seja número
+    cpf = cpf.replace(/[^\d]/g, '');
+
+    // Aplica o formato XXX.XXX.XXX-XX
+    if (cpf.length === 11) {
+        return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    }
+
+    return cpf; // Retorna o CPF sem formatação se não tiver o tamanho correto
+}
+
+function formatarTelefone(telefone) {
+    // Remove qualquer caractere que não seja número
+    telefone = telefone.replace(/[^\d]/g, '');
+
+    // Aplica o formato (XX) XXXXX-XXXX
+    if (telefone.length === 11) {
+        return telefone.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+    }
+
+    return telefone; // Retorna o telefone sem formatação se não tiver o tamanho correto
+}
+
 // Função para exibir servidores na página
-function exibirServidores(servidores) {
+function exibirServidores(servidor) {
     const eventsContainer = document.querySelector(".events-container");
     eventsContainer.innerHTML = ""; // Limpa a lista existente
 
-    if (servidores.length === 0) {
+    if (!servidor) {
         eventsContainer.innerHTML = "<p>Nenhum servidor encontrado.</p>";
         return;
     }
 
-    servidores.forEach((servidor) => {
         const eventCard = document.createElement("div");
         eventCard.classList.add("event-card");
         eventCard.innerHTML = `
@@ -140,16 +174,17 @@ function exibirServidores(servidores) {
                 <p><strong>Cargo:</strong> <span id="cargo-display-${servidor.id}">${servidor.cargo}</span>
                 <input type="text" id="cargo-${servidor.id}" value="${servidor.cargo}" style="display:none;" /></p>
 
-                <p><strong>CPF:</strong> <span id="cpf-display-${servidor.id}">${servidor.cpf}</span>
+              
+                <p><strong>CPF:</strong> <span id="cpf-display-${servidor.id}">${formatarCPF(servidor.cpf)}</span>
                 <input type="text" id="cpf-${servidor.id}" value="${servidor.cpf}" style="display:none;" /></p>
 
                 <p><strong>RG:</strong> <span id="rg-display-${servidor.id}">${servidor.rg}</span>
                 <input type="text" id="rg-${servidor.id}" value="${servidor.rg}" style="display:none;" /></p>
 
-                <p><strong>Data de Nascimento:</strong> <span id="dataNasc-display-${servidor.id}">${servidor.dataNasc}</span>
+                <p><strong>Data de Nascimento:</strong> <span id="dataNasc-display-${servidor.id}">${formatarData(servidor.dataNasc)}</span>
                 <input type="text" id="dataNasc-${servidor.id}" value="${servidor.dataNasc}" style="display:none;" /></p>
 
-                <p><strong>Telefone:</strong> <span id="telefone-display-${servidor.id}">${servidor.telefone}</span>
+                <p><strong>Telefone:</strong> <span id="telefone-display-${servidor.id}">${formatarTelefone(servidor.telefone)}</span>
                 <input type="text" id="telefone-${servidor.id}" value="${servidor.telefone}" style="display:none;" /></p>
 
                 <p><strong>Email:</strong> <span id="email-display-${servidor.id}">${servidor.email}</span>
@@ -165,7 +200,7 @@ function exibirServidores(servidores) {
             <button class="cancel-edit-button" style="display:none;" data-servidorId="${servidor.id}">Cancelar ✖️</button>
         `;
         eventsContainer.appendChild(eventCard);
-    });
+   ;
 
     // Adiciona o evento de clique aos botões de editar
     document.querySelectorAll(".edit-button").forEach((button) => {
