@@ -26,7 +26,8 @@ public class MatriculaService {
 		matricula.setPeriodoIngresso(dadosMatriculaDTO.periodoIngresso());
 		matricula.setTurno(dadosMatriculaDTO.turno());
 		matricula.setAluno(dadosMatriculaDTO.aluno());
-		matricula.setCurso(dadosMatriculaDTO.curso());
+		matricula.setNomeCurso(dadosMatriculaDTO.nomeCurso());
+		matricula.setModalidade(dadosMatriculaDTO.modalidade());
 
 		matricula.setAtivo(true);
 
@@ -40,13 +41,16 @@ public class MatriculaService {
 		if (dadosMatriculaDTO.numMatricula() != null) 	  matricula.setNumMatricula(dadosMatriculaDTO.numMatricula());
 		if (dadosMatriculaDTO.periodoIngresso() != null)  matricula.setPeriodoIngresso(dadosMatriculaDTO.periodoIngresso());
 		if (dadosMatriculaDTO.turno() != null) 			  matricula.setTurno(dadosMatriculaDTO.turno());
+		if (dadosMatriculaDTO.nomeCurso() != null) 			  matricula.setNomeCurso(dadosMatriculaDTO.nomeCurso());
+		if (dadosMatriculaDTO.modalidade() != null) 			  matricula.setTurno(dadosMatriculaDTO.turno());
 
 		return matriculaRepository.save(matricula);
 	}
 
-	public List<Matricula> listarMatricula() {
-		return matriculaRepository.findAllByAtivoTrue();
-	}
+	
+	public List<Matricula> listarMatriculas() {
+        return matriculaRepository.findAllWithAluno();
+    }
 
 	public void inativarMatricula(Long id) {
 		Matricula matricula = matriculaRepository.getReferenceById(id);

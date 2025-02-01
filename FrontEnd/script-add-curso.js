@@ -1,30 +1,17 @@
 // Função para cadastrar Matricula
+const IdUsuario = localStorage.getItem('userIdUsuario');
+
 async function cadastrarMatricula() {
     try {
-        // 1. Cadastra o banco e obtém o ID
-        const cursoData = {
-            nome : document.getElementById("nome").value,
-            modalidade : document.getElementById("modalidade").value
-        };
-
-        const cursoResponse = await fetch("http://localhost:8080/cursos", {
-            method: "POST",
-            headers: { "Content-Type": "application/json",
-                "Authorization": localStorage.getItem("token") },
-            body: JSON.stringify(cursoData)
-        });
-
-        if (!cursoResponse.ok) throw new Error("Erro ao salvar curso.");
-        const curso = await cursoResponse.json();
-        const cursoId = curso.id;
-
         
         // 3. Cadastra matricula
         const matriculaData = {
             numMatricula : document.getElementById("numMatricula").value,
             periodoIngresso : document.getElementById("periodoIngresso").value,
             turno : document.getElementById("turno").value,
-            curso: { id: cursoId }
+            nomeCurso : document.getElementById("nomeCurso").value,
+            modalidade : document.getElementById("modalidade").value,
+            aluno: { id: IdUsuario}
         };
 
         const matriculaResponse = await fetch("http://localhost:8080/matriculas", {

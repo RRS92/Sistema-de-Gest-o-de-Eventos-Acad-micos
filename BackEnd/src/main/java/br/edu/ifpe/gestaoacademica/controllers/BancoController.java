@@ -1,6 +1,7 @@
 package br.edu.ifpe.gestaoacademica.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,18 @@ public class BancoController {
 	public ResponseEntity<BancoDTO> atualizarBanco(@RequestBody @Valid BancoDTO dadosBancoDTO) {
 	    Banco banco = bancoService.atualizarBanco(dadosBancoDTO);
 	    return ResponseEntity.ok(new BancoDTO(banco));
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<BancoDTO> listarBancoId(@PathVariable Long id) {
+	    Optional<Banco> bancoOptional = bancoService.listarBancoId(id);
+	    
+	    if (bancoOptional.isEmpty()) {
+	        return ResponseEntity.notFound().build();  // Retorna 404 caso o banco não seja encontrado
+	    }
+
+	    BancoDTO bancoDTO = new BancoDTO(bancoOptional.get());  // Converte para o DTO
+	    return ResponseEntity.ok(bancoDTO);  // Retorna o banco encontrado com status 200
 	}
 	
 	@GetMapping

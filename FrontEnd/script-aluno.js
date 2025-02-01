@@ -23,8 +23,9 @@ async function cadastrarAluno() {
 
         const bancoResponse = await fetch("http://localhost:8080/bancos", {
             method: "POST",
-            headers: { "Content-Type": "application/json",   
-                    "Authorization": localStorage.getItem("token")
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
             },
             body: JSON.stringify(bancoData)
         });
@@ -46,8 +47,10 @@ async function cadastrarAluno() {
 
         const enderecoResponse = await fetch("http://localhost:8080/enderecos", {
             method: "POST",
-            headers: { "Content-Type": "application/json",
-                "Authorization": localStorage.getItem("token") },
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
+            },
             body: JSON.stringify(enderecoData)
         });
 
@@ -72,8 +75,10 @@ async function cadastrarAluno() {
 
         const alunoResponse = await fetch("http://localhost:8080/alunos", {
             method: "POST",
-            headers: { "Content-Type": "application/json" ,
-                "Authorization": localStorage.getItem("token")},
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
+            },
             body: JSON.stringify(alunoData)
         });
 
@@ -92,15 +97,18 @@ async function cadastrarAluno() {
 // Função para obter alunos
 async function getAlunos() {
     try {
-        const response = await fetch("http://localhost:8080/alunos",
+        const idUser = localStorage.getItem("userIdUsuario");
 
-{
-method:"GET",
-headers:{
-    'Accept': 'application/json',
-    "Authorization": localStorage.getItem("token")
+        const response = await fetch(`http://localhost:8080/alunos/${idUser}`,
 
-}});
+            {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    "Authorization": localStorage.getItem("token")
+
+                }
+            });
         if (!response.ok) {
             throw new Error(`Erro ao buscar alunos: ${response.status}`);
         }
@@ -109,65 +117,96 @@ headers:{
     } catch (error) {
         console.error(error);
         alert("Erro ao carregar alunos. Tente novamente mais tarde.");
-        return [];
+        return null;
     }
 }
 
+function formatarData(data) {
+    return new Intl.DateTimeFormat('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    }).format(new Date(data));
+}
+
+function formatarCPF(cpf) {
+    // Remove qualquer caractere que não seja número
+    cpf = cpf.replace(/[^\d]/g, '');
+
+    // Aplica o formato XXX.XXX.XXX-XX
+    if (cpf.length === 11) {
+        return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    }
+
+    return cpf; // Retorna o CPF sem formatação se não tiver o tamanho correto
+}
+
+function formatarTelefone(telefone) {
+    // Remove qualquer caractere que não seja número
+    telefone = telefone.replace(/[^\d]/g, '');
+
+    // Aplica o formato (XX) XXXXX-XXXX
+    if (telefone.length === 11) {
+        return telefone.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+    }
+
+    return telefone; // Retorna o telefone sem formatação se não tiver o tamanho correto
+}
 
 // Função para exibir alunos na página
 function exibirAlunos(alunos) {
     const eventsContainer = document.querySelector(".events-container");
     eventsContainer.innerHTML = ""; // Limpa a lista existente
 
-    if (alunos.length === 0) {
+    if (!alunos) {
         eventsContainer.innerHTML = "<p>Nenhum aluno encontrado.</p>";
         return;
     }
 
-    alunos.forEach((aluno) => {
-        const eventCard = document.createElement("div");
-        eventCard.classList.add("event-card");
-        eventCard.innerHTML = `
+    const eventCard = document.createElement("div");
+    eventCard.classList.add("event-card");
+    eventCard.innerHTML = `
             <div class="event-details">
-                <p><strong>Nome:</strong> <span id="nome-display-${aluno.id}">${aluno.nome}</span>
-                <input type="text" id="nome-${aluno.id}" value="${aluno.nome}" style="display:none;" /></p>
+                <p><strong>Nome:</strong> <span id="nome-display-${alunos.id}">${alunos.nome}</span>
+                <input type="text" id="nome-${alunos.id}" value="${alunos.nome}" style="display:none;" /></p>
 
-                <p><strong>Matrícula:</strong> <span id="matricula-display-${aluno.id}">${aluno.matricula}</span>
-                <input type="text" id="matricula-${aluno.id}" value="${aluno.matricula}" style="display:none;" /></p>
+                <p><strong>Matrícula:</strong> <span id="matricula-display-${alunos.id}">${alunos.matricula}</span>
+                <input type="text" id="matricula-${alunos.id}" value="${alunos.matricula}" style="display:none;" /></p>
 
-                <p><strong>CPF:</strong> <span id="cpf-display-${aluno.id}">${aluno.cpf}</span>
-                <input type="text" id="cpf-${aluno.id}" value="${aluno.cpf}" style="display:none;" /></p>
+                <p><strong>CPF:</strong> <span id="cpf-display-${alunos.id}">${formatarCPF(alunos.cpf)}</span>
+                <input type="text" id="cpf-${alunos.id}" value="${alunos.cpf}" style="display:none;" /></p>
 
-                <p><strong>RG:</strong> <span id="rg-display-${aluno.id}">${aluno.rg}</span>
-                <input type="text" id="rg-${aluno.id}" value="${aluno.rg}" style="display:none;" /></p>
 
-                <p><strong>Data de Nascimento:</strong> <span id="dataNasc-display-${aluno.id}">${aluno.dataNasc}</span>
-                <input type="text" id="dataNasc-${aluno.id}" value="${aluno.dataNasc}" style="display:none;" /></p>
+                <p><strong>RG:</strong> <span id="rg-display-${alunos.id}">${alunos.rg}</span>
+                <input type="text" id="rg-${alunos.id}" value="${alunos.rg}" style="display:none;" /></p>
 
-                <p><strong>Telefone:</strong> <span id="telefone-display-${aluno.id}">${aluno.telefone}</span>
-                <input type="text" id="telefone-${aluno.id}" value="${aluno.telefone}" style="display:none;" /></p>
+                <p><strong>Data de Nascimento:</strong> 
+                <span id="dataNasc-display-${alunos.id}">${formatarData(alunos.dataNasc)}</span>
+                <input type="date" id="dataNasc-${alunos.id}" value="${alunos.dataNasc}" style="display:none;" />
+            </p>
+    
+                <p><strong>Telefone:</strong> <span id="telefone-display-${alunos.id}">${formatarTelefone(alunos.telefone)}</span>
+                <input type="text" id="telefone-${alunos.id}" value="${alunos.telefone}" style="display:none;" /></p>
 
-                <p><strong>Email:</strong> <span id="email-display-${aluno.id}">${aluno.email}</span>
-                <input type="text" id="email-${aluno.id}" value="${aluno.email}" style="display:none;" /></p>
+                <p><strong>Email:</strong> <span id="email-display-${alunos.id}">${alunos.email}</span>
+                <input type="text" id="email-${alunos.id}" value="${alunos.email}" style="display:none;" /></p>
             </div>
             <br>
-            <button class="edit-button" data-alunoId="${aluno.id}">Editar ✏️</button>  
-            <button class="delete-button" data-alunoId="${aluno.id}">Deletar 🗑️</button>
+            <button class="edit-button" data-alunoId="${alunos.id}">Editar ✏️</button>  
+            <button class="delete-button" data-alunoId="${alunos.id}">Deletar 🗑️</button>
 
-            <button class="edit-bank-button" data-alunoId="${aluno.id}">Info Banco</button>
-            <button class="edit-adress-button" data-alunoId="${aluno.id}">Info End. </button>
-
-            <button class="edit-course-button" data-alunoId="${aluno.id}">Info Curso</button>
-            <button class="edit-matricula-button" data-alunoId="${aluno.id}">Info Matr. </button>
-            <button class="update-button" id="atualizar-${aluno.id}" style="display:none;" onclick="atualizarAluno(${aluno.id})">Atualizar ✏️</button>
-            <button class="cancel-edit-button" style="display:none;" data-alunoId="${aluno.id}">Cancelar ✖️</button>
+            <button class="edit-bank-button" data-alunoId="${alunos.id}">Info Banco</button>
+            <button class="edit-adress-button" data-alunoId="${alunos.id}">Info End. </button>
+            <button class="edit-matricula-button" data-alunoId="${alunos.id}">Info Matr. </button>
+            <button class="update-button" id="atualizar-${alunos.id}" style="display:none;" onclick="atualizarAluno(${alunos.id})">Atualizar ✏️</button>
+            <button class="cancel-edit-button" style="display:none;" data-alunoId="${alunos.id}">Cancelar ✖️</button>
         `;
-        eventsContainer.appendChild(eventCard);
-    });
+    eventsContainer.appendChild(eventCard);
+    ;
 
     // Adiciona o evento de clique aos botões de editar
     document.querySelectorAll(".edit-button").forEach((button) => {
-        button.addEventListener("click", function(event) {
+        button.addEventListener("click", function (event) {
             const alunoId = event.target.getAttribute("data-alunoId");
             toggleEditAll(alunoId); // Chama a função para alternar o modo de edição
         });
@@ -175,50 +214,43 @@ function exibirAlunos(alunos) {
 
     // Adiciona o evento de clique aos botões de deletar
     document.querySelectorAll(".delete-button").forEach((button) => {
-        button.addEventListener("click", function(event) {
+        button.addEventListener("click", function (event) {
             const alunoId = event.target.getAttribute("data-alunoId");
             console.log(`ID do aluno clicado: ${alunoId}`);
             deletarAluno(alunoId);
         });
     });
 
-     // Botão de Editar Banco
-     document.querySelectorAll('.edit-bank-button').forEach(button => {
-        button.addEventListener('click', function() { 
+    // Botão de Editar Banco
+    document.querySelectorAll('.edit-bank-button').forEach(button => {
+        button.addEventListener('click', function () {
             const idAluno = this.getAttribute('data-alunoId'); // Captura o ID do aluno
             localStorage.setItem('idAlunoSelecionado', idAluno); // Salva o ID do aluno
             window.location.href = 'lista-banco-aluno.html';
         });
     });
 
-     // Botão de Editar Endereço
-     document.querySelectorAll('.edit-adress-button').forEach(button => {
-        button.addEventListener('click', function() { 
+    // Botão de Editar Endereço
+    document.querySelectorAll('.edit-adress-button').forEach(button => {
+        button.addEventListener('click', function () {
             const idAluno = this.getAttribute('data-alunoId'); // Captura o ID do aluno
             localStorage.setItem('idAlunoSelecionado', idAluno); // Salva o ID do aluno
             window.location.href = 'lista-endereco-aluno.html';
         });
     });
 
-     // Botão de Editar Curso
-     document.querySelectorAll('.edit-course-button').forEach(button => {
-        button.addEventListener('click', function() { 
-            const idAluno = this.getAttribute('data-alunoId'); // Captura o ID do aluno
-            localStorage.setItem('idAlunoSelecionado', idAluno); // Salva o ID do aluno
-            window.location.href = 'lista-curso.html';
-        });
-    });
+    
 
-     // Botão de Editar Matrícula
-     document.querySelectorAll('.edit-matricula-button').forEach(button => {
-        button.addEventListener('click', function() { 
+    // Botão de Editar Matrícula
+    document.querySelectorAll('.edit-matricula-button').forEach(button => {
+        button.addEventListener('click', function () {
             const idAluno = this.getAttribute('data-alunoId'); // Captura o ID do aluno
             localStorage.setItem('idAlunoSelecionado', idAluno); // Salva o ID do aluno
             window.location.href = 'lista-matricula.html';
         });
     });
 
-   // Adiciona evento de clique ao botão de cancelar edição
+    // Adiciona evento de clique ao botão de cancelar edição
     document.querySelectorAll(".cancel-edit-button").forEach((button) => {
         button.addEventListener("click", function () {
             location.reload(); // Recarrega a página
@@ -273,7 +305,6 @@ function toggleEditAll(id) {
         deleteButton.style.display = "none";
         bankButton.style.display = "none";
         adressButton.style.display = "none";
-        courseButton.style.display = "none";
         matriculaButton.style.display = "none";
         atualizarButton.style.display = "inline";
         cancelEditButton.style.display = "inline";
@@ -283,7 +314,6 @@ function toggleEditAll(id) {
         deleteButton.style.display = "inline";
         bankButton.style.display = "inline";
         adressButton.style.display = "inline";
-        courseButton.style.display = "inline";
         matriculaButton.style.display = "inline";
         atualizarButton.style.display = "none";
         cancelEditButton.style.display = "none";
@@ -339,8 +369,8 @@ async function deletarAluno(alunoId) {
         try {
             console.log(`Tentando deletar o aluno com ID: ${alunoId}`);
             const response = await fetch(`http://localhost:8080/alunos/deletar/${alunoId}`, {
-                    method: "DELETE",
-                });
+                method: "DELETE",
+            });
 
             console.log("Resposta da requisição:", response);
             if (!response.ok) {

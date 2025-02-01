@@ -27,15 +27,15 @@ public class Matricula {
     private String numMatricula;
     private String periodoIngresso;
     private String turno;
+    private String nomeCurso;
+    private String modalidade;
     private boolean ativo;
 
     @ManyToOne
     @JoinColumn(name = "idAluno")
     private Aluno aluno;
 
-    @ManyToOne
-    @JoinColumn(name = "idCurso", nullable = false)
-    private Curso curso;
+   
 
     public void inativar() {
         this.ativo = false;
