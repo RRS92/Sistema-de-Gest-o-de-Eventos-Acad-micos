@@ -1,7 +1,40 @@
-// Função para obter enderecos
+var token = localStorage.getItem("token");
+const userId = localStorage.getItem('userIdUtilizador');
+
+// Função para obter dados do aluno
+function getAlunoData() {
+    // Definir a URL do endpoint
+    const url = `http://localhost:8080/alunos/${userId}`;
+
+    // Fazer a requisição GET ao endpoint com o token no cabeçalho
+    fetch(url, {
+        method: "GET",  // Método GET
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("token")}`  // Passando o token no cabeçalho
+        }
+    })
+    .then(response => response.json())  // Converter a resposta para JSON
+    .then(data => {
+        // Acessar o id do banco da resposta
+        const enderecoId = data.endereco.id;
+        
+        // Salvar o enderecoIdId em uma variável global para usar em outro lugar
+        console.log("ID do endereco: ", enderecoId);
+
+        // Chamar outra função para usar o enderecoId se necessário
+        //processarEnderecoId(enderecoId);  // Exemplo de como usar o enderecoId
+    })
+    .catch(error => {
+        // Tratar qualquer erro de requisição
+        console.error("Erro ao chamar o endpoint:", error);
+    });
+}
+
+// Função para obter endereços
 async function getEnderecos() {
     try {
-        const response = await fetch("http://localhost:8080/enderecos", 
+        const response = await fetch(`http://localhost:8080/enderecos/${userId}`, 
             {
             method: "GET",
             headers: {
@@ -16,53 +49,51 @@ async function getEnderecos() {
     } catch (error) {
         console.error(error);
         alert("Erro ao carregar endereços. Tente novamente mais tarde.");
-        return [];
+        return null;
     }
 }
 
 // Função para exibir endereços na página
-function exibirEnderecos(enderecos) {
+function exibirEnderecos(endereco) {
     const eventsContainer = document.querySelector(".events-container");
     eventsContainer.innerHTML = ""; // Limpa a lista existente
 
-    if (enderecos.length === 0) {
+    if (!endereco) {
         eventsContainer.innerHTML = "<p>Nenhum endereço encontrado.</p>";
         return;
     }
 
-    enderecos.forEach((endereco) => {
-        const eventCard = document.createElement("div");
-        eventCard.classList.add("event-card");
-        eventCard.innerHTML = `
-            <div class="event-details">
-                <p><strong>Rua:</strong> <span id="rua-display-${endereco.id}">${endereco.rua}</span>
-                <input type="text" id="rua-${endereco.id}" value="${endereco.rua}" style="display:none;" /></p>
+    const eventCard = document.createElement("div");
+    eventCard.classList.add("event-card");
+    eventCard.innerHTML = `
+        <div class="event-details">
+            <p><strong>Rua:</strong> <span id="rua-display-${endereco.id}">${endereco.rua}</span>
+            <input type="text" id="rua-${endereco.id}" value="${endereco.rua}" style="display:none;" /></p>
 
-                <p><strong>Número:</strong> <span id="numero-display-${endereco.id}">${endereco.numero}</span>
-                <input type="text" id="numero-${endereco.id}" value="${endereco.numero}" style="display:none;" /></p>
+            <p><strong>Número:</strong> <span id="numero-display-${endereco.id}">${endereco.numero}</span>
+            <input type="text" id="numero-${endereco.id}" value="${endereco.numero}" style="display:none;" /></p>
 
-                <p><strong>Bairro:</strong> <span id="bairro-display-${endereco.id}">${endereco.bairro}</span>
-                <input type="text" id="bairro-${endereco.id}" value="${endereco.bairro}" style="display:none;" /></p>
+            <p><strong>Bairro:</strong> <span id="bairro-display-${endereco.id}">${endereco.bairro}</span>
+            <input type="text" id="bairro-${endereco.id}" value="${endereco.bairro}" style="display:none;" /></p>
 
-                <p><strong>Cidade:</strong> <span id="cidade-display-${endereco.id}">${endereco.cidade}</span>
-                <input type="text" id="cidade-${endereco.id}" value="${endereco.cidade}" style="display:none;" /></p>
+            <p><strong>Cidade:</strong> <span id="cidade-display-${endereco.id}">${endereco.cidade}</span>
+            <input type="text" id="cidade-${endereco.id}" value="${endereco.cidade}" style="display:none;" /></p>
 
-                <p><strong>Estado:</strong> <span id="estado-display-${endereco.id}">${endereco.estado}</span>
-                <input type="text" id="estado-${endereco.id}" value="${endereco.estado}" style="display:none;" /></p>
+            <p><strong>Estado:</strong> <span id="estado-display-${endereco.id}">${endereco.estado}</span>
+            <input type="text" id="estado-${endereco.id}" value="${endereco.estado}" style="display:none;" /></p>
 
-                <p><strong>CEP:</strong> <span id="cep-display-${endereco.id}">${endereco.cep}</span>
-                <input type="text" id="cep-${endereco.id}" value="${endereco.cep}" style="display:none;" /></p>
+            <p><strong>CEP:</strong> <span id="cep-display-${endereco.id}">${endereco.cep}</span>
+            <input type="text" id="cep-${endereco.id}" value="${endereco.cep}" style="display:none;" /></p>
 
-                <p><strong>Complemento:</strong> <span id="complemento-display-${endereco.id}">${endereco.complemento}</span>
-                <input type="text" id="complemento-${endereco.id}" value="${endereco.complemento}" style="display:none;" /></p>
-            </div>
-            <br>
-            <button class="edit-center-button" data-enderecoId="${endereco.id}">Editar ✏️</button>  
-            <button class="update-button" id="atualizar-${endereco.id}" style="display:none;" onclick="atualizarEndereco(${endereco.id})">Atualizar ✏️</button>
-            <button class="cancel-edit-button" style="display:none;" data-enderecoId="${endereco.id}">Cancelar ✖️</button>
-        `;
-        eventsContainer.appendChild(eventCard);
-    });
+            <p><strong>Complemento:</strong> <span id="complemento-display-${endereco.id}">${endereco.complemento}</span>
+            <input type="text" id="complemento-${endereco.id}" value="${endereco.complemento}" style="display:none;" /></p>
+        </div>
+        <br>
+        <button class="edit-center-button" data-enderecoId="${endereco.id}">Editar ✏️</button>  
+        <button class="update-button" id="atualizar-${endereco.id}" style="display:none;" onclick="atualizarEndereco(${endereco.id})">Atualizar ✏️</button>
+        <button class="cancel-edit-button" style="display:none;" data-enderecoId="${endereco.id}">Cancelar ✖️</button>
+    `;
+    eventsContainer.appendChild(eventCard);
 
     // Adiciona o evento de clique aos botões de editar
     document.querySelectorAll(".edit-center-button").forEach((button) => {
@@ -94,14 +125,12 @@ getEnderecos().then((enderecos) => {
     exibirEnderecos(enderecos);
 });
 
-
 // Função para alternar entre editar e exibir valores de todos os campos ao mesmo tempo
 function toggleEditAll(id) {
     const fields = ['rua', 'numero', 'bairro', 'cidade', 'estado', 'cep', 'complemento'];
 
     // Seleciona os botões relacionados ao banco
     const editButton = document.querySelector(`.edit-center-button[data-enderecoId="${id}"]`);
-
     const atualizarButton = document.getElementById(`atualizar-${id}`);
     const cancelEditButton = document.querySelector(`.cancel-edit-button[data-enderecoId="${id}"]`);
 
@@ -127,18 +156,15 @@ function toggleEditAll(id) {
     if (!isEditing) {
         // Oculta os botões de "Editar" e "Deletar", e exibe o botão de "Atualizar"
         editButton.style.display = "none";
-
         atualizarButton.style.display = "inline";
         cancelEditButton.style.display = "inline";
     } else {
         // Exibe os botões de "Editar" e "Deletar", e oculta o botão de "Atualizar"
         editButton.style.display = "inline";
-
         atualizarButton.style.display = "none";
         cancelEditButton.style.display = "none";
     }
 }
-
 
 // Função para atualizar todos os atributos do endereço
 async function atualizarEndereco(id) {
@@ -207,3 +233,6 @@ async function deletarEndereco(enderecoId) {
         }
     }
 }
+
+// Inicializa a coleta de dados do aluno
+getAlunoData();

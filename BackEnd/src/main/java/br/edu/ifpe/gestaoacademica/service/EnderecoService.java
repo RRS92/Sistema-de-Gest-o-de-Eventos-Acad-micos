@@ -1,6 +1,7 @@
 package br.edu.ifpe.gestaoacademica.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,6 +50,11 @@ public class EnderecoService {
 
 		return enderecoRepository.save(endereco);
 	}
+	
+	public Optional<Endereco> listarEnderecoId(Long id) {
+		return enderecoRepository.findById(id);
+
+	}
 
 	public List<Endereco> listarEnderecos(){
 		return enderecoRepository.findAllByAtivoTrue();
@@ -63,4 +69,6 @@ public class EnderecoService {
 	public void deletarEndereco(Long id) {
 		enderecoRepository.deleteById(id);
 	}
+
+	
 }

@@ -44,8 +44,10 @@ public class MatriculaController {
 
 	@GetMapping
 	public List<MatriculaDTO> listarMatricula(){
-		return matriculaService.listarMatricula().stream().map(MatriculaDTO::new).toList();
+		return matriculaService.listarMatriculas().stream().map(MatriculaDTO::new).toList();
 	}
+		
+	
 
 	@DeleteMapping("/deletar/{id}")
 	@Transactional

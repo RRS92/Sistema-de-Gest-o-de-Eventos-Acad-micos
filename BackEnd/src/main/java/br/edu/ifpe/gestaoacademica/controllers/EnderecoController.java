@@ -1,6 +1,7 @@
 package br.edu.ifpe.gestaoacademica.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,18 @@ public class EnderecoController {
 	public ResponseEntity<EnderecoDTO> atualizarEndereco(@RequestBody @Valid EnderecoDTO dadosEnderecoDTO) {
 	    Endereco endereco = enderecoService.atualizarEndereco(dadosEnderecoDTO);
 	    return ResponseEntity.ok(new EnderecoDTO(endereco));
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<EnderecoDTO> listarEnderecoId(@PathVariable Long id) {
+	    Optional<Endereco> enderecoOptional = enderecoService.listarEnderecoId(id);
+	    
+	    if (enderecoOptional.isEmpty()) {
+	        return ResponseEntity.notFound().build();  // Retorna 404 caso o banco não seja encontrado
+	    }
+
+	    EnderecoDTO enderecoDTO = new EnderecoDTO(enderecoOptional.get());  // Converte para o DTO
+	    return ResponseEntity.ok(enderecoDTO);  // Retorna o banco encontrado com status 200
 	}
 	
 	@GetMapping
