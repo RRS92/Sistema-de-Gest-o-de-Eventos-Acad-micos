@@ -74,6 +74,10 @@ async function exibirEventos(eventos) {
             <div class="buttons-container">
                 <button class="partipate-button" data-id="${evento.id}">Participar</button>
             </div>
+            <br>
+            <button onclick="window.location.href='lista-certificado-para-aluno.html';">
+                    Ver Certificado
+            </button>
         `;
         eventsContainer.appendChild(eventCard);
     });
