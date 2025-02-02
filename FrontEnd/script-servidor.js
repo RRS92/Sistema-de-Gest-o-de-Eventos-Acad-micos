@@ -80,10 +80,14 @@ async function cadastrarServidor() {
         });
 
         if (!servidorResponse.ok) throw new Error("Erro ao salvar servidor.");
-        alert("servidor cadastrado com sucesso!");
+        const servidor = await servidorResponse.json();
+        const servidorId = servidor.id;
+       
+        alert("Servidor cadastrado com sucesso!");
+        localStorage.setItem('userIdUsuario', servidorId);
 
         // Redireciona para outra página
-        window.location.href = "login-servidor.html";  
+        window.location.href = "perfil-servidor.html";  
         
 
     } catch (error) {

@@ -35,6 +35,7 @@ function efetuarLogin() {
                 if (idUser == null) {
                     localStorage.setItem('userIdUsuario', idUser);  // Jair Ajudou
                     window.location.href = 'cadastro-aluno.html';  // Jair Ajudou
+                    
 
                 }
                 else {

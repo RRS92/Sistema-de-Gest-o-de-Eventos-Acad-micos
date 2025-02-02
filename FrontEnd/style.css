@@ -202,6 +202,15 @@ footer .footer-column {
     margin-top: 20px;
 }
 
+/* Estilização para Campos Matrícula EVERTON #B-O-B-O-C-A */
+
+.matricula-info{
+    border-top: 2px solid var(--primary-color);
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+
 /* Tela Inicial do Usuário */
 .tela-inicial {
     width: 90%;
