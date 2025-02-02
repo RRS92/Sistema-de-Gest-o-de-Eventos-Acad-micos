@@ -5,7 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -31,8 +31,8 @@ public class Matricula {
     private String modalidade;
     private boolean ativo;
 
-    @ManyToOne
-    @JoinColumn(name = "idAluno")
+    @OneToOne
+    @JoinColumn(name = "idAluno", unique = true)
     private Aluno aluno;
 
    

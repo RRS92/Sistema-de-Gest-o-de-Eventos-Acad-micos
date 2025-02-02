@@ -83,33 +83,32 @@ async function cadastrarAluno() {
         });
 
         if (!alunoResponse.ok) throw new Error("Erro ao salvar aluno.");
-        // alert("Aluno cadastrado com sucesso!");
-        co
-        const aluno = await bancoResponse.json();
+        const aluno = await alunoResponse.json();
         const alunoId = aluno.id;
 
-        const bancoData = {
-            nomeBanco: document.getElementById("nomeBanco").value,
-            numConta: document.getElementById("numConta").value,
-            agencia: document.getElementById("agencia").value,
-            operacao: document.getElementById("operacao").value
+
+        const matriculaData = {
+            numMatricula : document.getElementById("numMatricula").value,
+            periodoIngresso : document.getElementById("periodoIngresso").value,
+            turno : document.getElementById("turno").value,
+            nomeCurso : document.getElementById("nomeCurso").value,
+            modalidade : document.getElementById("modalidade").value,
+            aluno: { id: alunoId}
         };
 
-        const bancoResponse = await fetch("http://localhost:8080/bancos", {
+        const matriculaResponse = await fetch("http://localhost:8080/matriculas", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": localStorage.getItem("token")
-            },
-            body: JSON.stringify(bancoData)
+            headers: { "Content-Type": "application/json" ,
+                "Authorization": localStorage.getItem("token")},
+            body: JSON.stringify(matriculaData)
         });
 
-        if (!bancoResponse.ok) throw new Error("Erro ao salvar banco.");
-        const banco = await bancoResponse.json();
-        const bancoId = banco.id;
+        if (!matriculaResponse.ok) throw new Error("Erro ao salvar matricula.");
+        alert("Aluno cadastrado com sucesso!");
 
+        localStorage.setItem('userIdUsuario', alunoId);
         // Redireciona para outra página
-        window.location.href = "login-aluno.html";
+        window.location.href = "perfil-aluno.html";
 
     } catch (error) {
         console.error(error);
@@ -289,7 +288,7 @@ getAlunos().then((alunos) => {
 
 // Função para alternar entre editar e exibir valores de todos os campos ao mesmo tempo
 function toggleEditAll(id) {
-    const fields = ['nome', 'matricula', 'cpf', 'rg', 'dataNasc', 'telefone', 'email'];
+    const fields = ['nome', 'matricula','telefone', 'email'];
 
     // Seleciona os botões relacionados ao aluno
     const editButton = document.querySelector(`.edit-button[data-alunoId="${id}"]`);
@@ -421,6 +420,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Se o container de alunos existir, estamos na página de listagem
     if (alunosContainer) {
-        exibirAlunos(alunos);
+        exibirAlunos(alunoss);
     }
 });
