@@ -1,6 +1,9 @@
+const IdUsuario = localStorage.getItem('userIdUsuario');
+
+
 async function getMatriculas() {
     try {
-        const response = await fetch("http://localhost:8080/matriculas", {
+        const response = await fetch(`http://localhost:8080/matriculas/aluno/${IdUsuario}`, {
             method: "GET",
             headers: {
                 'Accept': 'application/json',
@@ -23,7 +26,7 @@ async function getMatriculas() {
     } catch (error) {
         console.error(error);
         alert("Erro ao carregar matrículas. Tente novamente mais tarde.");
-        return [];
+        return null;
     }
 }
 
@@ -31,16 +34,16 @@ const idCursos = JSON.parse(localStorage.getItem("idCursos"));
 
 
 // Função para exibir matrículas na página
-function exibirMatriculas(matriculas) {
+function exibirMatriculas(matricula) {
     const eventsContainer = document.querySelector(".events-container");
     eventsContainer.innerHTML = ""; // Limpa a lista existente
 
-    if (matriculas.length === 0) {
+    if (!matricula) {
         eventsContainer.innerHTML = "<p>Nenhuma matrícula encontrada.</p>";
         return;
     }
 
-    matriculas.forEach((matricula) => {
+   
         const eventCard = document.createElement("div");
         eventCard.classList.add("event-card");
         eventCard.innerHTML = `
@@ -69,7 +72,7 @@ function exibirMatriculas(matriculas) {
             <button class="cancel-edit-button" style="display:none;" data-matriculaId="${matricula.id}">Cancelar ✖️</button>
         `;
         eventsContainer.appendChild(eventCard);
-    });
+   ;
 
     // Adiciona o evento de clique aos botões de editar
     document.querySelectorAll(".edit-button").forEach((button) => {

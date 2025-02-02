@@ -1,7 +1,5 @@
 package br.edu.ifpe.gestaoacademica.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,7 +25,8 @@ public class MatriculaController {
 
 	@Autowired
 	private MatriculaService matriculaService;
-
+	
+	
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Matricula> cadastrarMatricula(@RequestBody @Valid MatriculaDTO dadosMatriculaDTO) {
@@ -42,12 +41,24 @@ public class MatriculaController {
 		return ResponseEntity.ok(new MatriculaDTO(matricula));
 	}
 
-	@GetMapping
+	/*@GetMapping
 	public List<MatriculaDTO> listarMatricula(){
 		return matriculaService.listarMatriculas().stream().map(MatriculaDTO::new).toList();
-	}
-		
+	}*/
 	
+	
+	@GetMapping("/aluno/{idAluno}")
+    public ResponseEntity<Matricula> getMatriculaByAlunoId(@PathVariable Long idAluno) {
+        Matricula matricula = matriculaService.getMatriculaByAlunoId(idAluno);
+        return matricula != null ? ResponseEntity.ok(matricula) : ResponseEntity.notFound().build();
+    }
+		
+	/*@GetMapping("/aluno/{idAluno}")
+	    public ResponseEntity<Matricula> getMatriculaByAlunoId(@PathVariable Long idAluno) {
+		 matriculaService.listarMatriculas(idAluno)
+	        Matricula matricula = matriculaRepository.findByAlunoId(idAluno);
+	        return matricula != null ? ResponseEntity.ok(matricula) : ResponseEntity.notFound().build();
+	*/
 
 	@DeleteMapping("/deletar/{id}")
 	@Transactional

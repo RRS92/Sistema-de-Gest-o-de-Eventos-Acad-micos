@@ -1,11 +1,7 @@
-	package br.edu.ifpe.gestaoacademica.service;
-
-import java.util.List;
-
+package br.edu.ifpe.gestaoacademica.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
-
 import br.edu.ifpe.gestaoacademica.controllers.dto.MatriculaDTO;
 import br.edu.ifpe.gestaoacademica.entities.Matricula;
 import br.edu.ifpe.gestaoacademica.repository.MatriculaRepository;
@@ -48,8 +44,8 @@ public class MatriculaService {
 	}
 
 	
-	public List<Matricula> listarMatriculas() {
-        return matriculaRepository.findAllWithAluno();
+	public Matricula getMatriculaByAlunoId(Long idAluno) {
+        return matriculaRepository.findByAlunoId(idAluno);
     }
 
 	public void inativarMatricula(Long id) {
