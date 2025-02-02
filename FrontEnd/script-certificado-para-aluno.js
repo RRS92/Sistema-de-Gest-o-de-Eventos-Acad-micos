@@ -40,14 +40,10 @@ async function listarCertificado() {
             certificadoCard.classList.add('certificado-card');
             certificadoCard.innerHTML = `
             <div class="event-details">
-                <p><strong>Atenção: </strong> </p>
-                <p>Caro Professor/Servidor o certificado referente ao evento <strong>${temp}</strong> com carga Horaria de <strong>${certificado.cargaHoraria} horas</strong> pode ser enviado aos participantes.</p>
-                <p>Favor se atende as informações dos participantes e do evento e faça o envio do certificado aos seus participantes. </p>
+                <p>O certificado referente ao  evento <strong>${temp}</strong> com carga Horaria de <strong>${certificado.cargaHoraria} horas</strong></p>
+                <p>Já está disponível e já foi enviado para o seu Email participante, confere lá.</p>
                 <br>
                 <p><strong>Descrição do evento:</strong> ${certificado.descricao}</p>
-                <button onclick="window.location.href='criar-e-enviar-certificados.html';">
-                    Enviar Certificado
-                </button>
             </div>
             `;
             certificadosContainer.appendChild(certificadoCard);
