@@ -70,6 +70,14 @@ async function getEventos() {
     }
 }
 
+function formatarData(data) {
+    return new Intl.DateTimeFormat('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    }).format(new Date(data));
+}
+
 // Função para exibir eventos na página
 function exibirEventos(eventos) {
     const eventsContainer = document.querySelector(".events-container");
@@ -104,7 +112,7 @@ function exibirEventos(eventos) {
                 <p><strong>Descrição:</strong> <span id="descricao-display-${evento.id}">${evento.descricao}</span>
                 <input type="text" id="descricao-${evento.id}" value="${evento.descricao}" style="display:none;" /></p>
 
-                <p><strong>Data:</strong> <span id="data-display-${evento.id}">${evento.data}</span>
+                <p><strong>Data:</strong> <span id="data-display-${evento.id}">${formatarData(evento.data)}</span>
                 <input type="text" id="data-${evento.id}" value="${evento.data}" style="display:none;" /></p>
 
                 <p><strong>Local:</strong> <span id="local-display-${evento.id}">${evento.local}</span>

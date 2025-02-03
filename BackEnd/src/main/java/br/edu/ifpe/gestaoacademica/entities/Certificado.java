@@ -2,6 +2,8 @@ package br.edu.ifpe.gestaoacademica.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,6 +36,7 @@ public class Certificado {
     
     @OneToOne
 	@JoinColumn(name = "id_evento")
+	@JsonIgnore
 	private Evento evento;
     
     @OneToMany(mappedBy = "certificado", cascade = CascadeType.ALL, orphanRemoval = true)
