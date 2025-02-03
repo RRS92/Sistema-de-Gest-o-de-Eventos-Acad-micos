@@ -64,6 +64,13 @@ async function exibirEventos(eventos) {
         const eventCard = document.createElement('div');
         eventCard.classList.add('event-card');
         eventCard.innerHTML = `
+           <button class="menu-button">&#8942;</button>
+            <div class="menu">
+                <ul>
+                    <li><a href="lista-certificado-para-aluno.html">Certificados Disponíveis</a></li>
+                </ul>
+            </div>
+            
             <h3>${evento.nome}</h3>
             <div class="event-details">
                 <p>Descrição: ${evento.descricao}</p>
@@ -75,15 +82,30 @@ async function exibirEventos(eventos) {
                 <button class="partipate-button" data-id="${evento.id}">Participar</button>
             </div>
             <br>
-            <button onclick="window.location.href='lista-certificado-para-aluno.html';">
-                    Ver Certificado
-            </button>
         `;
         eventsContainer.appendChild(eventCard);
     });
 
     // Atualiza os botões de participação
     await atualizarBotoesParticipacao();
+
+    // Adiciona a funcionalidade do botão de menu
+    document.querySelectorAll('.menu-button').forEach((button, index) => {
+        button.addEventListener('click', function(event) {
+            event.stopPropagation(); // Impede que o clique se propague para o documento
+            const menu = button.nextElementSibling; // O menu é o próximo irmão do botão
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        });
+    });
+
+    // Fechar o menu ao clicar fora dele
+    document.addEventListener('click', function(event) {
+        document.querySelectorAll('.menu').forEach(menu => {
+            if (!menu.contains(event.target)) {
+                menu.style.display = 'none';
+            }
+        });
+    });
 }
 
 // Função para atualizar os botões de participação/desinscrição

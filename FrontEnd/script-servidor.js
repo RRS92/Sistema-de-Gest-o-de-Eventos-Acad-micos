@@ -168,6 +168,14 @@ function exibirServidores(servidor) {
         const eventCard = document.createElement("div");
         eventCard.classList.add("event-card");
         eventCard.innerHTML = `
+           <button class="menu-button">&#8942;</button>
+            <div class="menu">
+                <ul>
+                    <li><a href="lista-banco-servidor.html">Info Bancárias</a></li>
+                    <li><a href="lista-endereco-servidor.html">Info Residenciais</a></li>
+                </ul>
+            </div>
+
             <div class="event-details">
                 <p><strong>Nome:</strong> <span id="nome-display-${servidor.id}">${servidor.nome}</span>
                 <input type="text" id="nome-${servidor.id}" value="${servidor.nome}" style="display:none;" /></p>
@@ -178,14 +186,13 @@ function exibirServidores(servidor) {
                 <p><strong>Cargo:</strong> <span id="cargo-display-${servidor.id}">${servidor.cargo}</span>
                 <input type="text" id="cargo-${servidor.id}" value="${servidor.cargo}" style="display:none;" /></p>
 
-              
                 <p><strong>CPF:</strong> <span id="cpf-display-${servidor.id}">${formatarCPF(servidor.cpf)}</span>
                 <input type="text" id="cpf-${servidor.id}" value="${servidor.cpf}" style="display:none;" /></p>
 
                 <p><strong>RG:</strong> <span id="rg-display-${servidor.id}">${servidor.rg}</span>
                 <input type="text" id="rg-${servidor.id}" value="${servidor.rg}" style="display:none;" /></p>
 
-                <p><strong>Data de Nascimento:</strong> <span id="dataNasc-display-${servidor.id}">${formatarData(servidor.dataNasc)}</span>
+                <p><strong>Data de Nascimento:</strong> <span id="dataNasc-display-${servidor.id}">${servidor.dataNasc}</span>
                 <input type="text" id="dataNasc-${servidor.id}" value="${servidor.dataNasc}" style="display:none;" /></p>
 
                 <p><strong>Telefone:</strong> <span id="telefone-display-${servidor.id}">${formatarTelefone(servidor.telefone)}</span>
@@ -195,11 +202,7 @@ function exibirServidores(servidor) {
                 <input type="text" id="email-${servidor.id}" value="${servidor.email}" style="display:none;" /></p>
             </div>
             <br>
-            <button class="edit-button" data-servidorId="${servidor.id}">Editar ✏️</button>  
-            <button class="delete-button" data-servidorId="${servidor.id}">Deletar 🗑️</button>
-
-            <button class="edit-bank-button" data-servidorId="${servidor.id}">Info Banco</button>  
-            <button class="edit-adress-button" data-servidorId="${servidor.id}">Info End. </button>
+            <button class="edit-center-button" data-servidorId="${servidor.id}">Editar ✏️</button>  
             <button class="update-button" id="atualizar-${servidor.id}" style="display:none;" onclick="atualizarServidor(${servidor.id})">Atualizar ✏️</button>
             <button class="cancel-edit-button" style="display:none;" data-servidorId="${servidor.id}">Cancelar ✖️</button>
         `;
@@ -207,44 +210,35 @@ function exibirServidores(servidor) {
    ;
 
     // Adiciona o evento de clique aos botões de editar
-    document.querySelectorAll(".edit-button").forEach((button) => {
+    document.querySelectorAll(".edit-center-button").forEach((button) => {
         button.addEventListener("click", function(event) {
             const servidorId = event.target.getAttribute("data-servidorId");
             toggleEditAll(servidorId); // Chama a função para alternar o modo de edição
             });
         });
 
-    // Adiciona o evento de clique aos botões de deletar
-    document.querySelectorAll(".delete-button").forEach((button) => {
-        button.addEventListener("click", function(event) {
-            const servidorId = event.target.getAttribute("data-servidorId");
-            console.log(`ID do servidor clicado: ${servidorId}`);
-            deletarServidor(servidorId);
-        });
-    });
-
-     // Botão de Editar Banco
-     document.querySelectorAll('.edit-bank-button').forEach(button => {
-        button.addEventListener('click', function() { 
-            const idServidor = this.getAttribute('data-servidorId'); // Captura o ID do servidor
-            localStorage.setItem('idServidorSelecionado', idServidor); // Salva o ID do servidor
-            window.location.href = 'lista-banco-servidor.html';
-        });
-    });
-
-     // Botão de Editar Endereço
-     document.querySelectorAll('.edit-adress-button').forEach(button => {
-        button.addEventListener('click', function() { 
-            const idServidor = this.getAttribute('data-servidorId'); // Captura o ID do servidor
-            localStorage.setItem('idServidorSelecionado', idServidor); // Salva o ID do servidor
-            window.location.href = 'lista-endereco-servidor.html';
-        });
-    });
-
    // Adiciona evento de clique ao botão de cancelar edição
     document.querySelectorAll(".cancel-edit-button").forEach((button) => {
         button.addEventListener("click", function () {
             location.reload(); // Recarrega a página
+        });
+    });
+
+    // Adiciona a funcionalidade do botão de menu
+    document.querySelectorAll('.menu-button').forEach((button, index) => {
+        button.addEventListener('click', function(event) {
+            event.stopPropagation(); // Impede que o clique se propague para o documento
+            const menu = button.nextElementSibling; // O menu é o próximo irmão do botão
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        });
+    });
+
+    // Fechar o menu ao clicar fora dele
+    document.addEventListener('click', function(event) {
+        document.querySelectorAll('.menu').forEach(menu => {
+            if (!menu.contains(event.target)) {
+                menu.style.display = 'none';
+            }
         });
     });
 }
@@ -260,11 +254,7 @@ function toggleEditAll(id) {
     const fields = ['nome', 'siape', 'cargo', 'dataNasc', 'telefone', 'email'];
 
     // Seleciona os botões relacionados ao servidor
-    const editButton = document.querySelector(`.edit-button[data-servidorId="${id}"]`);
-    const deleteButton = document.querySelector(`.delete-button[data-servidorId="${id}"]`);
-    const bankButton = document.querySelector(`.edit-bank-button[data-servidorId="${id}"]`);
-    const adressButton = document.querySelector(`.edit-adress-button[data-servidorId="${id}"]`);
-
+    const editButton = document.querySelector(`.edit-center-button[data-servidorId="${id}"]`);
     const atualizarButton = document.getElementById(`atualizar-${id}`);
     const cancelEditButton = document.querySelector(`.cancel-edit-button[data-servidorId="${id}"]`);
 
@@ -290,17 +280,11 @@ function toggleEditAll(id) {
     if (!isEditing) {
         // Oculta os botões de "Editar" e "Deletar", e exibe o botão de "Atualizar"
         editButton.style.display = "none";
-        deleteButton.style.display = "none";
-        bankButton.style.display = "none";
-        adressButton.style.display = "none";
         atualizarButton.style.display = "inline";
         cancelEditButton.style.display = "inline";
     } else {
         // Exibe os botões de "Editar" e "Deletar", e oculta o botão de "Atualizar"
         editButton.style.display = "inline";
-        deleteButton.style.display = "inline";
-        bankButton.style.display = "inline";
-        adressButton.style.display = "inline";
         atualizarButton.style.display = "none";
         cancelEditButton.style.display = "none";
     }
