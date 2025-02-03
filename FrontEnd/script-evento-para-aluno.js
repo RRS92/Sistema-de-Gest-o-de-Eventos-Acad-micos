@@ -42,13 +42,6 @@ async function verificarParticipacao() {
         return []; // Retorna um array vazio em caso de erro
     }
 }
-function formatarData(data) {
-    return new Intl.DateTimeFormat('pt-BR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-    }).format(new Date(data));
-}
 
 // Função para exibir os eventos na página
 async function exibirEventos(eventos) {
@@ -74,14 +67,13 @@ async function exibirEventos(eventos) {
             <h3>${evento.nome}</h3>
             <div class="event-details">
                 <p>Descrição: ${evento.descricao}</p>
-                <p>Data: ${formatarData(evento.data)}</p>
+                <p>Data: ${evento.data}</p>
                 <p>Local: ${evento.local}</p>
                 <p>Tipo: ${evento.tipo}</p>
             </div>
             <div class="buttons-container">
                 <button class="partipate-button" data-id="${evento.id}">Participar</button>
             </div>
-            <br>
         `;
         eventsContainer.appendChild(eventCard);
     });
@@ -123,7 +115,7 @@ async function atualizarBotoesParticipacao() {
         const participacao = participacoesUsuario.find(part => part.evento?.id === eventoId);
 
         if (participacao) {
-            button.textContent = "Cancelar Inscrição";
+            button.textContent = "Desinscrever";
             button.classList.add('desinscrever');
         } else {
             button.textContent = "Participar";
@@ -152,8 +144,8 @@ document.querySelector('.events-container').addEventListener('click', async (eve
                     'Authorization': localStorage.getItem("token")
                 }
             });
-            if (!response.ok) throw new Error(`Erro ao cancelar inscrição: ${response.status}`);
-            alert('Você cancelou sua inscrição com sucesso!');
+            if (!response.ok) throw new Error(`Erro ao desinscrever: ${response.status}`);
+            alert('Você foi desinscrito com sucesso!');
             button.textContent = "Participar";
             button.classList.remove('desinscrever');
         } catch (error) {
@@ -177,7 +169,7 @@ document.querySelector('.events-container').addEventListener('click', async (eve
             });
             if (!response.ok) throw new Error(`Erro ao participar do evento: ${response.status}`);
             alert('Você se inscreveu no evento com sucesso!');
-            button.textContent = "Cancelar Inscrição";
+            button.textContent = "Desinscrever";
             button.classList.add('desinscrever');
         } catch (error) {
             console.error(error);
