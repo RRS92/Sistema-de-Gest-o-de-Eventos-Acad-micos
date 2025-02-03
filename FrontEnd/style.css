@@ -1050,3 +1050,71 @@ h2 {
     width: 100%;               /* Ocupa toda a largura disponível do container */
     text-align: left;          /* Alinha o texto à esquerda */
 }
+
+
+/* Estilo para os cards do menu de opções */
+.event-card {
+    position: relative;
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.menu-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.2s ease;
+}
+
+.menu-button:hover {
+    color: #007BFF;
+}
+
+.menu {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 10px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px; /* Bordas mais arredondadas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 5px 0;
+    min-width: 150px; /* Largura mínima para o menu */
+}
+
+.menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu ul li {
+    padding: 0; /* Remove o padding do li para que o link ocupe todo o espaço */
+    margin: 4px; /* Espaçamento entre as opções */
+}
+
+.menu ul li a {
+    display: block; /* Faz o link ocupar toda a área do li */
+    padding: 10px 16px; /* Adiciona padding ao link */
+    text-decoration: none; /* Remove o sublinhado dos links */
+    font-size: 14px;
+    color: #333;
+    border-radius: 4px; /* Bordas arredondadas para cada opção */
+    transition: background-color 0.2s ease, transform 0.2s ease; /* Adiciona transform à transição */
+}
+
+.menu ul li a:hover {
+    background-color: #228B22; /* Cor de fundo ao passar o mouse */
+    color: white; /* Cor do texto ao passar o mouse */
+    transform: translateY(-2px); /* Efeito de levantar ao passar o mouse */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra ao passar o mouse */
+}

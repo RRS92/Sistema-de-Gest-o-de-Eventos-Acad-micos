@@ -176,11 +176,11 @@ function formatarTelefone(telefone) {
 }
 
 // Função para exibir alunos na página
-function exibirAlunos(alunos) {
+function exibirAlunos(aluno) {
     const eventsContainer = document.querySelector(".events-container");
     eventsContainer.innerHTML = ""; // Limpa a lista existente
 
-    if (!alunos) {
+    if (!aluno) {
         eventsContainer.innerHTML = "<p>Nenhum aluno encontrado.</p>";
         return;
     }
@@ -188,87 +188,52 @@ function exibirAlunos(alunos) {
     const eventCard = document.createElement("div");
     eventCard.classList.add("event-card");
     eventCard.innerHTML = `
+           <button class="menu-button">&#8942;</button>
+            <div class="menu">
+                <ul>
+                    <li><a href="lista-banco-aluno.html">Info Bancárias</a></li>
+                    <li><a href="lista-endereco-aluno.html">Info Residenciais</a></li>
+                    <li><a href="lista-matricula.html">Info Acadêmicas</a></li>
+                </ul>
+            </div>
+
             <div class="event-details">
-                <p><strong>Nome:</strong> <span id="nome-display-${alunos.id}">${alunos.nome}</span>
-                <input type="text" id="nome-${alunos.id}" value="${alunos.nome}" style="display:none;" /></p>
+                <p><strong>Nome:</strong> <span id="nome-display-${aluno.id}">${aluno.nome}</span>
+                <input type="text" id="nome-${aluno.id}" value="${aluno.nome}" style="display:none;" /></p>
 
-                <p><strong>Matrícula:</strong> <span id="matricula-display-${alunos.id}">${alunos.matricula}</span>
-                <input type="text" id="matricula-${alunos.id}" value="${alunos.matricula}" style="display:none;" /></p>
+                <p><strong>Matrícula:</strong> <span id="matricula-display-${aluno.id}">${aluno.matricula}</span>
+                <input type="text" id="matricula-${aluno.id}" value="${aluno.matricula}" style="display:none;" /></p>
 
-                <p><strong>CPF:</strong> <span id="cpf-display-${alunos.id}">${formatarCPF(alunos.cpf)}</span>
-                <input type="text" id="cpf-${alunos.id}" value="${alunos.cpf}" style="display:none;" /></p>
+                <p><strong>CPF:</strong> <span id="cpf-display-${aluno.id}">${formatarCPF(aluno.cpf)}</span>
+                <input type="text" id="cpf-${aluno.id}" value="${aluno.cpf}" style="display:none;" /></p>
 
 
-                <p><strong>RG:</strong> <span id="rg-display-${alunos.id}">${alunos.rg}</span>
-                <input type="text" id="rg-${alunos.id}" value="${alunos.rg}" style="display:none;" /></p>
+                <p><strong>RG:</strong> <span id="rg-display-${aluno.id}">${aluno.rg}</span>
+                <input type="text" id="rg-${aluno.id}" value="${aluno.rg}" style="display:none;" /></p>
 
                 <p><strong>Data de Nascimento:</strong> 
-                <span id="dataNasc-display-${alunos.id}">${formatarData(alunos.dataNasc)}</span>
-                <input type="date" id="dataNasc-${alunos.id}" value="${alunos.dataNasc}" style="display:none;" />
-            </p>
+                <span id="dataNasc-display-${aluno.id}">${aluno.dataNasc}</span>
+                <input type="date" id="dataNasc-${aluno.id}" value="${aluno.dataNasc}" style="display:none;" /></p>
     
-                <p><strong>Telefone:</strong> <span id="telefone-display-${alunos.id}">${formatarTelefone(alunos.telefone)}</span>
-                <input type="text" id="telefone-${alunos.id}" value="${alunos.telefone}" style="display:none;" /></p>
+                <p><strong>Telefone:</strong> <span id="telefone-display-${aluno.id}">${formatarTelefone(aluno.telefone)}</span>
+                <input type="text" id="telefone-${aluno.id}" value="${aluno.telefone}" style="display:none;" /></p>
 
-                <p><strong>Email:</strong> <span id="email-display-${alunos.id}">${alunos.email}</span>
-                <input type="text" id="email-${alunos.id}" value="${alunos.email}" style="display:none;" /></p>
+                <p><strong>Email:</strong> <span id="email-display-${aluno.id}">${aluno.email}</span>
+                <input type="text" id="email-${aluno.id}" value="${aluno.email}" style="display:none;" /></p>
             </div>
             <br>
-            <button class="edit-button" data-alunoId="${alunos.id}">Editar ✏️</button>  
-            <button class="delete-button" data-alunoId="${alunos.id}">Deletar 🗑️</button>
-
-            <button class="edit-bank-button" data-alunoId="${alunos.id}">Info Banco</button>
-            <button class="edit-adress-button" data-alunoId="${alunos.id}">Info End. </button>
-            <button class="edit-matricula-button" data-alunoId="${alunos.id}">Info Matr. </button>
-            <button class="update-button" id="atualizar-${alunos.id}" style="display:none;" onclick="atualizarAluno(${alunos.id})">Atualizar ✏️</button>
-            <button class="cancel-edit-button" style="display:none;" data-alunoId="${alunos.id}">Cancelar ✖️</button>
+            <button class="edit-center-button" data-alunoId="${aluno.id}">Editar ✏️</button>
+            <button class="update-button" id="atualizar-${aluno.id}" style="display:none;" onclick="atualizarAluno(${aluno.id})">Atualizar ✏️</button>
+            <button class="cancel-edit-button" style="display:none;" data-alunoId="${aluno.id}">Cancelar ✖️</button>
         `;
     eventsContainer.appendChild(eventCard);
     ;
 
     // Adiciona o evento de clique aos botões de editar
-    document.querySelectorAll(".edit-button").forEach((button) => {
+    document.querySelectorAll(".edit-center-button").forEach((button) => {
         button.addEventListener("click", function (event) {
             const alunoId = event.target.getAttribute("data-alunoId");
             toggleEditAll(alunoId); // Chama a função para alternar o modo de edição
-        });
-    });
-
-    // Adiciona o evento de clique aos botões de deletar
-    document.querySelectorAll(".delete-button").forEach((button) => {
-        button.addEventListener("click", function (event) {
-            const alunoId = event.target.getAttribute("data-alunoId");
-            console.log(`ID do aluno clicado: ${alunoId}`);
-            deletarAluno(alunoId);
-        });
-    });
-
-    // Botão de Editar Banco
-    document.querySelectorAll('.edit-bank-button').forEach(button => {
-        button.addEventListener('click', function () {
-            const idAluno = this.getAttribute('data-alunoId'); // Captura o ID do aluno
-            localStorage.setItem('idAlunoSelecionado', idAluno); // Salva o ID do aluno
-            window.location.href = 'lista-banco-aluno.html';
-        });
-    });
-
-    // Botão de Editar Endereço
-    document.querySelectorAll('.edit-adress-button').forEach(button => {
-        button.addEventListener('click', function () {
-            const idAluno = this.getAttribute('data-alunoId'); // Captura o ID do aluno
-            localStorage.setItem('idAlunoSelecionado', idAluno); // Salva o ID do aluno
-            window.location.href = 'lista-endereco-aluno.html';
-        });
-    });
-
-    
-
-    // Botão de Editar Matrícula
-    document.querySelectorAll('.edit-matricula-button').forEach(button => {
-        button.addEventListener('click', function () {
-            const idAluno = this.getAttribute('data-alunoId'); // Captura o ID do aluno
-            localStorage.setItem('idAlunoSelecionado', idAluno); // Salva o ID do aluno
-            window.location.href = 'lista-matricula.html';
         });
     });
 
@@ -276,6 +241,24 @@ function exibirAlunos(alunos) {
     document.querySelectorAll(".cancel-edit-button").forEach((button) => {
         button.addEventListener("click", function () {
             location.reload(); // Recarrega a página
+        });
+    });
+
+    // Adiciona a funcionalidade do botão de menu
+    document.querySelectorAll('.menu-button').forEach((button, index) => {
+        button.addEventListener('click', function(event) {
+            event.stopPropagation(); // Impede que o clique se propague para o documento
+            const menu = button.nextElementSibling; // O menu é o próximo irmão do botão
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        });
+    });
+
+    // Fechar o menu ao clicar fora dele
+    document.addEventListener('click', function(event) {
+        document.querySelectorAll('.menu').forEach(menu => {
+            if (!menu.contains(event.target)) {
+                menu.style.display = 'none';
+            }
         });
     });
 }
@@ -288,16 +271,10 @@ getAlunos().then((alunos) => {
 
 // Função para alternar entre editar e exibir valores de todos os campos ao mesmo tempo
 function toggleEditAll(id) {
-    const fields = ['nome', 'matricula','telefone', 'email'];
+    const fields = ['nome', 'matricula', 'dataNasc', 'telefone', 'email'];
 
     // Seleciona os botões relacionados ao aluno
-    const editButton = document.querySelector(`.edit-button[data-alunoId="${id}"]`);
-    const deleteButton = document.querySelector(`.delete-button[data-alunoId="${id}"]`);
-    const bankButton = document.querySelector(`.edit-bank-button[data-alunoId="${id}"]`);
-    const adressButton = document.querySelector(`.edit-adress-button[data-alunoId="${id}"]`);
-    const courseButton = document.querySelector(`.edit-course-button[data-alunoId="${id}"]`);
-    const matriculaButton = document.querySelector(`.edit-matricula-button[data-alunoId="${id}"]`);
-
+    const editButton = document.querySelector(`.edit-center-button[data-alunoId="${id}"]`);
     const atualizarButton = document.getElementById(`atualizar-${id}`);
     const cancelEditButton = document.querySelector(`.cancel-edit-button[data-alunoId="${id}"]`);
 
@@ -324,19 +301,11 @@ function toggleEditAll(id) {
     if (!isEditing) {
         // Oculta os botões de "Editar" e "Deletar", e exibe o botão de "Atualizar"
         editButton.style.display = "none";
-        deleteButton.style.display = "none";
-        bankButton.style.display = "none";
-        adressButton.style.display = "none";
-        matriculaButton.style.display = "none";
         atualizarButton.style.display = "inline";
         cancelEditButton.style.display = "inline";
     } else {
         // Exibe os botões de "Editar" e "Deletar", e oculta o botão de "Atualizar"
         editButton.style.display = "inline";
-        deleteButton.style.display = "inline";
-        bankButton.style.display = "inline";
-        adressButton.style.display = "inline";
-        matriculaButton.style.display = "inline";
         atualizarButton.style.display = "none";
         cancelEditButton.style.display = "none";
     }

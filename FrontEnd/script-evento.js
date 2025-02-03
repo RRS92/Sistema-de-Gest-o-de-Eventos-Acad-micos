@@ -92,6 +92,18 @@ function exibirEventos(eventos) {
         const eventCard = document.createElement("div");
         eventCard.classList.add("event-card");
         eventCard.innerHTML = `
+           <button class="menu-button">&#8942;</button>
+            <div class="menu">
+                <ul>
+                    <li><a href="cadastro-certificado.html">Gerar Certificado</a></li>
+                    <li><a href="cadastro-transporte.html">Cadastrar Transporte</a></li>
+                    <li><a href="Avaliar-evento.html">Avaliar Evento</a></li>
+                    <li><a href="lista-certificado-novo.html">Certificados Disponíveis</a></li>
+                    <li><a href="lista-transporte-novo.html">Transportes Disponíveis</a></li>
+                    <li><a href="lista-avaliacoes.html">Avaliações Disponíveis</a></li>
+                </ul>
+            </div>
+            
             <h3>${evento.nome}</h3>
             <div class="event-details">
                 <p><strong>Nome:</strong> <span id="nome-display-${evento.id}">${evento.nome}</span>
@@ -215,6 +227,24 @@ function exibirEventos(eventos) {
     document.querySelectorAll(".cancel-edit-button").forEach((button) => {
         button.addEventListener("click", function () {
             location.reload(); // Recarrega a página
+        });
+    });
+
+    // Adiciona a funcionalidade do botão de menu
+    document.querySelectorAll('.menu-button').forEach((button, index) => {
+        button.addEventListener('click', function(event) {
+            event.stopPropagation(); // Impede que o clique se propague para o documento
+            const menu = button.nextElementSibling; // O menu é o próximo irmão do botão
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        });
+    });
+
+    // Fechar o menu ao clicar fora dele
+    document.addEventListener('click', function(event) {
+        document.querySelectorAll('.menu').forEach(menu => {
+            if (!menu.contains(event.target)) {
+                menu.style.display = 'none';
+            }
         });
     });
 }

@@ -102,26 +102,47 @@
 
   <script>
     async function gerarESalvarPDF(dadosCertificado) {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF({ orientation: "landscape" });
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: "landscape" });
 
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(24);
-      doc.text("CERTIFICADO", 148, 30, { align: "center" });
+    // Adicionando faixa verde na parte superior
+    const alturaFaixaSuperior = 30; // Altura da faixa superior
+    doc.setFillColor(34, 139, 34); // Verde
+    doc.rect(0, 0, 297, alturaFaixaSuperior, 'F'); // Faixa superior
 
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(20);
-      doc.text(`Certificamos que ${dadosCertificado.nome} participou do evento`, 40, 60);
-      doc.text(`${dadosCertificado.evento}, realizado no ${dadosCertificado.local},`, 40, 70);
-      doc.text(`sob a coordenação do Professor/servidor ${dadosCertificado.professor}.`, 40, 80);
-      doc.text(`A carga horária total do evento foi de ${dadosCertificado.cargaHoraria} horas.`, 40, 90);
-      doc.text("Palmares, " + dadosCertificado.data, 40, 120);
-      doc.text("________________________", 40, 160);
-      doc.text("Coordenador", 40, 170);
+    // Adicionando faixa verde na parte inferior (metade da altura da superior)
+    const alturaFaixaInferior = alturaFaixaSuperior / 2; // Metade da altura da faixa superior
+    const pageHeight = doc.internal.pageSize.getHeight(); // Altura total da página
+    doc.rect(0, pageHeight - alturaFaixaInferior, 297, alturaFaixaInferior, 'F'); // Faixa inferior
 
-      const pdfBlob = doc.output("blob");
-      return await enviarParaUploadIo(pdfBlob);
-    }
+    // Configurando a fonte e o tamanho para o título (aumentado)
+    doc.setFont("times", "bold");
+    doc.setFontSize(36); // Tamanho da fonte aumentado para 36
+    doc.setTextColor(255, 255, 255); // Texto branco
+    doc.text("CERTIFICADO", 148, 20, { align: "center" }); // Centralizado na faixa superior
+
+    // Configurando a fonte e o tamanho para o corpo do texto
+    doc.setFont("times", "normal");
+    doc.setFontSize(18);
+    doc.setTextColor(0, 0, 0); // Texto preto
+
+    // Calculando a posição Y centralizada
+    const alturaDisponivel = pageHeight - alturaFaixaSuperior - alturaFaixaInferior; // Altura disponível para o texto
+    const posicaoYInicial = alturaFaixaSuperior + (alturaDisponivel / 2) - 40; // Centralizado verticalmente (-40 para ajuste manual)
+
+    // Adicionando o conteúdo do certificado (centralizado)
+    doc.text(`Certificamos que ${dadosCertificado.nome} participou do evento`, 148, posicaoYInicial, { align: "center" });
+    doc.text(`${dadosCertificado.evento}, realizado no ${dadosCertificado.local},`, 148, posicaoYInicial + 10, { align: "center" });
+    doc.text(`sob a coordenação do Professor/Servidor ${dadosCertificado.professor}.`, 148, posicaoYInicial + 20, { align: "center" });
+    doc.text(`A carga horária total do evento foi de ${dadosCertificado.cargaHoraria} horas.`, 148, posicaoYInicial + 30, { align: "center" });
+    doc.text("Palmares, " + dadosCertificado.data, 148, posicaoYInicial + 60, { align: "center" });
+    doc.text("________________________", 148, posicaoYInicial + 100, { align: "center" });
+    doc.text("Coordenador", 148, posicaoYInicial + 110, { align: "center" });
+
+    // Gerando o blob do PDF
+    const pdfBlob = doc.output("blob");
+    return await enviarParaUploadIo(pdfBlob);
+}
 
     async function enviarParaUploadIo(blob) {
       const formData = new FormData();
