@@ -63,6 +63,16 @@ async function exibirEventos(eventos) {
                     <li><a href="lista-certificado-para-aluno.html">Certificados Disponíveis</a></li>
                 </ul>
             </div>
+
+            <button class="menu-button">&#8942;</button>
+            <div class="menu">
+                <ul>
+                    <li><a href="avaliar-evento-para-aluno.html" class="menu-item" data-action="avaliar">Avaliar Evento</a></li>
+                    <li><a href="lista-avaliacoes-para-aluno.html" class="menu-item" data-action="ver-avaliacoes">Avaliações Disponíveis</a></li>
+                    <li><a href="lista-certificado-para-aluno.html" class="menu-item" data-action="ver-certificados">Certificados Disponíveis</a></li>
+                    <li><a href="lista-transporte-para-aluno.html" class="menu-item" data-action="ver-transportes">Transportes Disponíveis</a></li>
+                </ul>
+            </div>
             
             <h3>${evento.nome}</h3>
             <div class="event-details">
@@ -76,6 +86,40 @@ async function exibirEventos(eventos) {
             </div>
         `;
         eventsContainer.appendChild(eventCard);
+
+        // Adiciona listeners de clique aos itens do menu
+        const menuItems = eventCard.querySelectorAll('.menu-item');
+        menuItems.forEach(item => {
+            item.addEventListener('click', function (e) {
+                e.preventDefault(); // Evita o comportamento padrão do link
+    
+                const action = this.getAttribute('data-action'); // Captura a ação do menu
+                const idEvento = evento.id; // Captura o ID do evento
+                const nomeEvento = evento.nome; // Captura o nome do evento
+    
+                // Salva o ID e o nome do evento no localStorage
+                localStorage.setItem('idEventoSelecionado', idEvento);
+                localStorage.setItem('nomeEventoSelecionado', nomeEvento);
+    
+                // Redireciona para a página correspondente à ação
+                switch (action) {
+                    case 'avaliar':
+                        window.location.href = 'avaliar-evento-para-aluno.html';
+                        break;
+                    case 'ver-certificados':
+                        window.location.href = 'lista-certificado-para-aluno.html';
+                        break;
+                    case 'ver-transportes':
+                        window.location.href = 'lista-transporte-para-aluno.html';
+                        break;
+                    case 'ver-avaliacoes':
+                        window.location.href = 'lista-avaliacoes-para-aluno.html';
+                        break;
+                    default:
+                        console.error('Ação do menu não reconhecida:', action);
+                }
+            });
+        });
     });
 
     // Atualiza os botões de participação

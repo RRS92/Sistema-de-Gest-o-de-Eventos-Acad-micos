@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(response => {
             if (response.ok) {
                 alert("Transporte cadastrado com sucesso!");
-                window.location.href = 'lista-evento.html'; // Redirecionamento após sucesso
+                window.location.href = 'lista-evento-para-servidor.html'; // Redirecionamento após sucesso
                 form.reset();
             } else {
                 return response.json().then(errorData => {
