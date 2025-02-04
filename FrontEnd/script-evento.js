@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .then((response) => {
                 if (response.ok) {
                     alert("Evento criado com sucesso!");
-                    window.location.href = "lista-evento.html";
+                    window.location.href = "lista-evento-para-servidor.html";
 
                 } else {
                     throw new Error("Erro ao criar o evento");
@@ -92,18 +92,18 @@ function exibirEventos(eventos) {
         const eventCard = document.createElement("div");
         eventCard.classList.add("event-card");
         eventCard.innerHTML = `
-           <button class="menu-button">&#8942;</button>
+            <button class="menu-button">&#8942;</button>
             <div class="menu">
                 <ul>
-                    <li><a href="cadastro-certificado.html">Gerar Certificado</a></li>
-                    <li><a href="cadastro-transporte.html">Cadastrar Transporte</a></li>
-                    <li><a href="Avaliar-evento.html">Avaliar Evento</a></li>
-                    <li><a href="lista-certificado-novo.html">Certificados Disponíveis</a></li>
-                    <li><a href="lista-transporte-novo.html">Transportes Disponíveis</a></li>
-                    <li><a href="lista-avaliacoes.html">Avaliações Disponíveis</a></li>
+                    <li><a href="cadastro-certificado.html" class="menu-item" data-action="certificado">Gerar Certificado</a></li>
+                    <li><a href="cadastro-transporte.html" class="menu-item" data-action="transporte">Cadastrar Transporte</a></li>
+                    <li><a href="avaliar-evento-para-servidor.html" class="menu-item" data-action="avaliar">Avaliar Evento</a></li>
+                    <li><a href="lista-certificado-novo.html" class="menu-item" data-action="ver-certificados">Certificados Disponíveis</a></li>
+                    <li><a href="lista-transporte-novo.html" class="menu-item" data-action="ver-transportes">Transportes Disponíveis</a></li>
+                    <li><a href="lista-avaliacoes-para-servidor.html" class="menu-item" data-action="ver-avaliacoes">Avaliações Disponíveis</a></li>
                 </ul>
             </div>
-            
+
             <h3>${evento.nome}</h3>
             <div class="event-details">
                 <p><strong>Nome:</strong> <span id="nome-display-${evento.id}">${evento.nome}</span>
@@ -112,7 +112,7 @@ function exibirEventos(eventos) {
                 <p><strong>Descrição:</strong> <span id="descricao-display-${evento.id}">${evento.descricao}</span>
                 <input type="text" id="descricao-${evento.id}" value="${evento.descricao}" style="display:none;" /></p>
 
-                <p><strong>Data:</strong> <span id="data-display-${evento.id}">${formatarData(evento.data)}</span>
+                <p><strong>Data:</strong> <span id="data-display-${evento.id}">${evento.data}</span>
                 <input type="text" id="data-${evento.id}" value="${evento.data}" style="display:none;" /></p>
 
                 <p><strong>Local:</strong> <span id="local-display-${evento.id}">${evento.local}</span>
@@ -122,15 +122,6 @@ function exibirEventos(eventos) {
                 <input type="text" id="tipo-${evento.id}" value="${evento.tipo}" style="display:none;" /></p>
             </div>
             <br>
-            <button class="certificate-button" data-eventoId="${evento.id}">Criar Certificado</button>
-            <button class="transport-button" data-eventoId="${evento.id}">Cadastrar Transporte</button>
-
-            <button class="evaluateEvent-button" data-eventoId="${evento.id}">Avaliar Evento</button>
-            <button class="seeReviews-button" data-eventoId="${evento.id}">Ver Avaliações</button>
-
-            <button class="seeTransports-button" data-eventoId="${evento.id}">Ver Transportes</button>
-            <button class="seeCertificates-button" data-eventoId="${evento.id}">Ver Certificados</button>
-
             <button class="edit-button" data-eventoId="${evento.id}">Editar ✏️</button>
             <button class="delete-button" data-eventoId="${evento.id}">Deletar 🗑️</button>  
             <button class="update-button" id="atualizar-${evento.id}" style="display:none;" onclick="atualizarEvento(${evento.id})">Atualizar ✏️</button>
@@ -138,71 +129,45 @@ function exibirEventos(eventos) {
 
         `;
         eventsContainer.appendChild(eventCard);
-    });
 
-     // Botão de Criar Certificado
-     document.querySelectorAll('.certificate-button').forEach(button => {
-        button.addEventListener('click', function() { 
-            const idEvento = this.getAttribute('data-eventoId'); // Captura o ID do evento
-            const nomeEvento = this.closest('.event-card').querySelector('h3').textContent; // Captura o nome do evento
-            localStorage.setItem('idEventoSelecionado', idEvento); // Salva o ID do evento
-            localStorage.setItem('nomeEventoSelecionado', nomeEvento); // Salva o nome do evento
-            window.location.href = 'cadastro-certificado.html';
-        });
-    });
-
-    // Botão de Cadastrar Transporte
-    document.querySelectorAll('.transport-button').forEach(button => {
-        button.addEventListener('click', function() {
-            const idEvento = this.getAttribute('data-eventoId'); // Captura o ID do evento
-            const nomeEvento = this.closest('.event-card').querySelector('h3').textContent; // Captura o nome do evento
-            localStorage.setItem('idEventoSelecionado', idEvento); // Salva o ID do evento
-            localStorage.setItem('nomeEventoSelecionado', nomeEvento); // Salva o nome do evento
-            window.location.href = 'cadastro-transporte.html';
-        });
-    });
-
-    // Botão de Avaliar Evento
-    document.querySelectorAll('.evaluateEvent-button').forEach(button => {
-        button.addEventListener('click', function() {
-            const idEvento = this.getAttribute('data-eventoId'); // Captura o ID do evento
-            const nomeEvento = this.closest('.event-card').querySelector('h3').textContent; // Captura o nome do evento
-            localStorage.setItem('idEventoSelecionado', idEvento); // Salva o ID do evento
-            localStorage.setItem('nomeEventoSelecionado', nomeEvento); // Salva o nome do evento
-            window.location.href = 'Avaliar-evento.html'; // Redireciona para a página de avaliação
-        });
-    });
-
-    // Botão de Ver Avaliações
-    document.querySelectorAll('.seeReviews-button').forEach(button => {
-        button.addEventListener('click', function() {
-            const idEvento = this.getAttribute('data-eventoId');
-            const nomeEvento = this.closest('.event-card').querySelector('h3').textContent; // Captura o nome do evento
-            localStorage.setItem('idEventoSelecionado', idEvento);  // Salva o ID do evento no localStorage
-            localStorage.setItem('nomeEventoSelecionado', nomeEvento); // Salva o nome do evento
-            window.location.href = 'lista-avaliacoes.html';  // Redireciona para a página de listagem de avaliações
-        });
-    });
-
-    // Botão de Ver transportes
-    document.querySelectorAll('.seeTransports-button').forEach(button => {
-        button.addEventListener('click', function() {
-            const idEvento = this.getAttribute('data-eventoId');
-            const nomeEvento = this.closest('.event-card').querySelector('h3').textContent; // Captura o nome do evento
-            localStorage.setItem('idEventoSelecionado', idEvento);  // Salva o ID do evento no localStorage
-            localStorage.setItem('nomeEventoSelecionado', nomeEvento); // Salva o nome do evento
-            window.location.href = 'lista-transporte-novo.html';  // Redireciona para a página de listagem de transportes
-        });
-    });
-
-    // Botão de Ver certificados
-    document.querySelectorAll('.seeCertificates-button').forEach(button => {
-        button.addEventListener('click', function() {
-            const idEvento = this.getAttribute('data-eventoId');
-            const nomeEvento = this.closest('.event-card').querySelector('h3').textContent; // Captura o nome do evento
-            localStorage.setItem('idEventoSelecionado', idEvento);  // Salva o ID do evento no localStorage
-            localStorage.setItem('nomeEventoSelecionado', nomeEvento); // Salva o nome do evento
-            window.location.href = 'lista-certificado-novo.html';  // Redireciona para a página de listagem de transportes
+        // Adiciona listeners de clique aos itens do menu
+        const menuItems = eventCard.querySelectorAll('.menu-item');
+        menuItems.forEach(item => {
+            item.addEventListener('click', function (e) {
+                e.preventDefault(); // Evita o comportamento padrão do link
+    
+                const action = this.getAttribute('data-action'); // Captura a ação do menu
+                const idEvento = evento.id; // Captura o ID do evento
+                const nomeEvento = evento.nome; // Captura o nome do evento
+    
+                // Salva o ID e o nome do evento no localStorage
+                localStorage.setItem('idEventoSelecionado', idEvento);
+                localStorage.setItem('nomeEventoSelecionado', nomeEvento);
+    
+                // Redireciona para a página correspondente à ação
+                switch (action) {
+                    case 'certificado':
+                        window.location.href = 'cadastro-certificado.html';
+                        break;
+                    case 'transporte':
+                        window.location.href = 'cadastro-transporte.html';
+                        break;
+                    case 'avaliar':
+                        window.location.href = 'avaliar-evento-para-servidor.html';
+                        break;
+                    case 'ver-certificados':
+                        window.location.href = 'lista-certificado-novo.html';
+                        break;
+                    case 'ver-transportes':
+                        window.location.href = 'lista-transporte-novo.html';
+                        break;
+                    case 'ver-avaliacoes':
+                        window.location.href = 'lista-avaliacoes-para-servidor.html';
+                        break;
+                    default:
+                        console.error('Ação do menu não reconhecida:', action);
+                }
+            });
         });
     });
 
@@ -262,13 +227,6 @@ function toggleEditAll(id) {
     // Seleciona os botões relacionados ao evento
     const editButton = document.querySelector(`.edit-button[data-eventoId="${id}"]`);
     const deleteButton = document.querySelector(`.delete-button[data-eventoId="${id}"]`);
-    const evaluateEventButton = document.querySelector(`.evaluateEvent-button[data-eventoId="${id}"]`);
-    const seeReviewsButton = document.querySelector(`.seeReviews-button[data-eventoId="${id}"]`);
-    const certificateButton = document.querySelector(`.certificate-button[data-eventoId="${id}"]`);
-    const transportButton = document.querySelector(`.transport-button[data-eventoId="${id}"]`);
-    const seeTransportButton = document.querySelector(`.seeTransports-button[data-eventoId="${id}"]`);
-    const seeCertificateButton = document.querySelector(`.seeCertificates-button[data-eventoId="${id}"]`);
-
     const atualizarButton = document.getElementById(`atualizar-${id}`);
     const cancelEditButton = document.querySelector(`.cancel-edit-button[data-eventoId="${id}"]`);
 
@@ -295,26 +253,12 @@ function toggleEditAll(id) {
         // Oculta os botões de "Editar" e "Deletar", e exibe o botão de "Atualizar"
         editButton.style.display = "none";
         deleteButton.style.display = "none";
-        evaluateEventButton.style.display = "none"
-        seeReviewsButton.style.display = "none"
-        certificateButton.style.display = "none"
-        transportButton.style.display = "none"
-        seeTransportButton.style.display = "none"
-        seeCertificateButton.style.display = "none"
-        
         atualizarButton.style.display = "inline";
         cancelEditButton.style.display = "inline";
     } else {
         // Exibe os botões de "Editar" e "Deletar", e oculta o botão de "Atualizar"
         editButton.style.display = "inline";
         deleteButton.style.display = "inline";
-        evaluateEventButton.style.display = "inline"
-        seeReviewsButton.style.display = "inline"
-        certificateButton.style.display = "inline"
-        transportButton.style.display = "inline"
-        seeTransportButton.style.display = "inline"
-        seeCertificateButton.style.display = "inline"
-        
         atualizarButton.style.display = "none";
         cancelEditButton.style.display = "none";
     }

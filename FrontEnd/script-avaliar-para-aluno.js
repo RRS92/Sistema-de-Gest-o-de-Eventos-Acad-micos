@@ -33,7 +33,7 @@ document.getElementById('formAvaliacao').addEventListener('submit', async functi
 
         if (response.ok) {
             alert('Avaliação enviada com sucesso!');
-            window.location.href = 'lista-evento.html'; // Redirecionamento após sucesso
+            window.location.href = 'lista-evento-para-aluno.html'; // Redirecionamento após sucesso
         } else {
             alert('Erro ao enviar avaliação.');
         }
@@ -42,4 +42,3 @@ document.getElementById('formAvaliacao').addEventListener('submit', async functi
         console.error(error);
     }
 });
-
