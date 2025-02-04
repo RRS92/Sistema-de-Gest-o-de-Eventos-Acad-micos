@@ -15,16 +15,16 @@ if (idEvento) {
 }
 
 // Lógica para envio do formulário
-document.getElementById('formTransporte').addEventListener('submit', async function(event) {
+document.getElementById('formAvaliacao').addEventListener('submit', async function(event) {
     event.preventDefault();
     const dados = {
         idEvento: document.getElementById('idEvento').value,
-        cargaHoraria: document.getElementById('cargaHoraria').value,
-        descricao: document.getElementById('descricao').value
+        nota: document.getElementById('nota').value,
+        comentario: document.getElementById('comentario').value
     };
 
     try {
-        const response = await fetch('http://localhost:8080/certificados', {
+        const response = await fetch('http://localhost:8080/avaliacoes', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json',
                 "Authorization": localStorage.getItem("token") },
@@ -32,10 +32,10 @@ document.getElementById('formTransporte').addEventListener('submit', async funct
         });
 
         if (response.ok) {
-            alert('Certificado criado com sucesso!');
+            alert('Avaliação enviada com sucesso!');
             window.location.href = 'lista-evento-para-servidor.html'; // Redirecionamento após sucesso
         } else {
-            alert('Erro ao criar certificado.');
+            alert('Erro ao enviar avaliação.');
         }
     } catch (error) {
         alert('Erro de conexão.');
