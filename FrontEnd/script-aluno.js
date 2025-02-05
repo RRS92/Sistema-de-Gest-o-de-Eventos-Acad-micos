@@ -60,13 +60,13 @@ async function cadastrarAluno() {
 
         // 3. Cadastra o aluno com os IDs de banco e endereço
         const alunoData = {
+            matricula: document.getElementById("matricula").value,
             nome: document.getElementById("nome-aluno").value,
             cpf: document.getElementById("cpf").value,
             rg: document.getElementById("rg").value,
             dataNasc: document.getElementById("dataNasc").value,
             telefone: document.getElementById("telefone").value,
             email: document.getElementById("email").value,
-            matricula: document.getElementById("matricula").value,
             banco: { id: bancoId },
             endereco: { id: enderecoId },
             utilizador: { id: userId }
@@ -88,7 +88,6 @@ async function cadastrarAluno() {
 
 
         const matriculaData = {
-            numMatricula : document.getElementById("numMatricula").value,
             periodoIngresso : document.getElementById("periodoIngresso").value,
             turno : document.getElementById("turno").value,
             nomeCurso : document.getElementById("nomeCurso").value,
@@ -177,6 +176,9 @@ function formatarTelefone(telefone) {
 
 // Função para exibir alunos na página
 function exibirAlunos(aluno) {
+
+
+    
     const eventsContainer = document.querySelector(".events-container");
     eventsContainer.innerHTML = ""; // Limpa a lista existente
 
@@ -198,12 +200,12 @@ function exibirAlunos(aluno) {
             </div>
 
             <div class="event-details">
+
+
                 <p><strong>Nome:</strong> <span id="nome-display-${aluno.id}">${aluno.nome}</span>
                 <input type="text" id="nome-${aluno.id}" value="${aluno.nome}" style="display:none;" /></p>
 
-                <p><strong>Matrícula:</strong> <span id="matricula-display-${aluno.id}">${aluno.matricula}</span>
-                <input type="text" id="matricula-${aluno.id}" value="${aluno.matricula}" style="display:none;" /></p>
-
+                
                 <p><strong>CPF:</strong> <span id="cpf-display-${aluno.id}">${formatarCPF(aluno.cpf)}</span>
                 <input type="text" id="cpf-${aluno.id}" value="${aluno.cpf}" style="display:none;" /></p>
 
@@ -220,6 +222,9 @@ function exibirAlunos(aluno) {
 
                 <p><strong>Email:</strong> <span id="email-display-${aluno.id}">${aluno.email}</span>
                 <input type="text" id="email-${aluno.id}" value="${aluno.email}" style="display:none;" /></p>
+
+                <p><strong>matricula:</strong> <span id="matricula-display-${aluno.id}">${aluno.matricula}</span>
+                <input type="text" id="matricula-${aluno.id}" value="${aluno.matricula}" style="display:none;" /></p>
             </div>
             <br>
             <button class="edit-center-button" data-alunoId="${aluno.id}">Editar ✏️</button>
@@ -263,9 +268,12 @@ function exibirAlunos(aluno) {
     });
 }
 
-// Chama a função para obter alunos e exibi-los na página
-getAlunos().then((alunos) => {
-    exibirAlunos(alunos);
+document.addEventListener("DOMContentLoaded", function () {
+    if (!window.location.pathname.includes("cadastro-aluno.html")) {
+        getAlunos().then((alunos) => {
+            exibirAlunos(alunos);
+        }).catch(error => console.error("Erro ao exibir alunos:", error));
+    }
 });
 
 
@@ -316,8 +324,8 @@ function toggleEditAll(id) {
 async function atualizarAluno(id) {
     const alunoData = {
         id: id,
-        nome: document.getElementById(`nome-${id}`).value.trim(),
         matricula: document.getElementById(`matricula-${id}`).value.trim(),
+        nome: document.getElementById(`nome-${id}`).value.trim(),
         cpf: document.getElementById(`cpf-${id}`).value.trim(),
         rg: document.getElementById(`rg-${id}`).value.trim(),
         dataNasc: document.getElementById(`dataNasc-${id}`).value.trim(),
@@ -326,7 +334,7 @@ async function atualizarAluno(id) {
     };
 
     // Validação dos campos obrigatórios
-    if (!alunoData.nome || !alunoData.matricula || !alunoData.cpf || !alunoData.rg || !alunoData.dataNasc || !alunoData.telefone || !alunoData.email) {
+    if (!alunoData.matricula || !alunoData.nome ||  !alunoData.cpf || !alunoData.rg || !alunoData.dataNasc || !alunoData.telefone || !alunoData.email) {
         alert("Por favor, preencha todos os campos.");
         return;
     }

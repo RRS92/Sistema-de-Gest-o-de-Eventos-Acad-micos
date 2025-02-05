@@ -15,6 +15,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -37,6 +38,10 @@ public class Utilizador implements UserDetails{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	@Lob  // Define o campo como um BLOB
+    @Column(columnDefinition = "LONGBLOB")  // Para MySQL, pode ser BLOB, MEDIUMBLOB ou LONGBLOB
+    private byte[] foto;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

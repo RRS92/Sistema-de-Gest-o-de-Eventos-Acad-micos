@@ -20,14 +20,19 @@
     <section class="profile">
         <div class="container">
             <h2>Perfil do Aluno</h2>
-            <div class="profile-info">
-                <img src="images\foto-aluno.png" alt="" class="profile-picture">
+            <div class="profile-info"> <!-- Contêiner flexível para alinhar os elementos -->
+                <div class="profile-picture-container">
+                    <img src="images/foto-aluno.png" alt="Foto do aluno" class="profile-picture">
+                    <label for="uploadFoto" class="edit-icon">&#9998;</label>
+                    <input type="file" id="uploadFoto" accept="image/*" style="display: none;">
+                </div>    
+    
                 <div class="profile-details">
                     <p><strong>Nome:</strong> <span class="nome">Insira Informações pessoais...</span></p>
                     <p><strong>Matrícula:</strong> <span id="matricula">Insira Informações pessoais...</span></p>
-                    <!-- <p><strong>Curso:</strong> <span id="curso">Insira Informações pessoais...</span></p> -->
                     <p><strong>Email:</strong> <span id="email">Insira Informações pessoais...</span></p>
                 </div>
+            </div> 
             </div>
             <div class="profile-actions">
                 <a href="lista-aluno.html" class="btn">Informações Pessoais</a>

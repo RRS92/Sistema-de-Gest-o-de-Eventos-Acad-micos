@@ -39,6 +39,11 @@ public class ParticipanteController {
 		return participanteService.listarParticipante().stream().map(ParticipanteDTO::new).toList();
 	}
 	
+	 @GetMapping("/evento/{eventoId}")
+	    public List<ParticipanteDTO> listarPorEvento(@PathVariable Long eventoId) {
+	        return participanteService.listarParticipantesPorEvento(eventoId);
+	    }
+	
 	/*@PutMapping
 	@Transactional
 	public ResponseEntity<Participante> atualizarParticipante(@RequestBody @Valid ParticipanteDTO dadosParticipanteDTO) {

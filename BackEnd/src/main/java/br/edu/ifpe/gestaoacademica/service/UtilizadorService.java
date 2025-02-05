@@ -1,7 +1,9 @@
 package br.edu.ifpe.gestaoacademica.service;
 
 
+import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -45,6 +47,10 @@ public class UtilizadorService implements UserDetailsService {
 	    utilizador.setAtivo(true);
 	    utilizador.setAcessLevel(AcessLevel.ALUNO);
 	    
+	    if (dadosUtilizadorDTO.fotoBase64() != null && !dadosUtilizadorDTO.fotoBase64().isEmpty()) {
+	    	utilizador.setFoto(Base64.getDecoder().decode(dadosUtilizadorDTO.fotoBase64()));
+	    }
+	    
 	    return utilizadorRepository.save(utilizador);
 
 	}
@@ -64,6 +70,11 @@ public Utilizador cadastrarUtilizadorServidor(UtilizadorDTO dadosUtilizadorDTO) 
 
 	}
 
+public Optional<Utilizador> listarUtilizadorPorId(Long id){
+	return utilizadorRepository.findById(id);
+}
+
+
 	public List<Utilizador> listarUtilizador() {
 	    return utilizadorRepository.findAllByAtivoTrue();
 	}
@@ -81,6 +92,10 @@ public Utilizador cadastrarUtilizadorServidor(UtilizadorDTO dadosUtilizadorDTO) 
 			String senhaCriptografadaAtualizada = passwordEncoder.encode(dadosUtilizadorDTO.senha());
 
 	    	utilizador.setSenha(senhaCriptografadaAtualizada);}
+	    
+	    if (dadosUtilizadorDTO.fotoBase64() != null && !dadosUtilizadorDTO.fotoBase64().isEmpty()) {
+	        utilizador.setFoto(Base64.getDecoder().decode(dadosUtilizadorDTO.fotoBase64()));
+	    }
 
 	    
 	    return utilizadorRepository.save(utilizador);

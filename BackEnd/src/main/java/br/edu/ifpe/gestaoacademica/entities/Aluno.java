@@ -19,6 +19,7 @@ import lombok.Setter;
 public class Aluno extends Usuario {
 	
 	private String matricula;
+		
 	private boolean ativo;
 	
 	public void inativar() {

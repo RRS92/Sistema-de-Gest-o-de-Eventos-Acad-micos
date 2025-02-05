@@ -480,6 +480,7 @@ footer .footer-column {
 
 /* Perfil */
 .profile {
+    
     background-color: var(--white-color);
     padding: 50px 20px;
     margin: 20px auto;
@@ -1117,4 +1118,214 @@ h2 {
     color: white; /* Cor do texto ao passar o mouse */
     transform: translateY(-2px); /* Efeito de levantar ao passar o mouse */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra ao passar o mouse */
+}
+
+
+
+.profile-picture-container {
+    position: relative;
+    display: inline-block;
+    
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.edit-icon {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 5px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+
+.participants-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.participants-table th, .participants-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.participants-table th {
+    background-color: #f4f4f4;
+}
+
+#no-participants-message {
+    text-align: center;
+    font-size: 18px;
+    color: #888;
+    margin-top: 20px;
+}
+
+
+/* Estilos para a página "Sobre Nós" */
+.about-us {
+    padding: 60px 10%;
+    background-color: #f4f4f4;
+    text-align: center;
+}
+
+/* Título principal */
+.about-us h1 {
+    color: #004d00;
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+}
+
+/* Linha decorativa abaixo do título */
+.about-us h1::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 4px;
+    background-color: #006400;
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+/* Seção individual dentro da área "Sobre Nós" */
+.about-section {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Efeito ao passar o mouse */
+.about-section:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Título da seção */
+.about-section h2 {
+    color: #006400;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-align: left;
+    position: relative;
+}
+
+/* Linha decorativa abaixo dos subtítulos */
+.about-section h2::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 3px;
+    background-color: #008000;
+    margin-top: 8px;
+    border-radius: 2px;
+}
+
+/* Parágrafo dentro das seções */
+.about-section p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #333;
+    text-align: justify;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .about-us {
+        padding: 40px 5%;
+    }
+
+    .about-section {
+        padding: 20px;
+    }
+
+    .about-us h1 {
+        font-size: 2.5rem;
+    }
+
+    .about-section h2 {
+        font-size: 2rem;
+    }
+
+    .about-section p {
+        font-size: 1.1rem;
+    }
+}
+
+.team-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px; /* Espaçamento entre os membros */
+    flex-wrap: wrap; /* Permite que os membros se ajustem em telas menores */
+    padding: 40px;
+    background-color: white; /* Ajuste conforme necessário */
+}
+
+.team-member {
+    text-align: center;
+    background: white; /* Cor de fundo do card */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    max-width: 250px; /* Largura máxima do card */
+}
+
+.team-member:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.team-member img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #fff;
+    margin-bottom: 15px;
+}
+
+.team-member h3 {
+    color: black;
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+}
+
+.team-member p {
+    color: #696969;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.team-member button {
+    background-color: #555;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.team-member button:hover {
+    background-color: #777;
 }
