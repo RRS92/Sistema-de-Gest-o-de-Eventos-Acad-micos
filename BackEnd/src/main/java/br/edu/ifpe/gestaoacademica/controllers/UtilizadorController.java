@@ -86,6 +86,18 @@ public class UtilizadorController {
 	@GetMapping
 	public List<UtilizadorDTO> listarUtilizador() {
 		return utilizadorService.listarUtilizador().stream().map(UtilizadorDTO::new).toList();
+	}  
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<UtilizadorDTO> listarUtilizadorPorId(@PathVariable Long id) {
+	    Optional<Utilizador> utilizadorOptional = utilizadorService.listarUtilizadorPorId(id);
+	    
+	    if (utilizadorOptional.isEmpty()) {
+	        return ResponseEntity.notFound().build();  // Retorna 404 caso o banco não seja encontrado
+	    }
+
+	    UtilizadorDTO utilizadorDTO = new UtilizadorDTO(utilizadorOptional.get());  // Converte para o DTO
+	    return ResponseEntity.ok(utilizadorDTO);  // Retorna o banco encontrado com status 200
 	}
 	
 	@PutMapping

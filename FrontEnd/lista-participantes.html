@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Participantes</title>
+    <link rel="icon" href="images/logo.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <script src="script-participantes.js" defer></script>
+</head>
+<body>
+
+    <!-- Cabeçalho -->
+    <header class="main-header">
+        <div class="container">
+            <img src="images/ifpe_logo.png" alt="Logo IFPE" class="logo">
+            <nav>
+                <a href="perfil-servidor.html">Voltar</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Corpo Principal -->
+    <main>
+        <section class="events-section">
+            <h2 id="evento-nome"></h2>
+            <br>
+            <table class="participants-table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>CPF</th>
+                        <!-- <th>Certificado</th> -->
+                    </tr>
+                </thead>
+                <tbody id="participantes-list"></tbody>
+            </table>
+
+            <!-- Mensagem caso não haja participantes -->
+            <div id="no-participants-message" style="display:none;">
+                <p>Nenhum participante encontrado.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <div class="container">
+            <div class="footer-columns"></div>
+            <p>&copy; Instituto Federal de Pernambuco. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const eventoId = localStorage.getItem("idEventoSelecionado");
+            const eventoNome = localStorage.getItem("nomeEventoSelecionado");
+            document.getElementById("evento-nome").textContent = `Evento: ${eventoNome}`;
+
+            if (!eventoId) {
+                alert("Nenhum evento selecionado.");
+                window.location.href = "index.html";
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:8080/participantes/evento/${eventoId}`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": localStorage.getItem("token"),
+                        "Accept": "application/json"
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error("Erro ao buscar participantes");
+                }
+
+                const participantes = await response.json();
+                const lista = document.getElementById("participantes-list");
+                const noParticipantsMessage = document.getElementById("no-participants-message");
+
+                if (participantes.length === 0) {
+                    lista.innerHTML = "";
+                    noParticipantsMessage.style.display = "block";
+                    return;
+                }
+
+                participantes.forEach(participante => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${participante.aluno.nome}</td>
+                        <td>${participante.aluno.email}</td>
+                        <td>${participante.aluno.cpf}</td>
+                        
+                    `;
+                    lista.appendChild(row);
+                });
+
+                noParticipantsMessage.style.display = "none";  // Esconde a mensagem "Nenhum participante encontrado" caso haja participantes
+
+            } catch (error) {
+                console.error(error);
+                alert("Erro ao carregar participantes.");
+            }
+        });
+    </script>
+</body>
+</html>

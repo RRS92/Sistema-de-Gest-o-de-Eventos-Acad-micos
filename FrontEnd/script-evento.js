@@ -92,7 +92,7 @@ function exibirEventos(eventos) {
         const eventCard = document.createElement("div");
         eventCard.classList.add("event-card");
         eventCard.innerHTML = `
-            <button class="menu-button">&#8942;</button>
+           <button class="menu-button">&#8942;</button>
             <div class="menu">
                 <ul>
                     <li><a href="cadastro-certificado.html" class="menu-item" data-action="certificado">Gerar Certificado</a></li>
@@ -101,6 +101,7 @@ function exibirEventos(eventos) {
                     <li><a href="lista-certificado-novo.html" class="menu-item" data-action="ver-certificados">Certificados Disponíveis</a></li>
                     <li><a href="lista-transporte-novo.html" class="menu-item" data-action="ver-transportes">Transportes Disponíveis</a></li>
                     <li><a href="lista-avaliacoes-para-servidor.html" class="menu-item" data-action="ver-avaliacoes">Avaliações Disponíveis</a></li>
+                    <li><a href="lista-participantes.html" class="menu-item" data-action="ver-participantes">Listar Participantes</a></li>
                 </ul>
             </div>
 
@@ -134,17 +135,13 @@ function exibirEventos(eventos) {
         const menuItems = eventCard.querySelectorAll('.menu-item');
         menuItems.forEach(item => {
             item.addEventListener('click', function (e) {
-                e.preventDefault(); // Evita o comportamento padrão do link
-    
-                const action = this.getAttribute('data-action'); // Captura a ação do menu
-                const idEvento = evento.id; // Captura o ID do evento
-                const nomeEvento = evento.nome; // Captura o nome do evento
-    
-                // Salva o ID e o nome do evento no localStorage
+                e.preventDefault();
+                const action = this.getAttribute('data-action');
+                const idEvento = evento.id;
+                const nomeEvento = evento.nome;
                 localStorage.setItem('idEventoSelecionado', idEvento);
                 localStorage.setItem('nomeEventoSelecionado', nomeEvento);
-    
-                // Redireciona para a página correspondente à ação
+                
                 switch (action) {
                     case 'certificado':
                         window.location.href = 'cadastro-certificado.html';
@@ -164,12 +161,16 @@ function exibirEventos(eventos) {
                     case 'ver-avaliacoes':
                         window.location.href = 'lista-avaliacoes-para-servidor.html';
                         break;
+                    case 'ver-participantes':
+                        window.location.href = 'lista-participantes.html';
+                        break;
                     default:
                         console.error('Ação do menu não reconhecida:', action);
                 }
             });
         });
     });
+
 
     // Adiciona o evento de clique aos botões de editar
     document.querySelectorAll(".edit-button").forEach((button) => {

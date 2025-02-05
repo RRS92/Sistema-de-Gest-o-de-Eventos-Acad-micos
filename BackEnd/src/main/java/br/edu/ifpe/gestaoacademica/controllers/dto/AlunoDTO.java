@@ -29,26 +29,28 @@ public record AlunoDTO(
 		Banco banco,
 		List <Participante> participante,
 		Utilizador utilizador
+
 ) { 
 
 	//Construtor para cadastrar aluno
-	public AlunoDTO(String matricula, String nome, String cpf, String rg, String dataNasc, 
+	public AlunoDTO(String matricula,String nome, String cpf, String rg, String dataNasc, 
 			        String telefone, String email, Endereco endereco, Banco banco,
 			        List <Participante> participante,Utilizador utilizador) {
-		this(null, matricula, nome, cpf, rg, dataNasc, telefone, email, endereco, banco,participante,utilizador);
+		this(null,matricula,nome, cpf, rg, dataNasc, telefone, email, endereco, banco,participante,utilizador);
 	}
 	
 	//Construtor para listar aluno
 	public AlunoDTO(Aluno aluno) {
-		this(aluno.getId(), aluno.getMatricula(), aluno.getNome(), aluno.getCpf(), aluno.getRg(), 
-			 aluno.getDataNasc(), aluno.getTelefone(), aluno.getEmail(), aluno.getEndereco(), aluno.getBanco(),aluno.getParticipante(),aluno.getUtilizador());
+		this(aluno.getId(),aluno.getMatricula(), aluno.getNome(), aluno.getCpf(), aluno.getRg(), 
+			 aluno.getDataNasc(), aluno.getTelefone(), aluno.getEmail(), aluno.getEndereco(), aluno.getBanco(),aluno.getParticipante(),aluno.getUtilizador()
+		        );
 	}
 
 	//Construtor para atualizar aluno
 	public AlunoDTO(Long id, String matricula, String nome, String cpf, String rg, String dataNasc, 
 			        String telefone, String email, Endereco endereco, Banco banco,List <Participante> participante,Utilizador utilizador) {
 		this.id = id;
-		this.matricula = matricula;
+		this.matricula=matricula;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.rg = rg;
@@ -59,5 +61,6 @@ public record AlunoDTO(
 		this.banco = banco;
 		this.participante = participante;
 		this.utilizador = utilizador;
+
 	}
 }

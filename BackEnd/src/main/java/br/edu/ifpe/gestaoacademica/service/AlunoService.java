@@ -47,6 +47,7 @@ public class AlunoService {
 		   */
 	   aluno.setParticipante(dadosAlunoDTO.participante());
 	   aluno.setUtilizador(dadosAlunoDTO.utilizador());
+	   
 		return alunoRepository.save(aluno);
 
 	}
@@ -65,7 +66,8 @@ public class AlunoService {
 	    Aluno aluno = alunoRepository.findById(dadosAlunoDTO.id())
 	            .orElseThrow(() -> new EntityNotFoundException("Aluno não encontrado"));
 
-		if (dadosAlunoDTO.matricula() != null)  aluno.setMatricula(dadosAlunoDTO.matricula());
+		if (dadosAlunoDTO.matricula() != null) 		aluno.setMatricula(dadosAlunoDTO.matricula());
+
 		if (dadosAlunoDTO.nome() != null) 		aluno.setNome(dadosAlunoDTO.nome());
 		if (dadosAlunoDTO.dataNasc() != null) 	aluno.setDataNasc(dadosAlunoDTO.dataNasc());
 		if (dadosAlunoDTO.email() != null) 		aluno.setEmail(dadosAlunoDTO.email());

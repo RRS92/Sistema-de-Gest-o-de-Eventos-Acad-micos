@@ -18,7 +18,6 @@ public class MatriculaService {
 	public Matricula cadastrarMatricula(MatriculaDTO dadosMatriculaDTO) {
 		
 		Matricula matricula = new Matricula();
-		matricula.setNumMatricula(dadosMatriculaDTO.numMatricula());
 		matricula.setPeriodoIngresso(dadosMatriculaDTO.periodoIngresso());
 		matricula.setTurno(dadosMatriculaDTO.turno());
 		matricula.setAluno(dadosMatriculaDTO.aluno());
@@ -34,7 +33,6 @@ public class MatriculaService {
 		Matricula matricula = matriculaRepository.findById(dadosMatriculaDTO.id())
 				.orElseThrow(() -> new EntityNotFoundException("Matricula não encontrado"));
  
-		if (dadosMatriculaDTO.numMatricula() != null) 	  matricula.setNumMatricula(dadosMatriculaDTO.numMatricula());
 		if (dadosMatriculaDTO.periodoIngresso() != null)  matricula.setPeriodoIngresso(dadosMatriculaDTO.periodoIngresso());
 		if (dadosMatriculaDTO.turno() != null) 			  matricula.setTurno(dadosMatriculaDTO.turno());
 		if (dadosMatriculaDTO.nomeCurso() != null) 			  matricula.setNomeCurso(dadosMatriculaDTO.nomeCurso());

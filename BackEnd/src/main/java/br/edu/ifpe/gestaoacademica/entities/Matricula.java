@@ -24,7 +24,6 @@ public class Matricula {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String numMatricula;
     private String periodoIngresso;
     private String turno;
     private String nomeCurso;

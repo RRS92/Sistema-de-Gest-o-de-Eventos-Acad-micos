@@ -1,6 +1,7 @@
 package br.edu.ifpe.gestaoacademica.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,14 @@ public class ParticipanteService {
 
 		return participanteRepository.save(participante);
 	}
+	
+	public List<ParticipanteDTO> listarParticipantesPorEvento(Long eventoId) {
+        List<Participante> participantes = participanteRepository.findParticipantesByEvento(eventoId);
+
+        return participantes.stream()
+            .map(ParticipanteDTO::new)
+            .collect(Collectors.toList());
+    }
 	
 	public List<Participante> listarParticipante() {
 		return participanteRepository.findAllByAtivoTrue();
