@@ -90,7 +90,7 @@ async function carregarPerfil() {
     if (usuario && usuario.fotoBase64) {
         profilePictureElement.src = `data:image/png;base64,${usuario.fotoBase64}`;
     } else {
-        profilePictureElement.src = 'images/foto-servidor.png'; // Imagem padrão
+        profilePictureElement.src = '../../images/foto-servidor.png'; // Imagem padrão
     }
 }
 

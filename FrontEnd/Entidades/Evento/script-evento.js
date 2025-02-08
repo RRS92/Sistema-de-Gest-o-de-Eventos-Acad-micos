@@ -103,7 +103,6 @@ function exibirEventos(eventos) {
                     <li><a href="../Evento/cadastro-certificado.html" class="menu-item" data-action="certificado">Gerar Certificado</a></li>
                     <li><a href="../Transporte/cadastro-transporte.html" class="menu-item" data-action="transporte">Cadastrar Transporte</a></li>
                     <li><a href="../Servidor/avaliar-evento-para-servidor.html" class="menu-item" data-action="avaliar">Avaliar Evento</a></li>
-                    <li><a href="../Certificado/lista-certificado-novo.html" class="menu-item" data-action="ver-certificados">Certificados Disponíveis</a></li>
                     <li><a href="../Transporte/lista-transporte-novo.html" class="menu-item" data-action="ver-transportes">Transportes Disponíveis</a></li>
                     <li><a href="../Servidor/lista-avaliacoes-para-servidor.html" class="menu-item" data-action="ver-avaliacoes">Avaliações Disponíveis</a></li>
                     <li><a href="../Paticipantes/lista-participantes.html" class="menu-item" data-action="ver-participantes">Listar Participantes</a></li>
@@ -157,9 +156,6 @@ function exibirEventos(eventos) {
                         break;
                     case 'avaliar':
                         window.location.href = '../Evento/avaliar-evento-para-servidor.html';
-                        break;
-                    case 'ver-certificados':
-                        window.location.href = '../Certificado/lista-certificado-novo.html';
                         break;
                     case 'ver-transportes':
                         window.location.href = '../Transporte/lista-transporte-novo.html';

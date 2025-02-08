@@ -7,6 +7,17 @@
     <link rel="icon" href="../../images/logo.png" type="image/png">
     <link rel="stylesheet" href="../../css/style.css">
     <script src="script-participantes.js" defer></script>
+    <style>
+        .participants-table button {
+      margin-top: 15px;
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    </style>
 </head>
 <body>
 
@@ -31,7 +42,7 @@
                         <th>Nome</th>
                         <th>Email</th>
                         <th>CPF</th>
-                        <!-- <th>Certificado</th> -->
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody id="participantes-list"></tbody>
@@ -93,7 +104,7 @@
                         <td>${participante.aluno.nome}</td>
                         <td>${participante.aluno.email}</td>
                         <td>${participante.aluno.cpf}</td>
-                        
+                        <td><button onclick="salvarERedirecionar('${participante.aluno.nome}', '${participante.aluno.email}')">Enviar Certificado</button></td>
                     `;
                     lista.appendChild(row);
                 });
@@ -105,6 +116,12 @@
                 alert("Erro ao carregar participantes.");
             }
         });
+
+        function salvarERedirecionar(nome, email) {
+            localStorage.setItem('participanteNome', nome);
+            localStorage.setItem('participanteEmail', email);
+            window.location.href = '../Certificado/criar-e-enviar-certificados.html'; // Substitua pela página de destino
+        }
     </script>
 </body>
 </html>
