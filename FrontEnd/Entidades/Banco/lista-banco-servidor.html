@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bancos</title>
+    <link rel="icon" href="../../images/logo.png" type="image/png">
+    <link rel="stylesheet" href="../../css/style.css">
+    
+    <script src="script-banco.js" defer></script>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <img src="../../images/ifpe_logo.png" alt="Logo IFPE" class="logo">
+            <nav>
+                <a href="../Servidor/lista-servidor.html">Voltar</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="events-section">
+            <h2>Informações Bancárias</h2>
+            <br>
+            <div class="events-container">
+                <!-- Os bancos serão listados aqui dinamicamente -->
+            </div>
+
+            <!-- Formulário para editar detalhes do banco -->
+            <div id="edit-banco-form" style="display:none;">
+                <h3>Editar Banco</h3>
+                <form id="form-edit-banco">
+                    <input type="hidden" id="banco-id">
+                    <label for="nomeBanco">Nome do Banco:</label>
+                    <input type="text" id="nomeBanco" required>
+                    <label for="numConta">Número da Conta:</label>
+                    <input type="text" id="numConta" required>
+                    <label for="agencia">Agência:</label>
+                    <input type="text" id="agencia" required>
+                    <label for="operacao">Operação:</label>
+                    <input type="text" id="operacao" required>
+                </form>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-columns"></div>
+            <p>&copy; Instituto Federal de Pernambuco. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
