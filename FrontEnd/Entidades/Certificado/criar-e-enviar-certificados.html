@@ -45,7 +45,7 @@
     <div class="container">
       <img src="../../images/ifpe_logo.png" alt="Instituto Federal" class="logo">
       <nav>
-        <a href="lista-certificado-novo.html">Voltar</a>
+        <a href="..\Paticipantes\lista-participantes.html">Voltar</a>
       </nav>
     </div>
   </header>
@@ -58,19 +58,19 @@
       </div>
       
     <label for="emailDestino">E-mail do Destinatário:</label>
-    <input type="email" id="emailDestino" placeholder="email@exemplo.com">
+    <input type="email" id="emailDestino" readonly>
 
     <label for="assunto">Assunto do E-mail:</label>
-    <input type="text" id="assunto" placeholder="Assunto do E-mail" value="Certificado do Evento">
+    <input type="text" id="assunto" placeholder="Assunto do E-mail" value="Certificado do Evento" readonly>
 
     <label for="mensagem">Conteúdo do E-mail:</label>
     <textarea id="mensagem" rows="5" placeholder="Digite o conteúdo do e-mail aqui..."></textarea>
     
     <label for="nome">Nome do Participante:</label>
-    <input type="text" id="nome" placeholder="Nome do Participante">
+    <input type="text" id="nome" placeholder="Nome do Participante" readonly>
 
     <label for="evento">Nome do Evento:</label>
-    <input type="text" id="evento" placeholder="Nome do Evento">
+    <input type="text" id="evento" placeholder="Nome do Evento" readonly>
 
     <label for="local">Local do Evento:</label>
     <input type="text" id="local" placeholder="Local do Evento">
@@ -136,8 +136,9 @@
     doc.text(`sob a coordenação do Professor/Servidor ${dadosCertificado.professor}.`, 148, posicaoYInicial + 20, { align: "center" });
     doc.text(`A carga horária total do evento foi de ${dadosCertificado.cargaHoraria} horas.`, 148, posicaoYInicial + 30, { align: "center" });
     doc.text("Palmares, " + dadosCertificado.data, 148, posicaoYInicial + 60, { align: "center" });
+    doc.text(" Diogo Lopes da Silva", 148, posicaoYInicial + 100, { align: "center" });
     doc.text("________________________", 148, posicaoYInicial + 100, { align: "center" });
-    doc.text("Coordenador", 148, posicaoYInicial + 110, { align: "center" });
+    doc.text("Diretor Geral", 148, posicaoYInicial + 110, { align: "center" });
 
     // Gerando o blob do PDF
     const pdfBlob = doc.output("blob");
@@ -182,7 +183,7 @@
           console.log('E-mail enviado com sucesso!', response.status, response.text);
           alert('Certificado enviado com sucesso!');
           // Recarrega a página após o envio com sucesso
-          window.location.reload();
+          window.location.href = "../Paticipantes/lista-participantes.html";
         }, error => {
           console.error('Erro ao enviar o e-mail:', error);
           alert('Houve um erro ao enviar o certificado.');
@@ -220,6 +221,30 @@
         alert("Erro ao gerar o certificado. Tente novamente.");
       }
     });
+  </script>
+
+  <script>
+    // Função para preencher os campos do formulário com os dados do localStorage
+    function preencherCamposComLocalStorage() {
+      // Recupera os dados do localStorage
+      const nomeEventoSelecionado = localStorage.getItem("nomeEventoSelecionado");
+      const participanteEmail = localStorage.getItem("participanteEmail");
+      const participanteNome = localStorage.getItem("participanteNome");
+
+      // Preenche os campos do formulário com os dados recuperados
+      if (nomeEventoSelecionado) {
+        document.getElementById("evento").value = nomeEventoSelecionado;
+      }
+      if (participanteEmail) {
+        document.getElementById("emailDestino").value = participanteEmail;
+      }
+      if (participanteNome) {
+        document.getElementById("nome").value = participanteNome;
+      }
+    }
+
+    // Executa a função quando a página é carregada
+    window.onload = preencherCamposComLocalStorage;
   </script>
 </body>
 </html>

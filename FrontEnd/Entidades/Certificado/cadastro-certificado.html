@@ -6,6 +6,15 @@
     <title>Criar certificado</title>
     <link rel="icon" href="../../images\logo.png" type="image/png">
     <link rel="stylesheet" href="../../css/style.css">
+    <style>
+    .form-container input, 
+    .form-container textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+    </style>
 </head>
 <body>
     <header class="main-header">
@@ -32,7 +41,7 @@
             <input type="number" id="cargaHoraria" name="cargaHoraria" required>
 
             <label for="descricao">Descrição:</label>
-            <textarea id="descricao" name="descricao" required></textarea>
+            <textarea id="descricao" rows="5"  name="descricao" required></textarea>
 
             <button type="submit" class="btn">Criar Certificado</button>
         </form>
