@@ -101,6 +101,32 @@
   </script>
 
   <script>
+    function formatarData(dataString) {
+    const meses = [
+        "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+        "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+    ];
+
+    let dia, mes, ano;
+
+    // Verifica se a data está no formato YYYY-MM-DD ou DD/MM/YYYY
+    if (dataString.includes("-")) {
+        // Formato YYYY-MM-DD
+        [ano, mes, dia] = dataString.split("-");
+    } else if (dataString.includes("/")) {
+        // Formato DD/MM/YYYY
+        [dia, mes, ano] = dataString.split("/");
+    } else {
+        return "Formato de data inválido";
+    }
+
+    mes = meses[parseInt(mes, 10) - 1]; // Converte o mês para nome
+
+    return `Palmares,  ${dia} de ${mes} de ${ano}.`;
+}
+
+
+
     async function gerarESalvarPDF(dadosCertificado) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ orientation: "landscape" });
@@ -135,7 +161,7 @@
     doc.text(`${dadosCertificado.evento}, realizado no ${dadosCertificado.local},`, 148, posicaoYInicial + 10, { align: "center" });
     doc.text(`sob a coordenação do Professor/Servidor ${dadosCertificado.professor}.`, 148, posicaoYInicial + 20, { align: "center" });
     doc.text(`A carga horária total do evento foi de ${dadosCertificado.cargaHoraria} horas.`, 148, posicaoYInicial + 30, { align: "center" });
-    doc.text("Palmares, " + dadosCertificado.data, 148, posicaoYInicial + 60, { align: "center" });
+    doc.text(formatarData(dadosCertificado.data), 148, posicaoYInicial + 60, { align: "center" });
     doc.text(" Diogo Lopes da Silva", 148, posicaoYInicial + 100, { align: "center" });
     doc.text("________________________", 148, posicaoYInicial + 100, { align: "center" });
     doc.text("Diretor Geral", 148, posicaoYInicial + 110, { align: "center" });
@@ -175,7 +201,7 @@
                       <a href="${linkCertificado}" download>Clique aqui para baixar o certificado</a>`,
         nome: dadosEmail.nome,
         evento: dadosEmail.evento,
-        data: dadosEmail.data,
+        data: formatarData(dadosEmail.data),
       };
 
       emailjs.send('service_projeto_web', 'template_Projeto_web', templateParams)
