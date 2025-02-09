@@ -189,7 +189,7 @@ document.querySelector('.events-container').addEventListener('click', async (eve
                 }
             });
             if (!response.ok) throw new Error(`Erro ao desinscrever: ${response.status}`);
-            alert('Você foi desinscrito com sucesso!');
+            alert('Você foi cancelou sua participação com sucesso!');
             button.textContent = "Participar";
             button.classList.remove('desinscrever');
         } catch (error) {
