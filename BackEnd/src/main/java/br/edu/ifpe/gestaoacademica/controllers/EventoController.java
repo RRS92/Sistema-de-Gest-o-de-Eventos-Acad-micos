@@ -1,6 +1,7 @@
 package br.edu.ifpe.gestaoacademica.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,18 @@ public class EventoController {
 	public ResponseEntity<Evento> cadastrarEvento(@RequestBody @Valid EventoDTO dadosEventoDTO) {
 		Evento evento = eventoService.cadastrarEvento(dadosEventoDTO);
 		return ResponseEntity.ok(evento);
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<EventoDTO> listarEventoId(@PathVariable Long id) {
+	    Optional<Evento> eventoOptional = eventoService.listarEventoId(id);
+	    
+	    if (eventoOptional.isEmpty()) {
+	        return ResponseEntity.notFound().build();  // Retorna 404 caso o servidor não seja encontrado
+	    }
+
+	    EventoDTO eventoDTO = new EventoDTO(eventoOptional.get());  // Converte para o DTO
+	    return ResponseEntity.ok(eventoDTO);  // Retorna o servidor encontrado com status 200
 	}
 
 	@GetMapping
