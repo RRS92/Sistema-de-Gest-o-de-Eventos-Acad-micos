@@ -1,4 +1,8 @@
 // Função para criar eventos
+const IdUsuario = localStorage.getItem('userIdUsuario');
+
+const userId = parseInt(IdUsuario);
+
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("form-event");
     const saveButton = document.querySelector(".btn");
@@ -19,7 +23,9 @@ document.addEventListener("DOMContentLoaded", () => {
             descricao: descricao,
             data: data,
             local: local,
-            tipo: tipo
+            tipo: tipo,
+            servidor: { id: userId }
+   
         };
 
         // Envia os dados para a API
@@ -75,6 +81,7 @@ function formatarData(data) {
     if (isNaN(dataObj)) {
         throw new Error('Data inválida');
     }
+    
     return new Intl.DateTimeFormat('pt-BR', {
         day: '2-digit',
         month: '2-digit',
@@ -128,12 +135,14 @@ function exibirEventos(eventos) {
                 <input type="text" id="tipo-${evento.id}" value="${evento.tipo}" style="display:none;" /></p>
             </div>
             <br>
-            <button class="edit-button" data-eventoId="${evento.id}">Editar ✏️</button>
-            <button class="delete-button" data-eventoId="${evento.id}">Deletar 🗑️</button>  
-            <button class="update-button" id="atualizar-${evento.id}" style="display:none;" onclick="atualizarEvento(${evento.id})">Atualizar ✏️</button>
-            <button class="cancel-edit-button" style="display:none;" data-eventoId="${evento.id}">Cancelar ✖️</button>
-
-        `;
+            ${evento.servidor.id === userId ? `
+                <button class="edit-button" data-eventoId="${evento.id}">Editar ✏️</button>
+                <button class="delete-button" data-eventoId="${evento.id}">Deletar 🗑️</button>
+                <button class="update-button" id="atualizar-${evento.id}" style="display:none;" onclick="atualizarEvento(${evento.id})">Atualizar ✏️</button>
+                <button class="cancel-edit-button" style="display:none;" data-eventoId="${evento.id}">Cancelar ✖️</button>
+            ` : ''}
+            `;
+           
         eventsContainer.appendChild(eventCard);
 
         // Adiciona listeners de clique aos itens do menu

@@ -159,10 +159,10 @@ async function atualizarBotoesParticipacao() {
         const participacao = participacoesUsuario.find(part => part.evento?.id === eventoId);
 
         if (participacao) {
-            button.textContent = "Desinscrever";
+            button.textContent = "Cancelar Participação";
             button.classList.add('desinscrever');
         } else {
-            button.textContent = "Participar";
+            button.textContent = "Cancelar Participação";
             button.classList.remove('desinscrever');
         }
     });
