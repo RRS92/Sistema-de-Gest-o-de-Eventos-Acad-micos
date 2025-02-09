@@ -1,4 +1,3 @@
-
 // Função para obter transportes
 async function getTransportes() {
     try {

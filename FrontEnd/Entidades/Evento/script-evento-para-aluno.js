@@ -43,6 +43,20 @@ async function verificarParticipacao() {
     }
 }
 
+function formatarData(data) {
+    const dataObj = new Date(`${data}T00:00:00`);
+    if (isNaN(dataObj)) {
+        throw new Error('Data inválida');
+    }
+    
+    return new Intl.DateTimeFormat('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    }).format(dataObj);
+}
+
+
 // Função para exibir os eventos na página
 async function exibirEventos(eventos) {
     const eventsContainer = document.querySelector('.events-container');
@@ -77,13 +91,14 @@ async function exibirEventos(eventos) {
             <h3>${evento.nome}</h3>
             <div class="event-details">
                 <p>Descrição: ${evento.descricao}</p>
-                <p>Data: ${evento.data}</p>
+                <p>Data: ${formatarData(evento.data)}</p>
                 <p>Local: ${evento.local}</p>
                 <p>Tipo: ${evento.tipo}</p>
             </div>
             <div class="buttons-container">
                 <button class="partipate-button" data-id="${evento.id}">Participar</button>
             </div>
+
         `;
         eventsContainer.appendChild(eventCard);
 
@@ -160,15 +175,14 @@ async function atualizarBotoesParticipacao() {
 
         if (participacao) {
             button.textContent = "Cancelar Participação";
-            button.classList.add('desinscrever');
+            button.classList.add('cancelar-participacao');
         } else {
-            button.textContent = "Cancelar Participação";
-            button.classList.remove('desinscrever');
+            button.textContent = "Participar";
+            button.classList.remove('cancelar-participacao');
         }
     });
 }
 
-// Gerencia os cliques nos botões de participar/desinscrever
 document.querySelector('.events-container').addEventListener('click', async (event) => {
     const button = event.target.closest('.partipate-button');
     if (!button) return;
@@ -179,8 +193,8 @@ document.querySelector('.events-container').addEventListener('click', async (eve
 
     const participacao = participantes.find(part => part.aluno?.id === userId && part.evento?.id === eventoId);
 
-    if (button.classList.contains('desinscrever')) {
-        // Desinscrição do evento
+    if (button.classList.contains('cancelar-participacao')) {
+        // Cancelamento da participação no evento
         try {
             const response = await fetch(`http://localhost:8080/participantes/deletar/${participacao.id}`, {
                 method: 'DELETE',
@@ -188,13 +202,13 @@ document.querySelector('.events-container').addEventListener('click', async (eve
                     'Authorization': localStorage.getItem("token")
                 }
             });
-            if (!response.ok) throw new Error(`Erro ao desinscrever: ${response.status}`);
-            alert('Você foi cancelou sua participação com sucesso!');
+            if (!response.ok) throw new Error(`Erro ao cancelar participação: ${response.status}`);
+            alert('Você cancelou sua participação com sucesso!');
             button.textContent = "Participar";
-            button.classList.remove('desinscrever');
+            button.classList.remove('cancelar-participacao');
         } catch (error) {
             console.error(error);
-            alert("Erro ao desinscrever. Tente novamente mais tarde.");
+            alert("Erro ao cancelar participação. Tente novamente mais tarde.");
         }
     } else {
         // Inscrição no evento
@@ -213,8 +227,8 @@ document.querySelector('.events-container').addEventListener('click', async (eve
             });
             if (!response.ok) throw new Error(`Erro ao participar do evento: ${response.status}`);
             alert('Você se inscreveu no evento com sucesso!');
-            button.textContent = "Desinscrever";
-            button.classList.add('desinscrever');
+            button.textContent = "Cancelar Participação";
+            button.classList.add('cancelar-participacao');
         } catch (error) {
             console.error(error);
             alert("Erro ao participar do evento. Tente novamente mais tarde.");
