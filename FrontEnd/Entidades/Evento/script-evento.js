@@ -76,18 +76,6 @@ async function getEventos() {
     }
 }
 
-function formatarData(data) {
-    const dataObj = new Date(`${data}T00:00:00`);
-    if (isNaN(dataObj)) {
-        throw new Error('Data inválida');
-    }
-    
-    return new Intl.DateTimeFormat('pt-BR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-    }).format(dataObj);
-}
 
 
 // Função para exibir eventos na página
@@ -104,17 +92,7 @@ function exibirEventos(eventos) {
         const eventCard = document.createElement("div");
         eventCard.classList.add("event-card");
         eventCard.innerHTML = `
-           <button class="menu-button">&#8942;</button>
-            <div class="menu">
-                <ul>           
-                    <li><a href="../Evento/cadastro-certificado.html" class="menu-item" data-action="certificado">Gerar Certificado</a></li>
-                    <li><a href="../Transporte/cadastro-transporte.html" class="menu-item" data-action="transporte">Cadastrar Transporte</a></li>
-                    <li><a href="../Servidor/avaliar-evento-para-servidor.html" class="menu-item" data-action="avaliar">Avaliar Evento</a></li>
-                    <li><a href="../Transporte/lista-transporte-novo.html" class="menu-item" data-action="ver-transportes">Transportes Disponíveis</a></li>
-                    <li><a href="../Servidor/lista-avaliacoes-para-servidor.html" class="menu-item" data-action="ver-avaliacoes">Avaliações Disponíveis</a></li>
-                    <li><a href="../Paticipantes/lista-participantes.html" class="menu-item" data-action="ver-participantes">Listar Participantes</a></li>
-                </ul>
-            </div>
+           
 
             <h3>${evento.nome}</h3>
             <div class="event-details">
@@ -124,7 +102,7 @@ function exibirEventos(eventos) {
                 <p><strong>Descrição:</strong> <span id="descricao-display-${evento.id}">${evento.descricao}</span>
                 <input type="text" id="descricao-${evento.id}" value="${evento.descricao}" style="display:none;" /></p>
 
-                <p><strong>Data:</strong> <span id="data-display-${evento.id}">${formatarData(evento.data)}</span>
+                <p><strong>Data:</strong> <span id="data-display-${evento.id}">${evento.data}</span>
                 <input type="text" id="data-${evento.id}" value="${evento.data}" style="display:none;" /></p>
 
 
@@ -140,6 +118,16 @@ function exibirEventos(eventos) {
                 <button class="delete-button" data-eventoId="${evento.id}">Deletar 🗑️</button>
                 <button class="update-button" id="atualizar-${evento.id}" style="display:none;" onclick="atualizarEvento(${evento.id})">Atualizar ✏️</button>
                 <button class="cancel-edit-button" style="display:none;" data-eventoId="${evento.id}">Cancelar ✖️</button>
+
+                <button class="menu-button">&#8942;</button>
+            <div class="menu">
+                <ul>           
+                    <li><a href="../Transporte/cadastro-transporte.html" class="menu-item" data-action="transporte">Cadastrar Transporte</a></li>
+                    <li><a href="../Transporte/lista-transporte-novo.html" class="menu-item" data-action="ver-transportes">Transportes Disponíveis</a></li>
+                    <li><a href="../Servidor/lista-avaliacoes-para-servidor.html" class="menu-item" data-action="ver-avaliacoes">Avaliações Disponíveis</a></li>
+                    <li><a href="../Paticipantes/lista-participantes.html" class="menu-item" data-action="ver-participantes">Listar Participantes</a></li>
+                </ul>
+            </div>
             ` : ''}
             `;
            

@@ -6,7 +6,7 @@
 
             // Recupera o nome do evento (você pode armazená-lo no localStorage também)
             const nomeEvento = localStorage.getItem('nomeEventoSelecionado');
-            
+
             // Preenche o nome do evento para exibição
             if (nomeEvento) {
                 document.getElementById('nomeEvento').innerText = nomeEvento;
@@ -24,15 +24,15 @@
                     }
                 });
                 const avaliacoes = await response.json();
-        
+
                 const avaliacoesContainer = document.querySelector('.avaliacoes-container');
                 avaliacoesContainer.innerHTML = ''; // Limpa a lista existente
-        
+
                 if (avaliacoes.length === 0) {
                     avaliacoesContainer.innerHTML = '<p>Nenhuma avaliação encontrada para este evento.</p>';
                     return;
                 }
-        
+
                 // Exibe as avaliações
                 avaliacoes.forEach(avaliacao => {
                     const avaliacaoCard = document.createElement('div');
@@ -41,7 +41,6 @@
                     <div class="event-details">
                         <p><strong>Nota:</strong> ${avaliacao.nota}</p>
                         <p><strong>Comentário:</strong> ${avaliacao.comentario}</p>
-                        <p><strong>Participante:</strong> ${avaliacao.idParticipante}</p>
                     </div>
                     `;
                     avaliacoesContainer.appendChild(avaliacaoCard);
@@ -51,7 +50,6 @@
                 console.error(error);
             }
         }
-        
+
         // Chama a função para listar as avaliações
         listarAvaliacoes();
-        
