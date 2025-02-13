@@ -35,7 +35,7 @@ public class Certificado {
     private String descricao;
     private boolean ativo;
     
-    @ManyToOne
+    @OneToOne
 	@JoinColumn(name = "id_evento")
 	@JsonIgnore
 	private Evento evento;
