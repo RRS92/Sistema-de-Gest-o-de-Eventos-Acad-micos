@@ -87,7 +87,7 @@ function exibirEventos(eventos) {
         eventsContainer.innerHTML = "<p>Nenhum evento encontrado.</p>";
         return;
     }
-
+ 
     eventos.forEach((evento) => {
         const eventCard = document.createElement("div");
         eventCard.classList.add("event-card");

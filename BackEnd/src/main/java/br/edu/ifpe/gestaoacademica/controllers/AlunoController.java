@@ -44,7 +44,7 @@ public class AlunoController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<AlunoDTO> listarAlunoId(@PathVariable Long id) {
-	    Optional<Aluno> alunoOptional = alunoService.listarAluno(id);
+	    Optional<Aluno> alunoOptional = Optional.ofNullable(alunoService.listarAluno(id));
 	    
 	    if (alunoOptional.isEmpty()) {
 	        return ResponseEntity.notFound().build();  // Retorna 404 caso o aluno não seja encontrado

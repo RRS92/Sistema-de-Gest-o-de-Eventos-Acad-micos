@@ -7,9 +7,7 @@ import br.edu.ifpe.gestaoacademica.entities.Utilizador;
 public record UtilizadorDTO(
 		Long id,
 		String login,
-	
-		String senha
-		,
+		String senha,
         String fotoBase64 // Representação segura da imagem em texto
 		
 		) {
@@ -21,11 +19,9 @@ public record UtilizadorDTO(
 
 		//Construtor para listar evento
 		public UtilizadorDTO(Utilizador utilizador) {
-			this(utilizador.getId(), utilizador.getUsername(), utilizador.getPassword()
-					
-					,
-					utilizador.getFoto() != null ? Base64.getEncoder().encodeToString(utilizador.getFoto()) : null
-					
+			this(utilizador.getId(), utilizador.getUsername(), utilizador.getPassword(),
+					utilizador.getFoto() != null ? Base64.getEncoder().
+							encodeToString(utilizador.getFoto()) : null
 					);
 		}
 		

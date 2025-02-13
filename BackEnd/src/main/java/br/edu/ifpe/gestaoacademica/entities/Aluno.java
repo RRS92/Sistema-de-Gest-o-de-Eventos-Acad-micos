@@ -15,7 +15,6 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-
 public class Aluno extends Usuario {
 	
 	private String matricula;
@@ -33,4 +32,14 @@ public class Aluno extends Usuario {
 	@OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore
     private List<Participante> participante;
+
+	public void setMatricula(String matricula2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setAtivo(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
 }
