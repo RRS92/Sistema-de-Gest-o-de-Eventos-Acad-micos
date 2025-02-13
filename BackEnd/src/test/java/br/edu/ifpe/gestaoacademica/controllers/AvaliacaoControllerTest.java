@@ -32,6 +32,8 @@ public class AvaliacaoControllerTest {
 
     private final Long dummyEventoId = 1L;
     
+  //Testes que buscam o sucesso
+
     @Test
     @Order(1)
     public void deveCriarAvaliacaoComSucesso() throws Exception {
@@ -109,6 +111,8 @@ public class AvaliacaoControllerTest {
         mockMvc.perform(delete("/avaliacoes/deletar/" + avaliacaoId))
                 .andExpect(status().isNoContent());
     }
+    
+  //Testes que buscam a falha
     
     @Test
     @Order(7)

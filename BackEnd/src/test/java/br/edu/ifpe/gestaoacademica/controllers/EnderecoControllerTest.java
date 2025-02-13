@@ -29,7 +29,9 @@ public class EnderecoControllerTest {
     private ObjectMapper objectMapper;
     
     private static Long createdEnderecoId;
-    
+  
+    //Testes que buscam o sucesso
+
     @Test
     @Order(1)
     public void deveCriarEnderecoComSucesso() throws Exception {
@@ -115,6 +117,8 @@ public class EnderecoControllerTest {
         mockMvc.perform(delete("/enderecos/deletar/" + enderecoId))
             .andExpect(status().isNoContent());
     }
+    
+  //Testes que buscam a falha
     
     @Test
     @Order(7)

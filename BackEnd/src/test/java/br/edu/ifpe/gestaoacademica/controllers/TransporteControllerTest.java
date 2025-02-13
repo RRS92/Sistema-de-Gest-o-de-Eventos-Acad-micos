@@ -31,6 +31,8 @@ public class TransporteControllerTest {
     private static Long createdTransporteId;
     private final Long dummyEventoId = 1L;  
 
+  //Testes que buscam o sucesso
+
     @Test
     @Order(1)
     public void deveCriarTransporte() throws Exception {
@@ -115,6 +117,8 @@ public class TransporteControllerTest {
                 .andExpect(status().isNoContent());
     }
     
+  //Testes que buscam a falha
+
     @Test
     @Order(6)
     public void deveFalharCriarTransporteSemCategoria() throws Exception {

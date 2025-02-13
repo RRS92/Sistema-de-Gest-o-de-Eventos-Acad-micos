@@ -30,6 +30,8 @@ public class EventoControllerTest {
     
     private static Long createdEventoId;
 
+  //Testes que buscam o sucesso
+
     @Test
     @Order(1)
     public void deveCriarEvento() throws Exception {
@@ -105,6 +107,8 @@ public class EventoControllerTest {
         mockMvc.perform(delete("/eventos/deletar/" + eventoId))
             .andExpect(status().isNoContent());
     }
+
+  //Testes que buscam a falha
 
     @Test
     @Order(6)

@@ -30,6 +30,8 @@ public class MatriculaControllerTest {
     
     private static Long createdMatriculaId;
     
+  //Testes que buscam o sucesso
+
     @Test
     @Order(1)
     public void deveCriarMatricula() throws Exception {
@@ -103,6 +105,8 @@ public class MatriculaControllerTest {
                 .andExpect(status().isNoContent());
     }
     
+  //Testes que buscam a falha
+
     @Test
     @Order(6)
     public void deveFalharCriarMatriculaSemPeriodoIngresso() throws Exception {

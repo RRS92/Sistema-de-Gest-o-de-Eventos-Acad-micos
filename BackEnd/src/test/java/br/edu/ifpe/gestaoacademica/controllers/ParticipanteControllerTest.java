@@ -29,6 +29,8 @@ public class ParticipanteControllerTest {
     
     private static Long createdParticipanteId;
     
+  //Testes que buscam o sucesso
+
     @Test
     @Order(1)
     public void deveCriarParticipante() throws Exception {
@@ -86,6 +88,8 @@ public class ParticipanteControllerTest {
         mockMvc.perform(delete("/participantes/deletar/" + participanteId))
                 .andExpect(status().isNoContent());
     }
+
+  //Testes que buscam a falha
 
     @Test
     @Order(6)

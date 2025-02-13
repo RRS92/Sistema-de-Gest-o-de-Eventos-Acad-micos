@@ -1,11 +1,16 @@
 package br.edu.ifpe.gestaoacademica.controllers;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,6 +32,8 @@ public class ServidorControllerTest {
     private ObjectMapper objectMapper;
 
     private static Long createdServidorId;
+
+    // Testes de sucesso
 
     @Test
     @Order(1)
@@ -112,5 +119,88 @@ public class ServidorControllerTest {
     public void deveDeletarServidor() throws Exception {
         mockMvc.perform(delete("/servidores/deletar/" + createdServidorId))
                 .andExpect(status().isNoContent());
+    }
+
+  //Testes que buscam a falha
+
+    @Test
+    @Order(7)
+    public void deveFalharCriarServidorSemSiape() throws Exception {
+        // O campo "siape" é obrigatório; omiti-lo deve resultar em Bad Request (400).
+        String servidorJson = """
+            {
+                "cargo": "Professor",
+                "nome": "Carlos Sem Siape",
+                "cpf": "12312312312",
+                "rg": "12345678",
+                "dataNasc": "1980-01-01",
+                "telefone": "11912345678",
+                "email": "semsiape@example.com",
+                "endereco": null,
+                "banco": null,
+                "utilizador": null
+            }
+        """;
+        mockMvc.perform(post("/servidores")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(servidorJson))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Order(8)
+    public void deveFalharBuscarServidorPorIdInexistente() throws Exception {
+        mockMvc.perform(get("/servidores/9999"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Order(9)
+    public void deveFalharAtualizarServidorInexistente() throws Exception {
+        String updateJson = """
+            {
+                "id": 9999,
+                "siape": "000000",
+                "cargo": "Inexistente",
+                "nome": "Servidor Inexistente",
+                "cpf": "00000000000",
+                "rg": "00000000",
+                "dataNasc": "2000-01-01",
+                "telefone": "0000000000",
+                "email": "inexistente@example.com",
+                "endereco": null,
+                "banco": null,
+                "utilizador": null
+            }
+        """;
+        mockMvc.perform(put("/servidores")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(updateJson))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Order(10)
+    public void deveFalharInativarServidorInexistente() throws Exception {
+        mockMvc.perform(delete("/servidores/9999"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Order(11)
+    public void deveFalharDeletarServidorInexistente() throws Exception {
+        mockMvc.perform(delete("/servidores/deletar/9999"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Order(12)
+    public void deveFalharCriarServidorComJsonInvalido() throws Exception {
+        // Envia JSON mal formado
+        String jsonInvalido = "{ \"siape\": \"123456\", \"cargo\": \"Professor\", ";
+        mockMvc.perform(post("/servidores")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonInvalido))
+                .andExpect(status().isBadRequest());
     }
 }

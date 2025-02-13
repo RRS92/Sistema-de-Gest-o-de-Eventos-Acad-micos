@@ -30,6 +30,8 @@ public class BancoControllerTest {
     
     private static Long createdBancoId;
     
+  //Testes que buscam o sucesso
+
     @Test
     @Order(1)
     public void deveCriarBancoComSucesso() throws Exception {
@@ -106,6 +108,8 @@ public class BancoControllerTest {
         mockMvc.perform(delete("/bancos/deletar/" + bancoId))
             .andExpect(status().isNoContent());
     }
+    
+  //Testes que buscam a falha
     
     @Test
     @Order(7)
