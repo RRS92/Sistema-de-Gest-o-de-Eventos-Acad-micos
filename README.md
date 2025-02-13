@@ -81,6 +81,8 @@ class EventoServiceTest {
         assertTrue(resultado);
     }
 }
+
+
 //Exemplo teste de integração
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
