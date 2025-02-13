@@ -62,6 +62,8 @@ Os **testes de integração** verificam se os diferentes módulos do sistema fun
 
 Esses testes juntos garantem a **confiabilidade** do sistema, reduzindo falhas em produção e facilitando a evolução do código com segurança.
 
+**A seguir alguns exemplos de testes unitarios e de integração:**
+
 ```java
 //Exemplo de teste Unitario
 import org.junit.jupiter.api.Test;
