@@ -2,6 +2,8 @@
 
 O **Sistema de Gestão de Eventos Acadêmicos** tem como principal objetivo facilitar a seleção e participação de alunos e servidores em eventos acadêmicos, como projetos de pesquisa e extensão, viagens pedagógicas, entre outras. Além disso, o sistema contará com perfis para cada usuário, permitindo um melhor gerenciamento de suas informações.  
 
+Link para a página do sistema: https://rrs92.github.io/SistemaGestaoEventosAcademicos/FrontEnd/index.html
+
 ## **Garantia de Qualidade com Testes**  
 
 O sistema utiliza **testes unitários** e **testes de integração** para assegurar a confiabilidade, integridade e bom funcionamento. Ambos desempenham papéis complementares na validação das funcionalidades e da comunicação entre os componentes do sistema.
