@@ -22,11 +22,14 @@ import org.springframework.test.web.servlet.MockMvc;
 @TestMethodOrder(OrderAnnotation.class)
 public class EnderecoControllerTest {
 
-    @Autowired private MockMvc mockMvc;
-    @Autowired private ObjectMapper objectMapper;
-
+    @Autowired 
+    private MockMvc mockMvc;
+    
+    @Autowired 
+    private ObjectMapper objectMapper;
+    
     private static Long createdEnderecoId;
-
+    
     @Test
     @Order(1)
     public void deveCriarEnderecoComSucesso() throws Exception {
@@ -47,7 +50,7 @@ public class EnderecoControllerTest {
                 .andReturn().getResponse().getContentAsString();
         createdEnderecoId = objectMapper.readTree(response).get("id").asLong();
     }
-
+    
     @Test
     @Order(2)
     public void deveListarEnderecoPorId() throws Exception {
@@ -55,14 +58,14 @@ public class EnderecoControllerTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.id").value(createdEnderecoId));
     }
-
+    
     @Test
     @Order(3)
     public void deveListarEnderecos() throws Exception {
         mockMvc.perform(get("/enderecos"))
             .andExpect(status().isOk());
     }
-
+    
     @Test
     @Order(4)
     public void deveAtualizarEndereco() throws Exception {
@@ -82,14 +85,14 @@ public class EnderecoControllerTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.rua").value("Rua Atualizada"));
     }
-
+    
     @Test
     @Order(5)
     public void deveInativarEndereco() throws Exception {
         mockMvc.perform(delete("/enderecos/" + createdEnderecoId))
             .andExpect(status().isNoContent());
     }
-
+    
     @Test
     @Order(6)
     public void deveDeletarEndereco() throws Exception {
@@ -112,4 +115,59 @@ public class EnderecoControllerTest {
         mockMvc.perform(delete("/enderecos/deletar/" + enderecoId))
             .andExpect(status().isNoContent());
     }
+    
+    @Test
+    @Order(7)
+    public void deveFalharCriarEnderecoSemRua() throws Exception {
+        // O campo "rua" é obrigatório. Omiti-lo deve resultar em Bad Request (400)
+        String enderecoJson = "{"
+            + "\"numero\": \"123\","
+            + "\"bairro\": \"Bairro Teste\","
+            + "\"cidade\": \"Cidade Teste\","
+            + "\"estado\": \"Estado Teste\","
+            + "\"cep\": \"12345000\","
+            + "\"complemento\": \"Complemento Teste\""
+            + "}";
+        mockMvc.perform(post("/enderecos")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(enderecoJson))
+                .andExpect(status().isBadRequest());
+    }
+    
+    @Test
+    @Order(8)
+    public void deveFalharAtualizarEnderecoInexistente() throws Exception {
+        // Tenta atualizar um endereço com ID inexistente (9999)
+        String updateJson = "{"
+            + "\"id\": 9999,"
+            + "\"rua\": \"Rua Inexistente\","
+            + "\"numero\": \"000\","
+            + "\"bairro\": \"Bairro Inexistente\","
+            + "\"cidade\": \"Cidade Inexistente\","
+            + "\"estado\": \"Estado Inexistente\","
+            + "\"cep\": \"00000000\","
+            + "\"complemento\": \"Sem Complemento\""
+            + "}";
+        mockMvc.perform(put("/enderecos")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(updateJson))
+                .andExpect(status().isNotFound());
+    }
+    
+    @Test
+    @Order(9)
+    public void deveFalharBuscarEnderecoPorIdInexistente() throws Exception {
+        // Tenta buscar um endereço com ID inexistente (9999)
+        mockMvc.perform(get("/enderecos/9999"))
+                .andExpect(status().isNotFound());
+    }
+    
+    @Test
+    @Order(10)
+    public void deveFalharInativarEnderecoInexistente() throws Exception {
+        // Tenta inativar um endereço com ID inexistente (9999)
+        mockMvc.perform(delete("/enderecos/9999"))
+                .andExpect(status().isNotFound());
+    }
+    
 }

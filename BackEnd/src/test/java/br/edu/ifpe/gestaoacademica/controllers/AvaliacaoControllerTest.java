@@ -7,10 +7,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,8 +29,8 @@ public class AvaliacaoControllerTest {
     private ObjectMapper objectMapper;
     
     private static Long createdAvaliacaoId;
-    // Supondo que já exista um evento com id 1 para teste (ou crie-o previamente)
-    private final Long dummyEventoId = 5L;
+
+    private final Long dummyEventoId = 1L;
     
     @Test
     @Order(1)
@@ -108,5 +108,51 @@ public class AvaliacaoControllerTest {
         Long avaliacaoId = objectMapper.readTree(response).get("id").asLong();
         mockMvc.perform(delete("/avaliacoes/deletar/" + avaliacaoId))
                 .andExpect(status().isNoContent());
+    }
+    
+    @Test
+    @Order(7)
+    public void deveFalharCriarAvaliacaoSemNota() throws Exception {
+        // Envia JSON sem o campo "nota" (obrigatório)
+        String avaliacaoJson = "{"
+                + "\"comentario\": \"Faltando nota\","
+                + "\"idEvento\": " + dummyEventoId + ","
+                + "\"participante\": null"
+                + "}";
+        mockMvc.perform(post("/avaliacoes")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(avaliacaoJson))
+                .andExpect(status().isBadRequest());
+    }
+    
+    @Test
+    @Order(8)
+    public void deveFalharAtualizarAvaliacaoInexistente() throws Exception {
+        String updateJson = "{"
+                + "\"id\": 9999,"
+                + "\"nota\": \"8\","
+                + "\"comentario\": \"Atualização falha\","
+                + "\"idEvento\": " + dummyEventoId + ","
+                + "\"participante\": null"
+                + "}";
+        mockMvc.perform(put("/avaliacoes")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(updateJson))
+                .andExpect(status().isNotFound());
+    }
+    
+    @Test
+    @Order(9)
+    public void deveFalharInativarAvaliacaoInexistente() throws Exception {
+        mockMvc.perform(delete("/avaliacoes/9999"))
+                .andExpect(status().isNotFound());
+    }
+    
+    @Test
+    @Order(10)
+    public void deveFalharListarAvaliacoesPorEventoInexistente() throws Exception {
+        mockMvc.perform(get("/avaliacoes/evento")
+                .param("eventoId", "9999"))
+                .andExpect(status().isNotFound());
     }
 }

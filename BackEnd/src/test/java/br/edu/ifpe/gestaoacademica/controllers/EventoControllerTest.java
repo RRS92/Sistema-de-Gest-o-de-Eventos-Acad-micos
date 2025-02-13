@@ -22,14 +22,14 @@ import org.springframework.test.web.servlet.MockMvc;
 @TestMethodOrder(OrderAnnotation.class)
 public class EventoControllerTest {
 
-    @Autowired private MockMvc mockMvc;
-    @Autowired private ObjectMapper objectMapper;
-
+    @Autowired 
+    private MockMvc mockMvc;
+    
+    @Autowired 
+    private ObjectMapper objectMapper;
+    
     private static Long createdEventoId;
-    
-    // Para simplicidade, o campo 'servidor' é enviado como null. Em um teste real,
-    // pode ser necessário criar um Servidor e enviá-lo.
-    
+
     @Test
     @Order(1)
     public void deveCriarEvento() throws Exception {
@@ -105,4 +105,54 @@ public class EventoControllerTest {
         mockMvc.perform(delete("/eventos/deletar/" + eventoId))
             .andExpect(status().isNoContent());
     }
+
+    @Test
+    @Order(6)
+    public void deveFalharCriarEventoSemNome() throws Exception {
+        // Campo 'nome' é obrigatório; omiti-lo deve resultar em Bad Request.
+        String eventoJson = "{"
+            + "\"descricao\": \"Evento sem nome\","
+            + "\"data\": \"2025-01-01\","
+            + "\"local\": \"Local Teste\","
+            + "\"tipo\": \"Tipo Teste\","
+            + "\"servidor\": null"
+            + "}";
+        mockMvc.perform(post("/eventos")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(eventoJson))
+                .andExpect(status().isBadRequest());
+    }
+    
+    @Test
+    @Order(7)
+    public void deveFalharAtualizarEventoInexistente() throws Exception {
+        String updateJson = "{"
+            + "\"id\": 9999,"  // ID inexistente
+            + "\"nome\": \"Evento Inexistente\","
+            + "\"descricao\": \"Não existe\","
+            + "\"data\": \"2025-04-04\","
+            + "\"local\": \"Local Inexistente\","
+            + "\"tipo\": \"Tipo Inexistente\","
+            + "\"servidor\": null"
+            + "}";
+        mockMvc.perform(put("/eventos")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(updateJson))
+                .andExpect(status().isNotFound());
+    }
+    
+    @Test
+    @Order(8)
+    public void deveFalharBuscarEventoPorIdInexistente() throws Exception {
+        mockMvc.perform(get("/eventos/9999"))
+                .andExpect(status().isNotFound());
+    }
+    
+    @Test
+    @Order(9)
+    public void deveFalharInativarEventoInexistente() throws Exception {
+        mockMvc.perform(delete("/eventos/9999"))
+                .andExpect(status().isNotFound());
+    }
+    
 }

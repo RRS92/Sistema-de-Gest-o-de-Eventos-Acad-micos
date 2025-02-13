@@ -21,17 +21,20 @@ import org.springframework.test.web.servlet.MockMvc;
 @TestMethodOrder(OrderAnnotation.class)
 public class ParticipanteControllerTest {
 
-    @Autowired private MockMvc mockMvc;
-    @Autowired private ObjectMapper objectMapper;
-
+    @Autowired 
+    private MockMvc mockMvc;
+    
+    @Autowired 
+    private ObjectMapper objectMapper;
+    
     private static Long createdParticipanteId;
     
     @Test
     @Order(1)
     public void deveCriarParticipante() throws Exception {
         String participanteJson = "{"
-            + "\"aluno\": null,"
-            + "\"evento\": null,"
+            + "\"aluno\": null," 
+            + "\"evento\": null," 
             + "\"certificado\": null"
             + "}";
         String response = mockMvc.perform(post("/participantes")
@@ -53,7 +56,7 @@ public class ParticipanteControllerTest {
     @Test
     @Order(3)
     public void deveListarParticipantesPorEvento() throws Exception {
-        // Supondo que para o evento com id 1 a lista seja retornada
+        // Supondo que para o evento com id 1 a lista seja retornada (mesmo que vazia)
         mockMvc.perform(get("/participantes/evento/1"))
                 .andExpect(status().isOk());
     }
@@ -70,8 +73,8 @@ public class ParticipanteControllerTest {
     public void deveDeletarParticipante() throws Exception {
         // Cria um novo participante e em seguida deleta-o
         String participanteJson = "{"
-            + "\"aluno\": null,"
-            + "\"evento\": null,"
+            + "\"aluno\": null," 
+            + "\"evento\": null," 
             + "\"certificado\": null"
             + "}";
         String response = mockMvc.perform(post("/participantes")
@@ -82,5 +85,43 @@ public class ParticipanteControllerTest {
         Long participanteId = objectMapper.readTree(response).get("id").asLong();
         mockMvc.perform(delete("/participantes/deletar/" + participanteId))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @Order(6)
+    public void deveFalharInativarParticipanteInexistente() throws Exception {
+        // Tenta inativar um participante com ID inexistente
+        mockMvc.perform(delete("/participantes/9999"))
+                .andExpect(status().isNotFound());
+    }
+    
+    @Test
+    @Order(7)
+    public void deveFalharDeletarParticipanteInexistente() throws Exception {
+        // Tenta deletar definitivamente um participante com ID inexistente
+        mockMvc.perform(delete("/participantes/deletar/9999"))
+                .andExpect(status().isNotFound());
+    }
+    
+    @Test
+    @Order(8)
+    public void deveListarParticipantesPorEventoVazio() throws Exception {
+        // Tenta listar participantes para um evento que não possui nenhum participante.
+        // Supondo que o evento com ID 9999 não exista ou esteja vazio,
+        // o endpoint deve retornar 200 com uma lista vazia.
+        mockMvc.perform(get("/participantes/evento/9999"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isEmpty());
+    }
+    
+    @Test
+    @Order(9)
+    public void deveFalharCriarParticipanteComJsonInvalido() throws Exception {
+        // Envia um JSON mal formado para a criação de participante.
+        String jsonInvalido = "{ \"aluno\": null, \"evento\": null, "; // JSON incompleto
+        mockMvc.perform(post("/participantes")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonInvalido))
+                .andExpect(status().isBadRequest());
     }
 }

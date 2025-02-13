@@ -22,9 +22,12 @@ import org.springframework.test.web.servlet.MockMvc;
 @TestMethodOrder(OrderAnnotation.class)
 public class MatriculaControllerTest {
 
-    @Autowired private MockMvc mockMvc;
-    @Autowired private ObjectMapper objectMapper;
-
+    @Autowired 
+    private MockMvc mockMvc;
+    
+    @Autowired 
+    private ObjectMapper objectMapper;
+    
     private static Long createdMatriculaId;
     
     @Test
@@ -33,7 +36,7 @@ public class MatriculaControllerTest {
         String matriculaJson = "{"
             + "\"periodoIngresso\": \"2021.1\","
             + "\"turno\": \"Manhã\","
-            + "\"aluno\": null,"  // Em teste real, associe um objeto Aluno válido
+            + "\"aluno\": null,"  
             + "\"nomeCurso\": \"Engenharia\","
             + "\"modalidade\": \"Presencial\""
             + "}";
@@ -45,7 +48,7 @@ public class MatriculaControllerTest {
                 .andReturn().getResponse().getContentAsString();
         createdMatriculaId = objectMapper.readTree(response).get("id").asLong();
     }
-
+    
     @Test
     @Order(2)
     public void deveAtualizarMatricula() throws Exception {
@@ -53,7 +56,7 @@ public class MatriculaControllerTest {
             + "\"id\": " + createdMatriculaId + ","
             + "\"periodoIngresso\": \"2021.2\","
             + "\"turno\": \"Tarde\","
-            + "\"aluno\": null,"
+            + "\"aluno\": null,"  
             + "\"nomeCurso\": \"Engenharia Atualizado\","
             + "\"modalidade\": \"EAD\""
             + "}";
@@ -63,30 +66,30 @@ public class MatriculaControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.turno").value("Tarde"));
     }
-
+    
     @Test
     @Order(3)
     public void deveListarMatriculaPorAlunoId() throws Exception {
-        // Como aluno está como null neste exemplo, o endpoint pode retornar 404
+        // Como o campo 'aluno' está null, o endpoint retorna 404.
         mockMvc.perform(get("/matriculas/aluno/1"))
                 .andExpect(status().isNotFound());
     }
-
+    
     @Test
     @Order(4)
     public void deveInativarMatricula() throws Exception {
         mockMvc.perform(delete("/matriculas/" + createdMatriculaId))
                 .andExpect(status().isNoContent());
     }
-
+    
     @Test
     @Order(5)
     public void deveDeletarMatricula() throws Exception {
-        // Cria uma nova matrícula e em seguida deleta-a
+        // Cria uma nova matrícula e em seguida a deleta
         String matriculaJson = "{"
             + "\"periodoIngresso\": \"2021.3\","
             + "\"turno\": \"Noite\","
-            + "\"aluno\": null,"
+            + "\"aluno\": null,"  // Em teste real, associe um objeto Aluno válido
             + "\"nomeCurso\": \"Medicina\","
             + "\"modalidade\": \"Presencial\""
             + "}";
@@ -99,4 +102,45 @@ public class MatriculaControllerTest {
         mockMvc.perform(delete("/matriculas/deletar/" + matriculaId))
                 .andExpect(status().isNoContent());
     }
+    
+    @Test
+    @Order(6)
+    public void deveFalharCriarMatriculaSemPeriodoIngresso() throws Exception {
+        // O campo 'periodoIngresso' é obrigatório; omití-lo deve resultar em Bad Request.
+        String matriculaJson = "{"
+            + "\"turno\": \"Manhã\","
+            + "\"aluno\": null,"
+            + "\"nomeCurso\": \"Engenharia\","
+            + "\"modalidade\": \"Presencial\""
+            + "}";
+        mockMvc.perform(post("/matriculas")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(matriculaJson))
+                .andExpect(status().isBadRequest());
+    }
+    
+    @Test
+    @Order(7)
+    public void deveFalharAtualizarMatriculaInexistente() throws Exception {
+        String updateJson = "{"
+            + "\"id\": 9999,"  // ID inexistente
+            + "\"periodoIngresso\": \"2021.2\","
+            + "\"turno\": \"Tarde\","
+            + "\"aluno\": null,"
+            + "\"nomeCurso\": \"Engenharia Inexistente\","
+            + "\"modalidade\": \"EAD\""
+            + "}";
+        mockMvc.perform(put("/matriculas")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(updateJson))
+                .andExpect(status().isNotFound());
+    }
+    
+    @Test
+    @Order(8)
+    public void deveFalharInativarMatriculaInexistente() throws Exception {
+        mockMvc.perform(delete("/matriculas/9999"))
+                .andExpect(status().isNotFound());
+    }
+    
 }
