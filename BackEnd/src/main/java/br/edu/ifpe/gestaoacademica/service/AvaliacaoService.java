@@ -45,7 +45,6 @@ public class AvaliacaoService {
         return avaliacaoRepository.findAllByAtivoTrue();
     }
 
-    // Método para listar as avaliações de um evento específico
     public List<Avaliacao> listarAvaliacoesPorEvento(Long eventoId) {
         Evento evento = eventoRepository.findById(eventoId)
                 .orElseThrow(() -> new EntityNotFoundException("Evento não encontrado"));
@@ -63,10 +62,13 @@ public class AvaliacaoService {
     }
 
     public void inativarAvaliacao(Long id) {
-        Avaliacao avaliacao = avaliacaoRepository.getReferenceById(id);
+        Avaliacao avaliacao = avaliacaoRepository.findById(id)
+    	        .orElseThrow(() -> new EntityNotFoundException("Certificado não encontrado"));
         avaliacao.inativar();
         avaliacaoRepository.save(avaliacao);
     }
+    
+	
 
     public void deletarAvaliacao(Long id) {
         avaliacaoRepository.deleteById(id);

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import br.edu.ifpe.gestaoacademica.controllers.dto.ParticipanteDTO;
 import br.edu.ifpe.gestaoacademica.entities.Participante;
 import br.edu.ifpe.gestaoacademica.repository.ParticipanteRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 @CrossOrigin(origins = "*")
 
@@ -63,7 +64,11 @@ public class ParticipanteService {
 	}
 	
 	public void deletarParticipante(Long id) {
-		participanteRepository.deleteById(id);
+	    if (!participanteRepository.existsById(id)) {
+	        throw new EntityNotFoundException("Participante não encontrado");
+	    }
+	    participanteRepository.deleteById(id);
 	}
+
 
 }

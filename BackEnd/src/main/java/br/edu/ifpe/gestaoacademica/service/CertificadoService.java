@@ -63,10 +63,12 @@ public class CertificadoService {
 	}
 	
 	public void inativarCertificado(Long id) {
-		Certificado certificado = certificadoRepository.getReferenceById(id);
-		certificado.inativar();
-		certificadoRepository.save(certificado);
+	    Certificado certificado = certificadoRepository.findById(id)
+	        .orElseThrow(() -> new EntityNotFoundException("Certificado não encontrado"));
+	    certificado.inativar();
+	    certificadoRepository.save(certificado);
 	}
+
 
 	public void deletarCertificado(Long id) {
 		certificadoRepository.deleteById(id);

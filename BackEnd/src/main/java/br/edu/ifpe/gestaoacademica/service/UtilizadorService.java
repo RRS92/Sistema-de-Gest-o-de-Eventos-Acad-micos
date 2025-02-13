@@ -30,8 +30,10 @@ public class UtilizadorService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return utilizadorRepository.findByLogin(username);
+	    return Optional.ofNullable(utilizadorRepository.findByLogin(username))
+	            .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 	}
+
 	
 	
 	
@@ -108,8 +110,12 @@ public Optional<Utilizador> listarUtilizadorPorId(Long id){
 	}
 
 	public void deletarUtilizador(Long id) {
+	    if (!utilizadorRepository.existsById(id)) {
+	        throw new EntityNotFoundException("Utilizador não encontrado com ID: " + id);
+	    }
 	    utilizadorRepository.deleteById(id);
 	}
+
 
 
 	
