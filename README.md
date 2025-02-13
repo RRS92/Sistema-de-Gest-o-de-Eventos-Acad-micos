@@ -2,46 +2,68 @@
 
 O **Sistema de Gestão de Eventos Acadêmicos** tem como principal objetivo facilitar a seleção e participação de alunos e servidores em eventos acadêmicos, como projetos de pesquisa e extensão, viagens pedagógicas, entre outras. Além disso, o sistema contará com perfis para cada usuário, permitindo um melhor gerenciamento de suas informações.  
 
-## **Garantia de Qualidade com Testes Unitários**  
+## **Garantia de Qualidade com Testes**  
 
-Para assegurar a confiabilidade e a integridade do sistema, foram implementados **testes unitários** abrangentes. Esses testes têm o papel de validar o comportamento esperado de cada funcionalidade, garantindo que o sistema opere corretamente e evitando regressões em futuras atualizações.  
+O sistema utiliza **testes unitários** e **testes de integração** para assegurar a confiabilidade, integridade e bom funcionamento. Ambos desempenham papéis complementares na validação das funcionalidades e da comunicação entre os componentes do sistema.
 
-Os testes unitários foram desenvolvidos utilizando **JUnit** (para a camada de backend com Spring Boot) e outras ferramentas apropriadas para cada tecnologia utilizada no projeto. Eles cobrem aspectos essenciais como:
+---
+
+## **Testes Unitários**  
+
+Os **testes unitários** têm o papel de validar funcionalidades específicas de forma isolada, garantindo que cada método e função se comporte como esperado. Eles foram desenvolvidos com **JUnit 5** para o backend em **Spring Boot** e cobrem:
 
 - **Autenticação e autorização**: Validação de login, controle de acesso e permissões.  
-- **Cadastro e gerenciamento de eventos**: Verificação da criação, edição e exclusão de eventos acadêmicos.  
+- **Cadastro e gerenciamento de eventos**: Verificação das operações de criação, edição e exclusão de eventos acadêmicos.  
 - **Gerenciamento de usuários**: Testes para criação, atualização e exclusão de perfis de alunos e servidores.  
-- **Regras de negócio**: Garantia de que todas as validações, como prazos de inscrição e requisitos de participação, sejam respeitadas.  
-- **Integração com o banco de dados**: Testes para assegurar que as operações com o banco de dados sejam realizadas corretamente.  
+- **Regras de negócio**: Garantia de que prazos de inscrição e requisitos sejam respeitados.  
+- **Integração com o banco de dados**: Testes para verificar operações de persistência e consulta de dados.  
 
-A implementação desses testes melhora a **manutenção do código**, reduz a probabilidade de **erros em produção** e facilita a adição de novas funcionalidades ao sistema sem comprometer a estabilidade da aplicação.  
+### **Formatação e Estrutura dos Testes Unitários**  
 
-## **Formatação e Estrutura dos Testes Unitários**
+1. **Organização dos Testes**  
+   - Localizados na pasta `src/test/java`.  
+   - Divididos por pacotes que seguem a estrutura do código principal.  
 
-Os testes unitários foram organizados para garantir a integridade do sistema em diversas camadas da aplicação. Para uma boa manutenção e padronização do código, seguem os pontos principais de formatação e estrutura dos testes:
+2. **Convenções de Nomenclatura**  
+   - **Classe de Teste**: Sufixo `Test` — ex.: `EventoServiceTest.java`.  
+   - **Métodos de Teste**: Nome no padrão `metodo_esperado_comportamento()` — ex.: `cadastroEvento_Sucesso()`.  
 
-### **1. Organização dos Testes**
-- **Pasta de Testes**: Os testes unitários estão localizados na pasta `src/test/java` do projeto.
-  - Testes de integração, controle e serviços são organizados em subpastas correspondentes aos pacotes da aplicação principal.
+3. **Framework e Principais Anotações**  
+   - **JUnit 5** com as anotações `@Test`, `@BeforeEach`, `@AfterEach`.  
+   - **Mockito** para simulação de dependências.  
+   - Testes rápidos e independentes, verificando apenas o comportamento interno das classes.
 
-### **2. Convenções de Nomenclatura**
-- **Classe de Teste**: Cada classe de teste corresponde a uma classe do sistema, com sufixo `Test`. Exemplo:
-  - Para a classe `EventoService.java`, o arquivo de teste será `EventoServiceTest.java`.
-  
-- **Métodos de Teste**: O nome dos métodos de teste segue o padrão `metodo_esperado_comportamento`. Exemplo:
-  - Para testar o cadastro de um evento, o método seria `cadastroEvento_Sucesso()`.
-  
-### **3. Framework de Teste**
+---
 
-Os testes unitários utilizam o **JUnit 5** como framework para execução e validação. As principais anotações são:
-  
-- `@Test`: Indica que o método é um teste.
-- `@BeforeEach`: Executa o método antes de cada teste, sendo útil para configurar pré-condições.
-- `@AfterEach`: Executa o método após cada teste, para limpeza de recursos.
-  
-Exemplo de estrutura de teste com JUnit 5:
-  
+## **Testes de Integração**  
+
+Os **testes de integração** verificam se os diferentes módulos do sistema funcionam corretamente quando combinados, garantindo a comunicação entre camadas e serviços externos, como o banco de dados e a API REST.
+
+### **Principais Áreas Testadas**  
+- **Autenticação**: Verificação do fluxo completo, desde o envio de dados até a geração do token de acesso.  
+- **Cadastro e consulta de eventos**: Validação do processo de criação, atualização e consulta no banco de dados.  
+- **Comunicação entre serviços**: Teste da interação entre controladores, serviços e repositórios.  
+
+### **Formatação e Estrutura dos Testes de Integração**  
+
+1. **Organização**  
+   - Localizados na pasta `src/test/java`, organizados em uma subpasta específica (`integration`) para separar dos unitários.  
+
+2. **Convenções de Nomenclatura**  
+   - **Classe de Teste**: Sufixo `IT` — ex.: `EventoServiceIT.java`.  
+   - **Métodos de Teste**: Seguem o mesmo padrão dos unitários (`metodo_esperado_comportamento()`).  
+
+3. **Framework e Principais Anotações**  
+   - **@SpringBootTest** para inicializar o contexto do Spring.  
+   - **MockMvc** para simular requisições HTTP.  
+   - **@Transactional** para garantir rollback após cada teste e manter o banco de dados consistente.  
+
+---
+
+Esses testes juntos garantem a **confiabilidade** do sistema, reduzindo falhas em produção e facilitando a evolução do código com segurança.
+
 ```java
+//Exemplo de teste Unitario
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -57,3 +79,25 @@ class EventoServiceTest {
         assertTrue(resultado);
     }
 }
+//Exemplo teste de integração
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest
+class EventoControllerIT {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    void listarEventos_Sucesso() throws Exception {
+        mockMvc.perform(get("/eventos"))
+               .andExpect(status().isOk());
+    }
+}
+
+  
