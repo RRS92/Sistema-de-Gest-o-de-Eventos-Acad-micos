@@ -162,7 +162,7 @@ document.getElementById('encerrarSessao').addEventListener('click', function(eve
     localStorage.clear();
 
     // Redireciona para a página inicial (index.html)
-    window.location.href = '/index.html';
+    window.location.href = '../../index.html';
 });
 
 // Carregar os dados do servidor assim que a página carregar
