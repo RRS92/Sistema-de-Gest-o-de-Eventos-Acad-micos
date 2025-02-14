@@ -23,7 +23,22 @@ public class ServidorService {
 
 
 	public Servidor cadastrarServidor(ServidorDTO dadosServidorDTO) {
-		
+		if (dadosServidorDTO == null) {
+	        throw new IllegalArgumentException("O DTO do servidor não pode ser nulo.");
+	    }
+
+	    if (dadosServidorDTO.siape() == null || dadosServidorDTO.siape().isBlank()) {
+	        throw new IllegalArgumentException("O SIAPE do servidor é obrigatório.");
+	    }
+	    if (dadosServidorDTO.cargo() == null || dadosServidorDTO.cargo().isBlank()) {
+	        throw new IllegalArgumentException("O cargo do servidor é obrigatório.");
+	    }
+	    if (dadosServidorDTO.nome() == null || dadosServidorDTO.nome().isBlank()) {
+	        throw new IllegalArgumentException("O nome do servidor é obrigatório.");
+	    }
+	    if (dadosServidorDTO.cpf() == null || dadosServidorDTO.cpf().isBlank()) {
+	        throw new IllegalArgumentException("O CPF do servidor é obrigatório.");
+	    }
 		Servidor servidor = new Servidor();
 		
 		servidor.setSiape(dadosServidorDTO.siape());
