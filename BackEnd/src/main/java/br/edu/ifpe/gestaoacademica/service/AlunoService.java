@@ -1,6 +1,7 @@
 package br.edu.ifpe.gestaoacademica.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,16 @@ public class AlunoService {
 		aluno.setBanco(dadosAlunoDTO.banco());
 		aluno.setEndereco(dadosAlunoDTO.endereco());
 		aluno.setAtivo(true);
+		/*if (dadosAlunoDTO.participante() != null) {
+		        List<Participante> participantes = dadosAlunoDTO.participante().stream()
+		            .map(participante -> {
+		                participante.setUsuario(aluno); // Vincula o participante ao aluno
+		                return participante;
+		            })
+		            .collect(Collectors.toList());
+		        aluno.setParticipante(participantes);
+		    }
+		   */
 	   aluno.setParticipante(dadosAlunoDTO.participante());
 	   aluno.setUtilizador(dadosAlunoDTO.utilizador());
 	   
@@ -46,11 +57,9 @@ public class AlunoService {
 	}
 	
 	
-	public Aluno listarAluno(Long id) {
-	    return alunoRepository.findById(id)
-	        .orElseThrow(() -> new EntityNotFoundException("Aluno não encontrado para o ID: " + id));
+	public Optional<Aluno> listarAluno(Long id) {
+		return alunoRepository.findById(id);
 	}
-
 	
 	public Aluno atualizarAluno(@Valid AlunoDTO dadosAlunoDTO) {
 		

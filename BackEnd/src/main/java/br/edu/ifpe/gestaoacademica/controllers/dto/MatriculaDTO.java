@@ -4,14 +4,8 @@ import br.edu.ifpe.gestaoacademica.entities.Aluno;
 import br.edu.ifpe.gestaoacademica.entities.Matricula;
 import jakarta.validation.constraints.NotBlank;
 
-public record MatriculaDTO(
-		
-		Long id, 				@NotBlank 
-		String periodoIngresso,	@NotBlank 
-		String turno, 
-		Aluno aluno, 
-		String nomeCurso, 
-		String modalidade) {
+public record MatriculaDTO(Long id, @NotBlank String periodoIngresso,
+		@NotBlank String turno, Aluno aluno, String nomeCurso, String modalidade) {
 
 	// Construtor para cadastrar matricula
 	public MatriculaDTO(String periodoIngresso, String turno, Aluno aluno,
