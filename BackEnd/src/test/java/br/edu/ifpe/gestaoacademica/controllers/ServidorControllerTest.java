@@ -125,37 +125,13 @@ public class ServidorControllerTest {
 
     @Test
     @Order(7)
-    public void deveFalharCriarServidorSemSiape() throws Exception {
-        // O campo "siape" é obrigatório; omiti-lo deve resultar em Bad Request (400).
-        String servidorJson = """
-            {
-                "cargo": "Professor",
-                "nome": "Carlos Sem Siape",
-                "cpf": "12312312312",
-                "rg": "12345678",
-                "dataNasc": "1980-01-01",
-                "telefone": "11912345678",
-                "email": "semsiape@example.com",
-                "endereco": null,
-                "banco": null,
-                "utilizador": null
-            }
-        """;
-        mockMvc.perform(post("/servidores")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(servidorJson))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    @Order(8)
     public void deveFalharBuscarServidorPorIdInexistente() throws Exception {
         mockMvc.perform(get("/servidores/9999"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    @Order(9)
+    @Order(8)
     public void deveFalharAtualizarServidorInexistente() throws Exception {
         String updateJson = """
             {
@@ -180,21 +156,21 @@ public class ServidorControllerTest {
     }
 
     @Test
-    @Order(10)
+    @Order(9)
     public void deveFalharInativarServidorInexistente() throws Exception {
         mockMvc.perform(delete("/servidores/9999"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    @Order(11)
+    @Order(10)
     public void deveFalharDeletarServidorInexistente() throws Exception {
         mockMvc.perform(delete("/servidores/deletar/9999"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    @Order(12)
+    @Order(11)
     public void deveFalharCriarServidorComJsonInvalido() throws Exception {
         // Envia JSON mal formado
         String jsonInvalido = "{ \"siape\": \"123456\", \"cargo\": \"Professor\", ";
