@@ -244,9 +244,9 @@ function exibirServidores(servidor) {
 }
 
 // Chama a função para obter servidores e exibi-los na página
-getServidores().then((servidores) => {
-    exibirServidores(servidores);
-});
+//getServidores().then((servidores) => {
+//    exibirServidores(servidores);
+//});
 
 
 // Função para alternar entre editar e exibir valores de todos os campos ao mesmo tempo
