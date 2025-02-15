@@ -558,6 +558,21 @@ footer .footer-column {
     background-color: #004d00; /* Tom mais escuro para o hover */
 }
 
+.btn-event {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #006400;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.btn-event:hover {
+    background-color: #004d00; /* Tom mais escuro para o hover */
+}
+
 .btn-delete {
     display: inline-block;
     padding: 10px 20px;
