@@ -104,10 +104,10 @@
                         <td>${participante.aluno.nome}</td>
                         <td>${participante.aluno.email}</td>
                         <td>${participante.aluno.cpf}</td>
-                        <td><button onclick="salvarERedirecionar('${participante.aluno.nome}', '${participante.aluno.email}')">Enviar Certificado</button></td>
+                        
                     `;
                     lista.appendChild(row);
-                });
+                });// tava na linha 107 <td><button onclick="salvarERedirecionar('${participante.aluno.nome}', '${participante.aluno.email}')">Enviar Certificado</button></td>
 
                 noParticipantsMessage.style.display = "none";  // Esconde a mensagem "Nenhum participante encontrado" caso haja participantes
 
